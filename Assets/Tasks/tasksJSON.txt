@@ -1,0 +1,41 @@
+{
+    "repeatedTask": [
+        {
+            "name": "Sleep",
+            "description": "Go to sleep",
+            "diceSlots": "1",
+            "timeTrigger": "10:00 PM",
+            "timeLimit": "00",
+            "requirements": []
+        },
+        {
+            "name": "Wakeup",
+            "description": "Wakeup from sleep",
+            "diceSlots": "1",
+            "timeTrigger": "08:00 AM",
+            "timeLimit": "00",
+            "requirements": ["Sleep"]
+        },
+        {
+            "name": "Shower",
+            "description": "Take a shower",
+            "diceSlots": "1",
+            "timeTrigger": "08:10 AM",
+            "timeLimit": "30",
+            "requirements": ["Wakeup"]
+        }
+    ],
+
+    "specialTask": [
+        {
+            "name": "Work",
+            "description": "Go to the library and work",
+            "diceSlots": "2"
+        },
+        {
+            "name": "Party",
+            "description": "Go to a housparty",
+            "diceSlots": "2"
+        }
+    ]
+}

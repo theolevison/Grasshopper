@@ -1,0 +1,30 @@
+{
+    "character": [
+        {
+            "name": "Bob",
+            "description": "Bob loves working hard in the library",
+            "dice": ["10die"]
+        },
+        {
+            "name": "Bobby",
+            "description": "Bobby loves partying hard in jesters",
+            "dice": ["10die"]
+        },
+        {
+            "name": "Bobis",
+            "description": "Bobis loves working hard and playing hard everywhere",
+            "dice": ["10die"]
+        }
+    ],
+    
+    "bonusDice": [
+        {
+            "name": "Basic",
+            "dice": ["10die"]
+        },
+        {
+            "name": "Basic",
+            "dice": ["10die"]
+        }
+    ]
+}
