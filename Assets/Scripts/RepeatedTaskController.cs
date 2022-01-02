@@ -13,13 +13,8 @@ public class RepeatedTaskController : UIController
         texts[0].text = task.name;
         texts[1].text = task.description;
 
-        //add the dice slots to the UI
-        for (int i = 0; i < task.diceSlots; i++)
-        {
-            RectTransform slot = Instantiate(diceSlot, transform.Find("DiceSlots"));
-            slots.Add(slot);
-        }
-
+        AddDiceSlots();
+        shouldRollDice = true;
         //TODO: start task expiry timer
     }
 }

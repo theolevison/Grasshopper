@@ -23,13 +23,11 @@ public class Controller : MonoBehaviour
     private string clockAMPM = "AM";
     private int ClockSpeedMultiplier = 50;
     private string oldClockText;
-
+    [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
     private Dictionary<string, JSONReader.RepeatedTask> repeatedTasks = new Dictionary<string, JSONReader.RepeatedTask>();
     private Dictionary<string, bool> taskChecklist = new Dictionary<string, bool>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private void Awake() {
         //parse tasks from JSON
         jsonReader.LoadJSON();
        
@@ -45,9 +43,12 @@ public class Controller : MonoBehaviour
             {
                 Debug.Log(e + " all tasks need a unique start time");
             }
-            
         }
-        
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {       
         //load tasks depending on story variables stored in the JSON
         foreach (var task in jsonReader.myTaskList.specialTask)
         {

@@ -2147,6 +2147,8 @@ MonoBehaviour:
   bonusDicePrefab: {fileID: 6870781695098771443, guid: 48642c9755d5b8641aa0c51082bf0744, type: 3}
   bonusDiceUI: {fileID: 524956393}
   clockText: {fileID: 1519421752}
+  dicePrefabLibrary:
+  - {fileID: 915041788830193215, guid: 309be0da64f353843a567a556e099eac, type: 3}
 --- !u!4 &1546202273
 Transform:
   m_ObjectHideFlags: 0
