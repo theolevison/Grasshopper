@@ -3,26 +3,32 @@
         {
             "name": "Sleep",
             "description": "Go to sleep",
-            "diceSlots": "1",
+            "diceSlots": "2",
             "timeTrigger": "10:00 PM",
             "timeLimit": "00",
-            "requirements": []
+            "requirements": ["Wakeup"],
+            "diceScoreRequirement": "0",
+            "taskLength": "600"
         },
         {
             "name": "Wakeup",
             "description": "Wakeup from sleep",
             "diceSlots": "1",
-            "timeTrigger": "08:00 AM",
+            "timeTrigger": "00:00 AM",
             "timeLimit": "00",
-            "requirements": ["Sleep"]
+            "requirements": ["Sleep"],
+            "diceScoreRequirement": "6",
+            "taskLength": "10"
         },
         {
             "name": "Shower",
             "description": "Take a shower",
             "diceSlots": "1",
-            "timeTrigger": "08:10 AM",
-            "timeLimit": "30",
-            "requirements": ["Wakeup"]
+            "timeTrigger": "00:00 AM",
+            "timeLimit": "60",
+            "requirements": ["Wakeup"],
+            "diceScoreRequirement": "0",
+            "taskLength": "10"
         }
     ],
 
@@ -30,12 +36,14 @@
         {
             "name": "Work",
             "description": "Go to the library and work",
-            "diceSlots": "2"
+            "diceSlots": "2",
+            "diceScoreRequirement": "20"
         },
         {
             "name": "Party",
             "description": "Go to a housparty",
-            "diceSlots": "2"
+            "diceSlots": "2",
+            "diceScoreRequirement": "10"
         }
     ]
 }

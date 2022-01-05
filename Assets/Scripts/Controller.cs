@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System.Linq;
 
 public class Controller : MonoBehaviour
 {
@@ -24,31 +24,43 @@ public class Controller : MonoBehaviour
     private int ClockSpeedMultiplier = 50;
     private string oldClockText;
     [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
-    private Dictionary<string, JSONReader.RepeatedTask> repeatedTasks = new Dictionary<string, JSONReader.RepeatedTask>();
-    private Dictionary<string, bool> taskChecklist = new Dictionary<string, bool>();
+    private Dictionary<string, GameObject> completedTasks = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> taskDictionary = new Dictionary<string, GameObject>();
+    private List<GameObject> tasksWithNoStartTime = new List<GameObject>();
+    private List<GameObject> activeTasks = new List<GameObject>();
+    private List<GameObject> queuedTasks = new List<GameObject>();
 
-    private void Awake() {
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        completedTasks.Add("Sleep", null);
+
         //parse tasks from JSON
         jsonReader.LoadJSON();
        
-       //load regular tasks to be loaded by time triggers
+       //load regular tasks as inactive, to be enabled by time triggers
         foreach (var task in jsonReader.myTaskList.repeatedTask)
         {
             try
             {
-                repeatedTasks.Add(task.timeTrigger, task);
-                taskChecklist.Add(task.name, false);
+                var taskInstance = Instantiate(repeatedTaskPrefab, repeatedTasksUI);
+                taskInstance.GetComponent<RepeatedTaskController>().UpdatePrefab(task);
+                taskInstance.SetActive(false);
+
+                if (task.timeTrigger == "00:00 AM"){
+                    tasksWithNoStartTime.Add(taskInstance);
+                } else {
+                    taskDictionary.Add(task.timeTrigger, taskInstance);
+                }
+                
             }
             catch (System.ArgumentException e)
             {
                 Debug.Log(e + " all tasks need a unique start time");
             }
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {       
         //load tasks depending on story variables stored in the JSON
         foreach (var task in jsonReader.myTaskList.specialTask)
         {
@@ -94,36 +106,105 @@ public class Controller : MonoBehaviour
         }
         
         clockText.text = clockHR.ToString("00")     + ":" + clockMN.ToString("00") + " " + clockAMPM;
+              
         if (clockText.text != oldClockText){
-            checkRepeatedTasks();
+            checkRepeatedTasks(clockText.text);
+            oldClockText = clockText.text;
         }
-        oldClockText = clockText.text;
-        
+
+        // if (clockText.text == "09:59 PM"){
+        //     Debug.Log("reset");
+        //     Debug.Log(currentTasks.Count);
+        //     //reset at 10pm
+        //     activeTasks = activeTasks.ToDictionary(k => k.Key, k => false);
+        //     queuedTasks.Clear();
+        //     foreach (GameObject item in currentTasks)
+        //     {
+        //         item.SetActive(false);
+        //     }
+        //     currentTasks.Clear();
+        // }
     }
 
-    private void checkRepeatedTasks(){
+    private void checkRepeatedTasks(string text){
         try
         {
-            //if current time matches required time instantiate the task
-            JSONReader.RepeatedTask task = repeatedTasks[clockText.text];
-            if (!taskChecklist[task.name]){
-                //check all requirements have been fulfilled
-                foreach (string requirement in task.requirements)
-                {
-                    if (!taskChecklist[requirement]){
-                        throw new System.Exception("not all required tasks have been completed, can't add " + task.name);
+            bool activate = true;
+
+            //taskDictionary.Where(p => p.Key == "00:00 AM").ToDictionary(p => p.Key, p => p.Value)
+            //if tasks without a set time have met requirements activate them too
+            foreach (GameObject item in tasksWithNoStartTime)
+            {
+                //check it's not already active
+                if (!activeTasks.Contains(item)){
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
+                    //check all requirements have been fulfilled
+                    foreach (string requirement in task.requirements)
+                    {
+                        //if not break the loop and check the rest
+                        if (!completedTasks.ContainsKey(requirement)){
+                            activate = false;
+                            break;
+                        }
+                    }
+                    if (activate){
+                        item.SetActive(true);
+                        activeTasks.Add(item);
                     }
                 }
-                var taskInstance = Instantiate(repeatedTaskPrefab, repeatedTasksUI);
-                //add the ui to the task object so we can reference it easily later
-                task.uiElement = taskInstance;
-                taskInstance.GetComponent<RepeatedTaskController>().UpdatePrefab(task);
-                taskChecklist[task.name] = true;
             }
-        }
-        catch (KeyNotFoundException)
-        {
-            //ignore key not found
+
+            List<GameObject> tasksToRemove = new List<GameObject>();
+
+            //check requirements for tasks with start times that weren't able to start
+            foreach (GameObject item in queuedTasks)
+            {
+                //check it's not already active
+                if (!activeTasks.Contains(item)){
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
+                    //check all requirements have been fulfilled
+                    foreach (string requirement in task.requirements)
+                    {
+                        //if not break the loop and check the rest
+                        if (!completedTasks.ContainsKey(requirement)){
+                            activate = false;
+                            break;
+                        }
+                    }
+                    if (activate){
+                        item.SetActive(true);
+                        activeTasks.Add(item);
+                        tasksToRemove.Add(item);
+                    }
+                }
+            }
+
+            //must remove queued tasks from outside the previous foreach to avoid modifying collection whilst in use
+            foreach (GameObject item in tasksToRemove)
+            {
+                queuedTasks.Remove(item);
+            }
+            
+
+            //if current time matches required time instantiate the task
+            if (taskDictionary.ContainsKey(text)){
+                GameObject taskInstance = taskDictionary[text];
+                //check it's not already active
+                if (!activeTasks.Contains(taskInstance)){
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskInstance.GetComponent<RepeatedTaskController>().generic);//TODO: please make this better by having the task accessible in UIController or something???
+                    //check all requirements have been fulfilled
+                    foreach (string requirement in task.requirements)
+                    {
+                        //if not exit the function
+                        if (!completedTasks.ContainsKey(requirement)){
+                            queuedTasks.Add(taskInstance);
+                            return;
+                        }
+                    }
+                    taskInstance.SetActive(true);
+                    activeTasks.Add(taskInstance);
+                }
+            }
         }
         catch (System.Exception e)
         {
@@ -131,7 +212,31 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void notifyOfTaskCompletion(JSONReader.Generic task, int result){
-        Debug.Log(task.name + " " + result);
+    public void notifyOfTaskCompletion(GameObject taskObject, bool success){
+        try
+        {
+            JSONReader.Generic task = taskObject.GetComponent<RepeatedTaskController>().generic;
+            activeTasks.Remove(taskObject);
+
+            //reset everything after sleeping
+            if (task.name == "Sleep"){
+                completedTasks.Clear();
+
+                foreach (GameObject item in activeTasks)
+                {
+                    item.SetActive(false);
+                }
+                activeTasks.Clear();
+            }
+            
+            //task has been completed
+            completedTasks.Add(task.name, taskObject);
+        }
+        catch (System.Exception e)
+        {
+            //not a repeated task, so process as a special task
+            Debug.Log(e);
+        }
+        //TODO: change stats behind the scene depending on the task
     }
 }

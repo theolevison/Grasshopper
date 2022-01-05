@@ -14,7 +14,7 @@ public class RepeatedTaskController : UIController
         texts[1].text = task.description;
 
         AddDiceSlots();
-        shouldRollDice = true;
+        repeatedTask = true;
         //TODO: start task expiry timer
     }
 }

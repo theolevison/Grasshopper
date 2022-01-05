@@ -6,6 +6,7 @@ using TMPro;
 public class BonusDiceController : UIController
 {
     public void UpdatePrefab(JSONReader.BonusDice bonusDice){
+        generic = bonusDice;
         TextMeshProUGUI[] texts = transform.GetComponentsInChildren<TextMeshProUGUI>();
         
         //update UI text

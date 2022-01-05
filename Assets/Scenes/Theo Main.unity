@@ -385,7 +385,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8a0396565a0de194fad475446275a7af, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.103
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2148,7 +2148,7 @@ MonoBehaviour:
   bonusDiceUI: {fileID: 524956393}
   clockText: {fileID: 1519421752}
   dicePrefabLibrary:
-  - {fileID: 915041788830193215, guid: 309be0da64f353843a567a556e099eac, type: 3}
+  - {fileID: 4137488690388748387, guid: 89b17854a061b3d4fbd6a95edcec9dc0, type: 3}
 --- !u!4 &1546202273
 Transform:
   m_ObjectHideFlags: 0

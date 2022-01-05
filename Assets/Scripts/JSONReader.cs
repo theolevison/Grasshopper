@@ -10,7 +10,6 @@ public class JSONReader : MonoBehaviour
     public class Generic{
         public string name;
         public string description;
-        public int diceSlots;
     }
 
 
@@ -42,7 +41,15 @@ public class JSONReader : MonoBehaviour
     [SerializeField] TextAsset tasksJSON;
 
     [System.Serializable]
-    public class RepeatedTask : Generic
+    public class Task : Generic 
+    {
+        public int diceSlots;
+        public int diceScoreRequirement;
+        public int taskLength;
+    }
+
+    [System.Serializable]
+    public class RepeatedTask : Task
     {
         public string timeTrigger;
         public int timeLimit;
@@ -51,7 +58,7 @@ public class JSONReader : MonoBehaviour
     }
 
     [System.Serializable]
-    public class SpecialTask : Generic
+    public class SpecialTask : Task
     {
 
     }

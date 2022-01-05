@@ -14,6 +14,6 @@ public class SpecialTaskController : UIController
         texts[1].text = task.description;
 
         AddDiceSlots();
-        shouldRollDice = true;
+        specialTask = true;
     }
 }

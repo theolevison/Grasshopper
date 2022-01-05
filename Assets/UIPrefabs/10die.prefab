@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5362808146575052534}
   - component: {fileID: 2108195683953512322}
   m_Layer: 5
-  m_Name: 10DieIcon
+  m_Name: 10die
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
