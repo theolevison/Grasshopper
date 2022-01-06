@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using Yarn.Unity;
 
 public class Controller : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class Controller : MonoBehaviour
     [SerializeField] RectTransform characterDiceUI;
     [SerializeField] GameObject bonusDicePrefab;
     [SerializeField] RectTransform bonusDiceUI;
-
+    [SerializeField] DialogueRunner dialogueRunner;
+    //[SerializeField] List<YarnProject> projects = new List<YarnProject>(); 
     [SerializeField] TextMeshProUGUI clockText;
     private float rawTime = 720f;
     private float clockHR = 0.0f;
@@ -213,9 +215,9 @@ public class Controller : MonoBehaviour
     }
 
     public void notifyOfTaskCompletion(GameObject taskObject, bool success){
-        try
-        {
-            JSONReader.Generic task = taskObject.GetComponent<RepeatedTaskController>().generic;
+
+        if (taskObject.TryGetComponent(out RepeatedTaskController controller)){
+            JSONReader.RepeatedTask task = (JSONReader.RepeatedTask)controller.generic;
             activeTasks.Remove(taskObject);
 
             //reset everything after sleeping
@@ -231,11 +233,18 @@ public class Controller : MonoBehaviour
             
             //task has been completed
             completedTasks.Add(task.name, taskObject);
-        }
-        catch (System.Exception e)
-        {
+
+            dialogueRunner.StartDialogue(task.name);
+
+            // if we want to switch projects
+            // dialogueRunner.SetProject(projects.Find(k => k.name == task.name));
+
+        } else if (taskObject.TryGetComponent(out SpecialTaskController controller2)){
             //not a repeated task, so process as a special task
-            Debug.Log(e);
+            JSONReader.SpecialTask task = (JSONReader.SpecialTask)controller2.generic;
+            dialogueRunner.StartDialogue(task.name);
+        } else {
+            throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
         //TODO: change stats behind the scene depending on the task
     }

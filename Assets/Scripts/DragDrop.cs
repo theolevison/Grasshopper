@@ -14,7 +14,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private void Awake() {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        canvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
     }
     //called every frame during drag
     public void OnDrag(PointerEventData eventData){

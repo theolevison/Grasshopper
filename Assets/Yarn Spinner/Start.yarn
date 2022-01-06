@@ -1,0 +1,35 @@
+﻿title: Start
+---
+<<set $shapes_like_you to true>>
+<<set $first_awake to true>>
+Narrator: Hey you
+Narrator: Finally awake
+Narrator: You were trying to cross the bord... Oh wait, wrong game sorry
+Narrator: Drag a die into the slot and let's get started
+<<stop>>
+===
+
+title: Wakeup
+---
+<<if $first_awake>>
+    Narrator: Well done, the first of many mornings to come
+    <<set $first_awake to false>>
+<<else>>
+    -> I'm Capsule, but my friends call me "Tic Tac". No idea why...
+        <<set $name to "Tic Tac">>
+    -> The name's Triquandle.
+        <<set $name to "Triquandle">>
+    -> Pyramid. Why; who wants to know?
+        <<set $name to "Pyramid">>
+        <<set $shapes_like_you to false>>
+
+    <<if $shapes_like_you>>
+        Sphere: Nice to meet you {$name}!
+        Cube: Yeah, likewise!
+    <<else>>
+        Sphere: No need to be so rude...
+        Cube: Yeah, maybe you should be called Grumpy {$name}.
+        Sphere: Ha! Totally.
+    <<endif>>
+<<endif>>
+===
