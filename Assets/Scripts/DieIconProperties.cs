@@ -1,24 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DieIconProperties : MonoBehaviour
 {
     public GameObject dieModel;
-    public float diceRespawnMultiplier = 1;
+    private float diceRespawnMultiplier = 1;
     public RectTransform originalParent;
     private GameObject diceGraveyard;
-
+    private Image cooldownImage;
+    private int taskLength;
+    public bool canDrag = true;
     private void Start() {
         diceGraveyard = GameObject.Find("DiceGraveyard");
+        cooldownImage = transform.GetChild(0).GetComponent<Image>();
     }
 
     public void RespawnDice(int taskLength){
-        StartCoroutine(RespawnDiceEnumerator(taskLength));
-    }
-    public IEnumerator RespawnDiceEnumerator(int taskLength){
-        GetComponent<RectTransform>().SetParent(diceGraveyard.GetComponent<RectTransform>());
-        yield return new WaitForSeconds(diceRespawnMultiplier * taskLength);
+        canDrag = false;
+        this.taskLength = taskLength;
         GetComponent<RectTransform>().SetParent(originalParent);
+        cooldownImage.fillAmount = 1;
+    }
+
+    private void FixedUpdate() {
+        //start cooldown
+        if (cooldownImage.fillAmount > 0){
+            cooldownImage.fillAmount -= 1 / (diceRespawnMultiplier * taskLength * Time.deltaTime);
+            //TODO: make this less stupid but I'm tired and idk how
+            if ((cooldownImage.fillAmount -= 1 / (diceRespawnMultiplier * taskLength * Time.deltaTime)) <= 0){
+                canDrag = true;
+                cooldownImage.fillAmount = 0;
+            }
+            
+        }
     }
 }

@@ -8,7 +8,7 @@
             "timeLimit": "00",
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
-            "taskLength": "600"
+            "taskLength": "60000"
         },
         {
             "name": "Wakeup",
@@ -18,7 +18,7 @@
             "timeLimit": "00",
             "requirements": ["Sleep"],
             "diceScoreRequirement": "6",
-            "taskLength": "10"
+            "taskLength": "10000"
         },
         {
             "name": "Shower",
@@ -28,7 +28,7 @@
             "timeLimit": "60",
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
-            "taskLength": "10"
+            "taskLength": "10000"
         }
     ],
 
@@ -38,14 +38,14 @@
             "description": "Go to the library and work",
             "diceSlots": "2",
             "diceScoreRequirement": "20",
-            "taskLength": "10"
+            "taskLength": "10000"
         },
         {
             "name": "Party",
             "description": "Go to a housparty",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10"
+            "taskLength": "10000"
         }
     ]
 }
