@@ -234,7 +234,15 @@ public class Controller : MonoBehaviour
             //task has been completed
             completedTasks.Add(task.name, taskObject);
 
-            dialogueRunner.StartDialogue(task.name);
+            try
+            {
+                dialogueRunner.StartDialogue(task.name);
+            }
+            catch (Yarn.DialogueException e)
+            {
+                Debug.Log("No node matches task name, this could be intentional or not \n" + e);
+            }
+            
 
             // if we want to switch projects
             // dialogueRunner.SetProject(projects.Find(k => k.name == task.name));
@@ -242,7 +250,14 @@ public class Controller : MonoBehaviour
         } else if (taskObject.TryGetComponent(out SpecialTaskController controller2)){
             //not a repeated task, so process as a special task
             JSONReader.SpecialTask task = (JSONReader.SpecialTask)controller2.generic;
-            dialogueRunner.StartDialogue(task.name);
+            try
+            {
+                dialogueRunner.StartDialogue(task.name);
+            }
+            catch (Yarn.DialogueException e)
+            {
+                Debug.Log("No node matches task name, this could be intentional or not \n" + e);
+            }
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }

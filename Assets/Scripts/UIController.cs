@@ -39,8 +39,9 @@ public class UIController : MonoBehaviour
                 {       
                     //Instantiate the die and let it roll before reporting the result
                     GameObject dice = Instantiate(dieIcon.GetComponent<DieIconProperties>().dieModel);
-                    //Destroy Icon so it can't be re-used
-                    Destroy(dieIcon.gameObject);
+                    //start the coroutine to respawn dice
+                    dieIcon.GetComponent<DieIconProperties>().RespawnDice(((JSONReader.Task)generic).taskLength);
+                    
                     dice.GetComponent<Rigidbody>().AddForce(Random.onUnitSphere * DICEROLLSPEED);
                     dice.GetComponent<Transform>().rotation = Random.rotation;
                     StartCoroutine(Roll(dice));
@@ -78,7 +79,8 @@ public class UIController : MonoBehaviour
             //put dice into slots
             try
             {
-                Instantiate(controller.dicePrefabLibrary.Find(x => x.name == item), slot);
+                GameObject die = Instantiate(controller.dicePrefabLibrary.Find(x => x.name == item), slot);
+                die.GetComponent<DieIconProperties>().originalParent = slot;
             }
             catch (System.Exception)
             {
@@ -87,11 +89,13 @@ public class UIController : MonoBehaviour
         }
     }
 
+    
+
     IEnumerator Roll(GameObject dice){
         yield return new WaitForSeconds(DICEROLLLENGTH);
         //send result to controller
         cumalativeDiceScore += dice.GetComponent<DiceStat>().side;
-        Destroy(dice); //TODO: instead of destroying, hide for task length once that's implemented
+        Destroy(dice);
     }
 
     IEnumerator ProcessResults(Image image){
@@ -100,41 +104,31 @@ public class UIController : MonoBehaviour
         if (cumalativeDiceScore >= ((JSONReader.Task)generic).diceScoreRequirement){
             //task completed successfully, highlight ui in green
             image.color = Color.green;
-            StartCoroutine(Unhighlight(image));
-            
 
             controller.notifyOfTaskCompletion(gameObject, true);
             //hide and reset if it's a repeated task, otherwise destroy because we won't use it again
             if (repeatedTask){
-                StartCoroutine(SetActiveDelay(false, 1.1f));
-                //renable slots
-                foreach (var slot in slots){
-                    slot.GetComponent<ItemSlot>().enableSlot = true;
-                }
+                StartCoroutine(ResetUI(false, 1f, image));
             } else {
-                Destroy(gameObject, 1f);
+                yield return new WaitForSeconds(1f);
+                Destroy(gameObject);
             }
         } else {
             //task failed, highlight in red and allow other attempts
             image.color = Color.red;
-            StartCoroutine(Unhighlight(image));
-
-            //renable slots
-            foreach (var slot in slots){
-                slot.GetComponent<ItemSlot>().enableSlot = true;
-            }
+            StartCoroutine(ResetUI(true, 1f, image));
         }
         cumalativeDiceScore = 0;
     }
 
-    IEnumerator Unhighlight(Image uiImage){
-        yield return new WaitForSeconds(1f);
+    IEnumerator ResetUI(bool bol, float delay, Image uiImage){
+        yield return new WaitForSeconds(delay);
         //reset colour of UI
         uiImage.color = Color.white;
-    }
-
-    IEnumerator SetActiveDelay(bool bol, float delay){
-        yield return new WaitForSeconds(delay);
+        //renable slots
+        foreach (var slot in slots){
+            slot.GetComponent<ItemSlot>().enableSlot = true;
+        }
         gameObject.SetActive(bol);
     }
 }

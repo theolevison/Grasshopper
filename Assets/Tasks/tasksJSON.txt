@@ -37,13 +37,15 @@
             "name": "Work",
             "description": "Go to the library and work",
             "diceSlots": "2",
-            "diceScoreRequirement": "20"
+            "diceScoreRequirement": "20",
+            "taskLength": "10"
         },
         {
             "name": "Party",
             "description": "Go to a housparty",
             "diceSlots": "2",
-            "diceScoreRequirement": "10"
+            "diceScoreRequirement": "10",
+            "taskLength": "10"
         }
     ]
 }
