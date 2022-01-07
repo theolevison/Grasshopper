@@ -8,12 +8,10 @@ public class DieIconProperties : MonoBehaviour
     public GameObject dieModel;
     private float diceRespawnMultiplier = 1;
     public RectTransform originalParent;
-    private GameObject diceGraveyard;
     private Image cooldownImage;
     private int taskLength;
     public bool canDrag = true;
     private void Start() {
-        diceGraveyard = GameObject.Find("DiceGraveyard");
         cooldownImage = transform.GetChild(0).GetComponent<Image>();
     }
 
