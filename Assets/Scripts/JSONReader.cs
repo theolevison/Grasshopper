@@ -18,6 +18,8 @@ public class JSONReader : MonoBehaviour
     public class Character : Generic
     {
         public string[] dice;
+        public string[] likes;
+        public string[] dislikes;
     }
 
     [System.Serializable]

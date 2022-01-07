@@ -1,18 +1,17 @@
 {
     "character": [
         {
-            "name": "Bob",
-            "description": "Bob loves working hard in the library",
+            "name": "Bobby proper",
+            "description": "Bob is like hermione granger with a fedora",
+            "likes": ["clean","academic"],
+            "dislikes": ["partys",""],
             "dice": ["10die"]
         },
         {
-            "name": "Bobby",
-            "description": "Bobby loves partying hard in jesters",
-            "dice": ["10die"]
-        },
-        {
-            "name": "Bobis",
-            "description": "Bobis loves working hard and playing hard everywhere",
+            "name": "Harper hedonist",
+            "description": "You can't spell Jesters without Harper (apparently)",
+            "likes": ["partys",""],
+            "dislikes": ["academic",""],
             "dice": ["10die"]
         }
     ],
