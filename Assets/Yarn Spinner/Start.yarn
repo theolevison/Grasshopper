@@ -12,8 +12,9 @@ Narrator: Drag a die into the slot and let's get started
 title: Wakeup
 ---
 <<if $first_awake>>
-    Narrator: Well done, the first of many mornings to come
+    WakeyWakey: Well done, the first of many mornings to come
     <<set $first_awake to false>>
+    <<stop>>
 <<else>>
     -> I'm Capsule, but my friends call me "Tic Tac". No idea why...
         <<set $name to "Tic Tac">>
@@ -31,5 +32,7 @@ title: Wakeup
         Cube: Yeah, maybe you should be called Grumpy {$name}.
         Sphere: Ha! Totally.
     <<endif>>
+    <<stop>>
 <<endif>>
+<<stop>>
 ===

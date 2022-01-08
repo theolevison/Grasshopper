@@ -3,7 +3,7 @@
         {
             "name": "Bobby proper",
             "description": "Bob is like hermione granger with a fedora",
-            "likes": ["clean","academic"],
+            "likes": ["hygiene","academic"],
             "dislikes": ["partys",""],
             "dice": ["10die"]
         },
@@ -11,7 +11,7 @@
             "name": "Harper hedonist",
             "description": "You can't spell Jesters without Harper (apparently)",
             "likes": ["partys",""],
-            "dislikes": ["academic",""],
+            "dislikes": ["academic","sport"],
             "dice": ["10die"]
         }
     ],

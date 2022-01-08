@@ -19,6 +19,8 @@ public class Controller : MonoBehaviour
     [SerializeField] DialogueRunner dialogueRunner;
     //[SerializeField] List<YarnProject> projects = new List<YarnProject>(); 
     [SerializeField] TextMeshProUGUI clockText;
+    [SerializeField] TextMeshProUGUI characterHeader;
+    [SerializeField] TextMeshProUGUI taskHeader;
     private float rawTime = 720f;
     private float clockHR = 0.0f;
     private float clockMN = 0.0f;
@@ -31,6 +33,14 @@ public class Controller : MonoBehaviour
     private List<GameObject> tasksWithNoStartTime = new List<GameObject>();
     private List<GameObject> activeTasks = new List<GameObject>();
     private List<GameObject> queuedTasks = new List<GameObject>();
+    private Dictionary<string, int> stats = new Dictionary<string, int>(){
+        {"hygiene", 10},
+        {"academic", 10},
+        {"partys", 10},
+        {"sport", 10},
+        {"sleep", 10}
+    };
+    public Queue<string> dialogueQueue = new Queue<string>();
 
     
     // Start is called before the first frame update
@@ -114,18 +124,13 @@ public class Controller : MonoBehaviour
             oldClockText = clockText.text;
         }
 
-        // if (clockText.text == "09:59 PM"){
-        //     Debug.Log("reset");
-        //     Debug.Log(currentTasks.Count);
-        //     //reset at 10pm
-        //     activeTasks = activeTasks.ToDictionary(k => k.Key, k => false);
-        //     queuedTasks.Clear();
-        //     foreach (GameObject item in currentTasks)
-        //     {
-        //         item.SetActive(false);
-        //     }
-        //     currentTasks.Clear();
-        // }
+        //update numbers in headers
+        taskHeader.text = "OPPORTUNITIES " + activeTasks.Count + "/3"; //TODO: make this read the amount of special tasks instead of the repeated tasks
+    
+        //run dialogue if there's an available space
+        if (!dialogueRunner.IsDialogueRunning && dialogueQueue.Count > 0){
+            dialogueRunner.StartDialogue(dialogueQueue.Dequeue());
+        }
     }
 
     private void checkRepeatedTasks(string text){
@@ -137,8 +142,8 @@ public class Controller : MonoBehaviour
             //if tasks without a set time have met requirements activate them too
             foreach (GameObject item in tasksWithNoStartTime)
             {
-                //check it's not already active
-                if (!activeTasks.Contains(item)){
+                //check it's not already active or completed
+                if (!activeTasks.Contains(item) && !completedTasks.ContainsValue(item)){
                     JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
@@ -161,8 +166,8 @@ public class Controller : MonoBehaviour
             //check requirements for tasks with start times that weren't able to start
             foreach (GameObject item in queuedTasks)
             {
-                //check it's not already active
-                if (!activeTasks.Contains(item)){
+                //check it's not already active or completed
+                if (!activeTasks.Contains(item) && !completedTasks.ContainsValue(item)){
                     JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
@@ -191,8 +196,8 @@ public class Controller : MonoBehaviour
             //if current time matches required time instantiate the task
             if (taskDictionary.ContainsKey(text)){
                 GameObject taskInstance = taskDictionary[text];
-                //check it's not already active
-                if (!activeTasks.Contains(taskInstance)){
+                //check it's not already active or completed
+                if (!activeTasks.Contains(taskInstance) && !completedTasks.ContainsValue(taskInstance)){
                     JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskInstance.GetComponent<RepeatedTaskController>().generic);//TODO: please make this better by having the task accessible in UIController or something???
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
@@ -218,6 +223,7 @@ public class Controller : MonoBehaviour
 
         if (taskObject.TryGetComponent(out RepeatedTaskController controller)){
             JSONReader.RepeatedTask task = (JSONReader.RepeatedTask)controller.generic;
+
             activeTasks.Remove(taskObject);
 
             //reset everything after sleeping
@@ -234,15 +240,13 @@ public class Controller : MonoBehaviour
             //task has been completed
             completedTasks.Add(task.name, taskObject);
 
-            try
+            //effects
+            foreach (string effect in task.effects)
             {
-                dialogueRunner.StartDialogue(task.name);
+                stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
-            catch (Yarn.DialogueException e)
-            {
-                Debug.Log("No node matches task name, this could be intentional or not \n" + e);
-            }
-            
+
+            queueDialogue(task.name);            
 
             // if we want to switch projects
             // dialogueRunner.SetProject(projects.Find(k => k.name == task.name));
@@ -250,17 +254,40 @@ public class Controller : MonoBehaviour
         } else if (taskObject.TryGetComponent(out SpecialTaskController controller2)){
             //not a repeated task, so process as a special task
             JSONReader.SpecialTask task = (JSONReader.SpecialTask)controller2.generic;
-            try
+
+            //effects
+            foreach (string effect in task.effects)
             {
-                dialogueRunner.StartDialogue(task.name);
+                stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
-            catch (Yarn.DialogueException e)
-            {
-                Debug.Log("No node matches task name, this could be intentional or not \n" + e);
-            }
+
+            queueDialogue(task.name);
+
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
+        foreach (int value in stats.Values)
+        {
+            Debug.Log(value);
+        }
         //TODO: change stats behind the scene depending on the task
+    }
+
+    private void queueDialogue(string name){
+        try
+        {
+            Debug.Log(dialogueRunner.IsDialogueRunning);
+            if (dialogueRunner.IsDialogueRunning){
+                //queue dialogue
+                dialogueQueue.Enqueue(name);
+            } else {
+                //start immediately
+                dialogueRunner.StartDialogue(name);
+            }
+        }
+        catch (Yarn.DialogueException e)
+        {
+            Debug.Log("No node matches task name, this could be intentional or not \n" + e);
+        }
     }
 }

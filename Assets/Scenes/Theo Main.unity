@@ -1999,7 +1999,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -2124,7 +2124,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -2307,6 +2307,8 @@ MonoBehaviour:
   bonusDiceUI: {fileID: 524956393}
   dialogueRunner: {fileID: 2055811418}
   clockText: {fileID: 1519421752}
+  characterHeader: {fileID: 775329246}
+  taskHeader: {fileID: 568352988}
   dicePrefabLibrary:
   - {fileID: 4137488690388748387, guid: 89b17854a061b3d4fbd6a95edcec9dc0, type: 3}
 --- !u!4 &1546202273

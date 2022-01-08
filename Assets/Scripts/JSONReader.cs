@@ -48,6 +48,7 @@ public class JSONReader : MonoBehaviour
         public int diceSlots;
         public int diceScoreRequirement;
         public int taskLength;
+        public string[] effects;
     }
 
     [System.Serializable]

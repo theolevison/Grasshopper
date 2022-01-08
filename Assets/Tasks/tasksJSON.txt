@@ -8,7 +8,8 @@
             "timeLimit": "00",
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
-            "taskLength": "60000"
+            "taskLength": "60000",
+            "effects": ["sleep +5"]
         },
         {
             "name": "Wakeup",
@@ -18,7 +19,8 @@
             "timeLimit": "00",
             "requirements": ["Sleep"],
             "diceScoreRequirement": "6",
-            "taskLength": "10000"
+            "taskLength": "10000",
+            "effects": []
         },
         {
             "name": "Shower",
@@ -28,7 +30,8 @@
             "timeLimit": "60",
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
-            "taskLength": "10000"
+            "taskLength": "10000",
+            "effects": ["hygiene +2"]
         }
     ],
 
@@ -37,15 +40,17 @@
             "name": "Work",
             "description": "Go to the library and work",
             "diceSlots": "2",
-            "diceScoreRequirement": "20",
-            "taskLength": "10000"
+            "diceScoreRequirement": "10",
+            "taskLength": "10000",
+            "effects": ["academic +5"]
         },
         {
             "name": "Party",
             "description": "Go to a housparty",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000"
+            "taskLength": "10000",
+            "effects": ["partys +5", "sleep -2"]
         }
     ]
 }
