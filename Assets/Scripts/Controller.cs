@@ -40,7 +40,6 @@ public class Controller : MonoBehaviour
         {"sport", 10},
         {"sleep", 10}
     };
-    public Queue<string> dialogueQueue = new Queue<string>();
 
     
     // Start is called before the first frame update
@@ -126,11 +125,6 @@ public class Controller : MonoBehaviour
 
         //update numbers in headers
         taskHeader.text = "OPPORTUNITIES " + activeTasks.Count + "/3"; //TODO: make this read the amount of special tasks instead of the repeated tasks
-    
-        //run dialogue if there's an available space
-        if (!dialogueRunner.IsDialogueRunning && dialogueQueue.Count > 0){
-            dialogueRunner.StartDialogue(dialogueQueue.Dequeue());
-        }
     }
 
     private void checkRepeatedTasks(string text){
@@ -246,7 +240,7 @@ public class Controller : MonoBehaviour
                 stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
 
-            queueDialogue(task.name);            
+            dialogue(task.name);            
 
             // if we want to switch projects
             // dialogueRunner.SetProject(projects.Find(k => k.name == task.name));
@@ -261,7 +255,7 @@ public class Controller : MonoBehaviour
                 stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
 
-            queueDialogue(task.name);
+            dialogue(task.name);
 
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
@@ -273,17 +267,18 @@ public class Controller : MonoBehaviour
         //TODO: change stats behind the scene depending on the task
     }
 
-    private void queueDialogue(string name){
+    private void dialogue(string name){
         try
         {
-            Debug.Log(dialogueRunner.IsDialogueRunning);
-            if (dialogueRunner.IsDialogueRunning){
-                //queue dialogue
-                dialogueQueue.Enqueue(name);
-            } else {
-                //start immediately
-                dialogueRunner.StartDialogue(name);
+            //disable all dice and start dialogue
+            foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
+            {
+                dieObject.GetComponent<DieIconProperties>().canDrag = false;
             }
+
+            dialogueRunner.StartDialogue(name);
+
+            //TODO: renable all dice once dialouge is over
         }
         catch (Yarn.DialogueException e)
         {

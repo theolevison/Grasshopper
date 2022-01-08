@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8418913797810244497}
   m_Layer: 5
   m_Name: 10die
-  m_TagString: Untagged
+  m_TagString: Dice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,7 +88,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dieModel: {fileID: 915041788830193215, guid: 309be0da64f353843a567a556e099eac, type: 3}
-  diceRespawnMultiplier: 1000
   originalParent: {fileID: 0}
   canDrag: 1
 --- !u!114 &7831203633444143372
