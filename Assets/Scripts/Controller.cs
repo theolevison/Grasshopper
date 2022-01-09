@@ -144,10 +144,14 @@ public class Controller : MonoBehaviour
     
         if (daysPassed >= daysToGraduation){
             endGame();
+            daysPassed = 0;
         }
     }
 
     private void endGame(){
+        //make sure the end game dialogue is displayed
+        dialogueRunner.Stop();
+
         if (socialProgression + academicProgression >= 6) {
             //become chancellor
             dialogue("Chancellor");
@@ -323,7 +327,6 @@ public class Controller : MonoBehaviour
             }
 
             dialogueRunner.StartDialogue(name);
-            
         }
         catch (Yarn.DialogueException e)
         {
