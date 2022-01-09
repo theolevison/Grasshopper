@@ -12,6 +12,7 @@ public class SpecialTaskController : UIController
         //update UI text
         texts[0].text = task.name;
         texts[1].text = task.description;
+        texts[2].text = ">= " + task.diceScoreRequirement.ToString();
 
         AddDiceSlots();
         specialTask = true;
