@@ -67,6 +67,7 @@ title: Party
 <<else>>
     Harper: Do I know you? Why are you talking to me?
 <<endif>>
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===

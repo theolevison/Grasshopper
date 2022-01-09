@@ -40,11 +40,16 @@ public class Controller : MonoBehaviour
         {"sport", 10},
         {"sleep", 10}
     };
-
+    [SerializeField] public List<GameObject> partyList = new List<GameObject>();
+    [SerializeField] private GameObject directionalLight;
     
     // Start is called before the first frame update
     void Start()
     {
+        foreach (GameObject item in partyList)
+        {
+            item.SetActive(false);
+        }
         completedTasks.Add("Sleep", null);
 
         //parse tasks from JSON
@@ -294,13 +299,12 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void enableDrags() {
-
-        //enable all dice once dialouge is over
-        foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
+    [YarnCommand("party")]
+    public void party(){
+        foreach (GameObject item in partyList)
         {
-            dieObject.GetComponent<DieIconProperties>().canDrag = true;
+            item.SetActive(true);
         }
-
+        directionalLight.SetActive(false);
     }
 }
