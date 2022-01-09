@@ -71,3 +71,43 @@ title: Party
 <<unpauseDice Controller>>
 <<stop>>
 ===
+
+title: Chancellor
+---
+Narrator: Congratulations, {$name}! You have exceeded all expectations
+Narrator: In fact you're so good we are offering you the position of Chancellor
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: DropOut
+---
+Narrator: Watching from the sidelines, you see everyone else graduate
+Narrator: You don't even have any friends from uni, I'm not really sure what you were doing
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: SocialEnding
+---
+Narrator: Congratulations, {$name}! You have graduated with a first class degree
+Narrator: *whispers* Who cares about exams when your best friend's family owns the uni
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: AcademicEnding
+---
+Narrator: Congratulations, {$name}! You have graduated with a first class degree
+Narrator: All your hard work has paid off, plus your liver is damage free
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: GCHQ
+---
+Narrator: I'm not sure what you've done
+Narrator: But here's the number for GCHQ's recruitment office
+<<unpauseDice Controller>>
+<<stop>>
+===

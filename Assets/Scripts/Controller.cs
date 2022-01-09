@@ -140,7 +140,7 @@ public class Controller : MonoBehaviour
         }
 
         //update numbers in headers
-        taskHeader.text = "OPPORTUNITIES " + activeTasks.Count + "/3"; //TODO: make this read the amount of special tasks instead of the repeated tasks
+        taskHeader.text = "OPPORTUNITIES " + GameObject.Find("Special Tasks Frame").transform.childCount + "/3";
     
         if (daysPassed >= daysToGraduation){
             endGame();
@@ -164,9 +164,13 @@ public class Controller : MonoBehaviour
             //has broken game, get's recruited by GCHQ
             dialogue("GCHQ");
         }
-        //TODO: make nodes for all of these
-        //TODO: switch scene to victory scene, display stats and stuff
+
         victoryCanvas.gameObject.SetActive(true);
+        TextMeshProUGUI[] texts = victoryCanvas.GetComponentsInChildren<TextMeshProUGUI>();
+
+        //ignore texts[0]
+        texts[1].text = "average sleep: ";
+        //TODO: add the rest of the overall stats
     }
 
     private void checkRepeatedTasks(string text){
@@ -234,7 +238,7 @@ public class Controller : MonoBehaviour
                 GameObject taskInstance = taskDictionary[text];
                 //check it's not already active or completed
                 if (!activeTasks.Contains(taskInstance) && !completedTasks.ContainsValue(taskInstance)){
-                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskInstance.GetComponent<RepeatedTaskController>().generic);//TODO: please make this better by having the task accessible in UIController or something???
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskInstance.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
                     {

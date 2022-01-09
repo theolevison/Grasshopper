@@ -45,8 +45,6 @@ public class UIController : MonoBehaviour
                     dice.GetComponent<Rigidbody>().AddForce(Random.onUnitSphere * DICEROLLSPEED);
                     dice.GetComponent<Transform>().rotation = Random.rotation;
                     StartCoroutine(Roll(dice));
-                    
-                    //TODO: make die go away for a bit then come back according to task? Or just have each char respawn them automatically after a time period
                 }
 
                 Image image = GetComponent<Image>();
