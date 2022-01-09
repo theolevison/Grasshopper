@@ -273,7 +273,7 @@ public class Controller : MonoBehaviour
             //disable all dice and start dialogue
             foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
             {
-                dieObject.GetComponent<DieIconProperties>().canDrag = false;
+                dieObject.GetComponent<DieIconProperties>().dialoguePause = true;
             }
 
             dialogueRunner.StartDialogue(name);
@@ -282,6 +282,15 @@ public class Controller : MonoBehaviour
         catch (Yarn.DialogueException e)
         {
             Debug.Log("No node matches task name, this could be intentional or not \n" + e);
+        }
+    }
+
+    [YarnCommand("unpauseDice")]
+    public void unpauseDice(){
+        //disable all dice and start dialogue
+        foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
+        {
+            dieObject.GetComponent<DieIconProperties>().dialoguePause = false;
         }
     }
 

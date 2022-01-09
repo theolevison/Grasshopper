@@ -7,6 +7,7 @@ Narrator: Hey you
 Narrator: Finally awake
 Narrator: You were trying to cross the bord... Oh wait, wrong game sorry
 Narrator: Drag a die into the slot and let's get started
+<<unpauseDice Controller>>
 <<stop>>
 ===
 
@@ -23,23 +24,28 @@ title: Wakeup
     -> I am... inevitable!
         <<set $name to "Thanos">>
     Narrator: Ummm, good to know, {$name}, have fun with that...
+    <<unpauseDice Controller>>
     <<stop>>
 <<else>>
     Narrator: Good morning, {$name}!
+    <<unpauseDice Controller>>
     <<stop>>
 <<endif>>
+<<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: Shower
 ---
 Narrator: Nothing better than a hot shower in the morning!
+<<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: Sleep
 ---
 Narrator: Goodnight, {$name}!
+<<unpauseDice Controller>>
 <<stop>>
 ===
 
@@ -50,6 +56,7 @@ title: Work
 <<else>>
     Bobby: I hope you washed your hands before touching that book...
 <<endif>>
+<<unpauseDice Controller>>
 <<stop>>
 ===
 
@@ -60,5 +67,6 @@ title: Party
 <<else>>
     Harper: Do I know you? Why are you talking to me?
 <<endif>>
+<<unpauseDice Controller>>
 <<stop>>
 ===

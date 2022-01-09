@@ -11,6 +11,7 @@ public class DieIconProperties : MonoBehaviour
     private Image cooldownImage;
     private int taskLength;
     public bool canDrag = true;
+    public bool dialoguePause = false;
     private void Start() {
         cooldownImage = transform.GetChild(0).GetComponent<Image>();
     }

@@ -10,22 +10,23 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private Transform originalParent;
     private Canvas canvas;
     public bool slotChange = false;
-
+    private DieIconProperties dip;
     private void Awake() {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
+        dip = GetComponent<DieIconProperties>();
     }
     //called every frame during drag
     public void OnDrag(PointerEventData eventData){
-        if (GetComponent<DieIconProperties>().canDrag) {
+        if (dip.canDrag && !dip.dialoguePause) {
             //make object follow cursor
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData){
-        if (GetComponent<DieIconProperties>().canDrag) {
+        if (dip.canDrag && !dip.dialoguePause) {
             originalParent = rectTransform.parent;
             rectTransform.SetParent(canvas.transform);
             canvasGroup.blocksRaycasts = false;
@@ -34,7 +35,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
 
     public void OnEndDrag(PointerEventData eventData){
-        if (GetComponent<DieIconProperties>().canDrag) {
+        if (dip.canDrag && !dip.dialoguePause) {
             canvasGroup.blocksRaycasts = true;
             canvasGroup.alpha = 1f;
             if (!slotChange){
