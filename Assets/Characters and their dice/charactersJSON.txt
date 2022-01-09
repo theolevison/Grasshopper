@@ -1,16 +1,16 @@
 {
     "character": [
         {
-            "name": "Bobby proper",
-            "description": "Bob is like hermione granger with a fedora",
+            "name": "Bobby Proper",
+            "description": "Bob is like Hermione Granger with a fedora",
             "likes": ["hygiene","academic"],
-            "dislikes": ["partys",""],
+            "dislikes": ["parties",""],
             "dice": ["10die"]
         },
         {
-            "name": "Harper hedonist",
+            "name": "Harper Hedonist",
             "description": "You can't spell Jesters without Harper (apparently)",
-            "likes": ["partys",""],
+            "likes": ["parties",""],
             "dislikes": ["academic","sport"],
             "dice": ["10die"]
         }

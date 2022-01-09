@@ -13,12 +13,12 @@
         },
         {
             "name": "Wakeup",
-            "description": "Wakeup from sleep",
+            "description": "Wake up from sleep",
             "diceSlots": "1",
             "timeTrigger": "00:00 AM",
             "timeLimit": "00",
             "requirements": ["Sleep"],
-            "diceScoreRequirement": "6",
+            "diceScoreRequirement": "3",
             "taskLength": "10000",
             "effects": []
         },
@@ -46,11 +46,11 @@
         },
         {
             "name": "Party",
-            "description": "Go to a housparty",
+            "description": "Go to a house party",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "effects": ["partys +5", "sleep -2"]
+            "effects": ["parties +5", "sleep -2"]
         }
     ]
 }

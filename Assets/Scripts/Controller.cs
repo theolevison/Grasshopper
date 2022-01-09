@@ -36,7 +36,7 @@ public class Controller : MonoBehaviour
     private Dictionary<string, int> stats = new Dictionary<string, int>(){
         {"hygiene", 10},
         {"academic", 10},
-        {"partys", 10},
+        {"parties", 10},
         {"sport", 10},
         {"sleep", 10}
     };
@@ -277,12 +277,21 @@ public class Controller : MonoBehaviour
             }
 
             dialogueRunner.StartDialogue(name);
-
-            //TODO: renable all dice once dialouge is over
+            
         }
         catch (Yarn.DialogueException e)
         {
             Debug.Log("No node matches task name, this could be intentional or not \n" + e);
         }
+    }
+
+    public void enableDrags() {
+
+        //enable all dice once dialouge is over
+        foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
+        {
+            dieObject.GetComponent<DieIconProperties>().canDrag = true;
+        }
+
     }
 }
