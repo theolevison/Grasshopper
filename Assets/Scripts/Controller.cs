@@ -25,7 +25,7 @@ public class Controller : MonoBehaviour
     private float clockHR = 0.0f;
     private float clockMN = 0.0f;
     private string clockAMPM = "AM";
-    private int ClockSpeedMultiplier = 50;
+    private int ClockSpeedMultiplier = 500;
     private string oldClockText;
     [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
     private Dictionary<string, GameObject> completedTasks = new Dictionary<string, GameObject>();
@@ -43,6 +43,11 @@ public class Controller : MonoBehaviour
     [SerializeField] public List<GameObject> partyList = new List<GameObject>();
     [SerializeField] private GameObject directionalLight;
     [SerializeField] private GameObject lightPivot;
+    [SerializeField] private Canvas victoryCanvas;
+    [SerializeField] private int daysToGraduation;
+    private int daysPassed = 0;
+    private int socialProgression = 0;
+    private int academicProgression = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -52,6 +57,8 @@ public class Controller : MonoBehaviour
             item.SetActive(false);
         }
         completedTasks.Add("Sleep", null);
+
+        victoryCanvas.gameObject.SetActive(false);
 
         //parse tasks from JSON
         jsonReader.LoadJSON();
@@ -102,13 +109,14 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //TODO: implement world clock and trigger regular tasks as specific times
         rawTime += Time.deltaTime * ClockSpeedMultiplier;
         clockHR = (int)rawTime / 60;
         clockMN = (int)rawTime - (int)clockHR * 60;
     
         if (rawTime >= 1440) {
             rawTime = 0;
+            daysPassed += 1;
+            Debug.Log("Days passed: " + daysPassed);
         }
  
         if (rawTime >= 720) {
@@ -120,6 +128,7 @@ public class Controller : MonoBehaviour
  
         if (clockHR < 1 ) {
             clockHR = 12;
+            
         }
         
         clockText.text = clockHR.ToString("00")     + ":" + clockMN.ToString("00") + " " + clockAMPM;
@@ -127,11 +136,37 @@ public class Controller : MonoBehaviour
         if (clockText.text != oldClockText){
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
-            lightPivot.transform.Rotate(new Vector3(0,0,-0.25f));
+            lightPivot.transform.Rotate(new Vector3(0,0,-0.5f));
         }
 
         //update numbers in headers
         taskHeader.text = "OPPORTUNITIES " + activeTasks.Count + "/3"; //TODO: make this read the amount of special tasks instead of the repeated tasks
+    
+        if (daysPassed >= daysToGraduation){
+            endGame();
+        }
+    }
+
+    private void endGame(){
+        if (socialProgression + academicProgression >= 6) {
+            //become chancellor
+            dialogue("Chancellor");
+        }else if (academicProgression + socialProgression <= 2) {
+            //drop out
+            dialogue("DropOut");
+        } else if (socialProgression > academicProgression){
+            //social ending
+            dialogue("SocialEnding");
+        } else if (academicProgression > socialProgression){
+            //academic ending
+            dialogue("AcademicEnding");
+        } else {
+            //has broken game, get's recruited by GCHQ
+            dialogue("GCHQ");
+        }
+        //TODO: make nodes for all of these
+        //TODO: switch scene to victory scene, display stats and stuff
+        victoryCanvas.gameObject.SetActive(true);
     }
 
     private void checkRepeatedTasks(string text){
@@ -309,4 +344,6 @@ public class Controller : MonoBehaviour
         }
         directionalLight.SetActive(false);
     }
+
+
 }
