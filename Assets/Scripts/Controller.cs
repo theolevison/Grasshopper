@@ -42,6 +42,7 @@ public class Controller : MonoBehaviour
     };
     [SerializeField] public List<GameObject> partyList = new List<GameObject>();
     [SerializeField] private GameObject directionalLight;
+    [SerializeField] private GameObject lightPivot;
     
     // Start is called before the first frame update
     void Start()
@@ -126,6 +127,7 @@ public class Controller : MonoBehaviour
         if (clockText.text != oldClockText){
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
+            lightPivot.transform.Rotate(new Vector3(0,0,-0.25f));
         }
 
         //update numbers in headers

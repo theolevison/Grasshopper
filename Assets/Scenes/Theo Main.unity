@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44248614, g: 0.49156785, b: 0.5714073, a: 1}
+  m_IndirectSpecularColor: {r: 0.42254654, g: 0.45313704, b: 0.47517073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1430,13 +1430,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.505614, y: 0.12607709, z: -0.0749782, w: 0.8501984}
-  m_LocalPosition: {x: 6.5538836, y: 7.60898, z: -4.010707}
+  m_LocalRotation: {x: 0.5167394, y: -0.067244835, z: -0.3802376, w: 0.7641191}
+  m_LocalPosition: {x: 9.370001, y: 14.990002, z: -4.010707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1646413908}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 61.48, y: 16.87, z: 0}
+  m_Father: {fileID: 1367867449}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 47.609, y: -47.333, z: -74.797}
 --- !u!1 &771571600
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,6 +2370,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 408582, guid: f5f604f970bfa654db39fe8c98f63e5f, type: 3}
   m_PrefabInstance: {fileID: 647264576}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1367867448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1367867449}
+  m_Layer: 0
+  m_Name: LightPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1367867449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367867448}
+  m_LocalRotation: {x: -0, y: -0, z: 0.8526406, w: 0.52249783}
+  m_LocalPosition: {x: 9.23, y: 0, z: -1.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 705507995}
+  m_Father: {fileID: 1646413908}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -603}
 --- !u!1 &1368535703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2679,6 +2710,7 @@ MonoBehaviour:
   - {fileID: 986191980}
   - {fileID: 1632328414}
   directionalLight: {fileID: 705507993}
+  lightPivot: {fileID: 1367867448}
 --- !u!4 &1546202273
 Transform:
   m_ObjectHideFlags: 0
@@ -2782,7 +2814,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1987940005}
-  - {fileID: 705507995}
+  - {fileID: 1367867449}
   - {fileID: 1818254261}
   - {fileID: 91901222}
   - {fileID: 1274814860}
