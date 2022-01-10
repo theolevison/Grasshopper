@@ -11,6 +11,20 @@ Narrator: Drag a die into the slot and let's get started
 <<stop>>
 ===
 
+title: ECSJumpstart
+---
+Lecturer: Hi, welcome to Southampton and welcome to ECS
+Lecturer: Today I will tell you how this semester is going to run
+Lecturer: The aim is to graduate the year, how you do this is up to you
+Lecturer: Working hard will take you far in life
+Lecturer: However, some say it's not what you know, but who you know
+Lecturer: Gaining friends will help you, but remember you can't please everyone
+Lecturer: Ignoring basic tasks is convenient, but neglect will eventually take it's toll
+Lecturer: Get a goodnights sleep, it's all downhill from here!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
 title: Wakeup
 ---
 <<if $first_awake>>

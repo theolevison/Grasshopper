@@ -52,40 +52,47 @@
             "taskLength": "10000",
             "effects": ["parties +5", "sleep -2", "hygiene -2"]
         },
-	{
-            
+        {
+            "name": "ECSJumpstart",
+            "description": "Go make some friends :)",
+            "diceSlots": "1",
+            "diceScoreRequirement": "0",
+            "taskLength": "10000",
+            "effects": []
+        },
+        {
             "name": "FlatParty1",
             "description": "Have a party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
             "effects": ["parties +5", "sleep -2", "hygiene -4"]
-	},
-	{
-            
+        },
+        {
+                
             "name": "FlatParty2",
             "description": "Have a party at your flat once again!",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
             "effects": ["parties +10", "sleep -2", "hygiene -8"]
-	},
-	{
+        },
+        {
             "name": "FlatParty3",
             "description": "Have THE BEST party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
             "effects": ["parties +20", "sleep -2", "hygiene -10"]
-	},
-	{
-            
+        },
+        {
+                
             "name": "SeriousShower",
             "description": "Scrub like a beast!",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
             "effects": ["hygiene +10"]
-	}
+        }
     ]
 }

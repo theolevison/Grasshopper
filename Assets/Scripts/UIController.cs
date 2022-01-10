@@ -104,13 +104,10 @@ public class UIController : MonoBehaviour
             image.color = Color.green;
 
             controller.notifyOfTaskCompletion(gameObject, true);
-            //hide and reset if it's a repeated task, otherwise destroy because we won't use it again
-            if (repeatedTask){
-                StartCoroutine(ResetUI(false, 1f, image));
-            } else {
-                yield return new WaitForSeconds(1f);
-                Destroy(gameObject);
-            }
+
+            //hide and reset task
+            StartCoroutine(ResetUI(false, 1f, image));
+
         } else {
             //task failed, highlight in red and allow other attempts
             image.color = Color.red;

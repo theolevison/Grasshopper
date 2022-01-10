@@ -17,7 +17,6 @@ public class Controller : MonoBehaviour
     [SerializeField] GameObject bonusDicePrefab;
     [SerializeField] RectTransform bonusDiceUI;
     [SerializeField] DialogueRunner dialogueRunner;
-    //[SerializeField] List<YarnProject> projects = new List<YarnProject>(); 
     [SerializeField] TextMeshProUGUI clockText;
     [SerializeField] TextMeshProUGUI characterHeader;
     [SerializeField] TextMeshProUGUI taskHeader;
@@ -25,7 +24,7 @@ public class Controller : MonoBehaviour
     private float clockHR = 0.0f;
     private float clockMN = 0.0f;
     private string clockAMPM = "AM";
-    private int ClockSpeedMultiplier = 500;
+    private int ClockSpeedMultiplier = 50;
     private string oldClockText;
     [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
     private Dictionary<string, GameObject> completedTasks = new Dictionary<string, GameObject>();
@@ -49,6 +48,7 @@ public class Controller : MonoBehaviour
     private int daysPassed = 0;
     private int socialProgression = 0;
     private int academicProgression = 0;
+    private bool tutorialCompleted = false;
     
     // Start is called before the first frame update
     void Start()
@@ -57,7 +57,7 @@ public class Controller : MonoBehaviour
         {
             item.SetActive(false);
         }
-        completedTasks.Add("Sleep", null);
+        completedTasks.Add("Wakeup", null);
 
         victoryCanvas.gameObject.SetActive(false);
 
@@ -89,7 +89,7 @@ public class Controller : MonoBehaviour
         //load tasks depending on story variables stored in the JSON
         foreach (var task in jsonReader.myTaskList.specialTask)
         {
-            if (task.name.Equals("Work") || task.name.Equals("Party"))
+            if (task.name.Equals("ECSJumpstart"))
             {
                 var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
                 taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
@@ -98,11 +98,12 @@ public class Controller : MonoBehaviour
         }
 
         //load characters and bonus dice depending on story variables stored in the JSON
-        foreach (var character in jsonReader.myDiceList.character)
-        {
-            var characterInstance = Instantiate(characterDicePrefab, characterDiceUI);
-            characterInstance.GetComponent<CharacterDiceController>().UpdatePrefab(character);
-        }
+        //don't load any characters at the beginning
+        // foreach (var character in jsonReader.myDiceList.character)
+        // {
+        //     var characterInstance = Instantiate(characterDicePrefab, characterDiceUI);
+        //     characterInstance.GetComponent<CharacterDiceController>().UpdatePrefab(character);
+        // }
 
         foreach (var bonus in jsonReader.myDiceList.bonusDice)
         {
@@ -148,10 +149,18 @@ public class Controller : MonoBehaviour
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
             lightPivot.transform.Rotate(new Vector3(0, 0, -0.5f));
+            checkSpecialTasks();
         }
 
         //update numbers in headers
-        taskHeader.text = "OPPORTUNITIES " + GameObject.Find("Special Tasks Frame").transform.childCount + "/3";
+        int count = 0;
+        foreach (Transform child in GameObject.Find("Special Tasks Frame").transform)
+        {
+            if (child.gameObject.activeSelf){
+                count++;
+            }
+        }
+        taskHeader.text = "OPPORTUNITIES " + count + "/3";
 
         if (daysPassed >= daysToGraduation)
         {
@@ -291,6 +300,9 @@ public class Controller : MonoBehaviour
                     item.Key.SetActive(false);
                 }
                 activeTasks.Clear();
+                if (!tutorialCompleted){
+                    //TODO: add first character
+                }
             }
             
             //task has been completed
@@ -322,17 +334,17 @@ public class Controller : MonoBehaviour
             }
 
             dialogue(task.name);
-
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
-        foreach (int value in stats.Values)
+        foreach (var stat in stats)
         {
-            Debug.Log(value);
+            Debug.Log(stat.Key + " " + stat.Value);
         }
         //TODO: change stats behind the scene depending on the task
-        checkSpecialTasks();
+        
     }
+
 
     private void dialogue(string name){
         try
@@ -371,8 +383,9 @@ public class Controller : MonoBehaviour
     }
 
     //loads a special task by name
-    public void loadSpecialTask(string name)
+    private void loadSpecialTask(string name)
     {
+        //TODO: read all special tasks into a list at the beginning and search that instead of iterating everytime for dank readability
         foreach (var task in jsonReader.myTaskList.specialTask)
         {
             if (task.name.Equals(name) && !activeTasks.ContainsValue(task))
@@ -385,7 +398,7 @@ public class Controller : MonoBehaviour
     }
 
     //check if a special task is complete
-    public bool checkIfTaskComplete(string name) {
+    private bool checkIfTaskComplete(string name) {
         foreach (string taskName in completedSpecialTasks) {
             if (taskName.Equals(name)) {
                 return true;
@@ -395,17 +408,21 @@ public class Controller : MonoBehaviour
         return false;
     }
     
-    //controlls the progression of special tasks 
-    public void checkSpecialTasks() {
+    //controls the progression of special tasks
+    private void checkSpecialTasks() {
         if (stats["hygiene"] < 0) loadSpecialTask("SeriousShower");
         if (checkIfTaskComplete("FlatParty1"))
         {
-           if (checkIfTaskComplete("FlatParty2"))
+            if (checkIfTaskComplete("FlatParty2"))
             {
                 if (stats["parties"] > 20) loadSpecialTask("FlatParty3");
-            }
+            } 
             else if (stats["parties"] > 15) loadSpecialTask("FlatParty2");
         }
         else if (stats["parties"] > 10) loadSpecialTask("FlatParty1");
+    }
+
+    private void gainFriend(){
+        
     }
 }
