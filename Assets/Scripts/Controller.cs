@@ -7,7 +7,7 @@ using Yarn.Unity;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] JSONReader jsonReader;
+    [SerializeField] JSONReader jsonReader; 
     [SerializeField] GameObject repeatedTaskPrefab;
     [SerializeField] RectTransform repeatedTasksUI;
     [SerializeField] GameObject specialTaskPrefab;
@@ -29,9 +29,10 @@ public class Controller : MonoBehaviour
     private string oldClockText;
     [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
     private Dictionary<string, GameObject> completedTasks = new Dictionary<string, GameObject>();
+    private List<string> completedSpecialTasks = new List<string>();
     private Dictionary<string, GameObject> taskDictionary = new Dictionary<string, GameObject>();
     private List<GameObject> tasksWithNoStartTime = new List<GameObject>();
-    private List<GameObject> activeTasks = new List<GameObject>();
+    private Dictionary<GameObject, JSONReader.Task> activeTasks = new Dictionary<GameObject, JSONReader.Task>();
     private List<GameObject> queuedTasks = new List<GameObject>();
     private Dictionary<string, int> stats = new Dictionary<string, int>(){
         {"hygiene", 10},
@@ -88,8 +89,12 @@ public class Controller : MonoBehaviour
         //load tasks depending on story variables stored in the JSON
         foreach (var task in jsonReader.myTaskList.specialTask)
         {
-            var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
-            taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+            if (task.name.Equals("Work") || task.name.Equals("Party"))
+            {
+                var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
+                taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+                activeTasks.Add(taskInstance, task);
+            }
         }
 
         //load characters and bonus dice depending on story variables stored in the JSON
@@ -112,37 +117,44 @@ public class Controller : MonoBehaviour
         rawTime += Time.deltaTime * ClockSpeedMultiplier;
         clockHR = (int)rawTime / 60;
         clockMN = (int)rawTime - (int)clockHR * 60;
-    
-        if (rawTime >= 1440) {
+
+        if (rawTime >= 1440)
+        {
             rawTime = 0;
             daysPassed += 1;
             Debug.Log("Days passed: " + daysPassed);
         }
- 
-        if (rawTime >= 720) {
+
+        if (rawTime >= 720)
+        {
             clockAMPM = "PM";
             clockHR -= 12;
-        } else {
+        }
+        else
+        {
             clockAMPM = "AM";
         }
- 
-        if (clockHR < 1 ) {
+
+        if (clockHR < 1)
+        {
             clockHR = 12;
-            
+
         }
-        
-        clockText.text = clockHR.ToString("00")     + ":" + clockMN.ToString("00") + " " + clockAMPM;
-              
-        if (clockText.text != oldClockText){
+
+        clockText.text = clockHR.ToString("00") + ":" + clockMN.ToString("00") + " " + clockAMPM;
+
+        if (clockText.text != oldClockText)
+        {
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
-            lightPivot.transform.Rotate(new Vector3(0,0,-0.5f));
+            lightPivot.transform.Rotate(new Vector3(0, 0, -0.5f));
         }
 
         //update numbers in headers
         taskHeader.text = "OPPORTUNITIES " + GameObject.Find("Special Tasks Frame").transform.childCount + "/3";
-    
-        if (daysPassed >= daysToGraduation){
+
+        if (daysPassed >= daysToGraduation)
+        {
             endGame();
             daysPassed = 0;
         }
@@ -187,7 +199,7 @@ public class Controller : MonoBehaviour
             foreach (GameObject item in tasksWithNoStartTime)
             {
                 //check it's not already active or completed
-                if (!activeTasks.Contains(item) && !completedTasks.ContainsValue(item)){
+                if (!activeTasks.ContainsKey(item) && !completedTasks.ContainsValue(item)){
                     JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
@@ -200,7 +212,7 @@ public class Controller : MonoBehaviour
                     }
                     if (activate){
                         item.SetActive(true);
-                        activeTasks.Add(item);
+                        activeTasks.Add(item, task);
                     }
                 }
             }
@@ -211,7 +223,7 @@ public class Controller : MonoBehaviour
             foreach (GameObject item in queuedTasks)
             {
                 //check it's not already active or completed
-                if (!activeTasks.Contains(item) && !completedTasks.ContainsValue(item)){
+                if (!activeTasks.ContainsKey(item) && !completedTasks.ContainsValue(item)){
                     JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
@@ -224,7 +236,7 @@ public class Controller : MonoBehaviour
                     }
                     if (activate){
                         item.SetActive(true);
-                        activeTasks.Add(item);
+                        activeTasks.Add(item, task);
                         tasksToRemove.Add(item);
                     }
                 }
@@ -241,7 +253,7 @@ public class Controller : MonoBehaviour
             if (taskDictionary.ContainsKey(text)){
                 GameObject taskInstance = taskDictionary[text];
                 //check it's not already active or completed
-                if (!activeTasks.Contains(taskInstance) && !completedTasks.ContainsValue(taskInstance)){
+                if (!activeTasks.ContainsKey(taskInstance) && !completedTasks.ContainsValue(taskInstance)){
                     JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskInstance.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
@@ -253,7 +265,7 @@ public class Controller : MonoBehaviour
                         }
                     }
                     taskInstance.SetActive(true);
-                    activeTasks.Add(taskInstance);
+                    activeTasks.Add(taskInstance, task);
                 }
             }
         }
@@ -274,15 +286,16 @@ public class Controller : MonoBehaviour
             if (task.name == "Sleep"){
                 completedTasks.Clear();
 
-                foreach (GameObject item in activeTasks)
+                foreach (var item in activeTasks)
                 {
-                    item.SetActive(false);
+                    item.Key.SetActive(false);
                 }
                 activeTasks.Clear();
             }
             
             //task has been completed
             completedTasks.Add(task.name, taskObject);
+
 
             //effects
             foreach (string effect in task.effects)
@@ -298,6 +311,9 @@ public class Controller : MonoBehaviour
         } else if (taskObject.TryGetComponent(out SpecialTaskController controller2)){
             //not a repeated task, so process as a special task
             JSONReader.SpecialTask task = (JSONReader.SpecialTask)controller2.generic;
+
+            //add to special tasks completed list
+            completedSpecialTasks.Add(task.name);
 
             //effects
             foreach (string effect in task.effects)
@@ -315,6 +331,7 @@ public class Controller : MonoBehaviour
             Debug.Log(value);
         }
         //TODO: change stats behind the scene depending on the task
+        checkSpecialTasks();
     }
 
     private void dialogue(string name){
@@ -344,7 +361,8 @@ public class Controller : MonoBehaviour
     }
 
     [YarnCommand("party")]
-    public void party(){
+    public void party()
+    {
         foreach (GameObject item in partyList)
         {
             item.SetActive(true);
@@ -352,5 +370,42 @@ public class Controller : MonoBehaviour
         directionalLight.SetActive(false);
     }
 
+    //loads a special task by name
+    public void loadSpecialTask(string name)
+    {
+        foreach (var task in jsonReader.myTaskList.specialTask)
+        {
+            if (task.name.Equals(name) && !activeTasks.ContainsValue(task))
+            {
+                var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
+                taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+                activeTasks.Add(taskInstance, task);
+            }
+        }
+    }
 
+    //check if a special task is complete
+    public bool checkIfTaskComplete(string name) {
+        foreach (string taskName in completedSpecialTasks) {
+            if (taskName.Equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    //controlls the progression of special tasks 
+    public void checkSpecialTasks() {
+        if (stats["hygiene"] < 0) loadSpecialTask("SeriousShower");
+        if (checkIfTaskComplete("FlatParty1"))
+        {
+           if (checkIfTaskComplete("FlatParty2"))
+            {
+                if (stats["parties"] > 20) loadSpecialTask("FlatParty3");
+            }
+            else if (stats["parties"] > 15) loadSpecialTask("FlatParty2");
+        }
+        else if (stats["parties"] > 10) loadSpecialTask("FlatParty1");
+    }
 }

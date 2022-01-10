@@ -72,6 +72,34 @@ title: Party
 <<stop>>
 ===
 
+title: SeriousShower
+---
+Narrator: Maybe try to do this at least weekly next time? Not that I mind, narrators do not have a sense of smell!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: FlatParty1
+---
+Harper: Partying at someone else's home is always the best!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: FlatParty2
+---
+Harper: This party is amazing, {$name}!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: FlatParty3
+---
+Harper: This is THE BEST flat party EVER!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
 title: Chancellor
 ---
 Narrator: Congratulations, {$name}! You have exceeded all expectations

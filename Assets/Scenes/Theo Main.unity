@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.42254654, g: 0.45313704, b: 0.47517073, a: 1}
+  m_IndirectSpecularColor: {r: 0.4225463, g: 0.4531368, b: 0.47517025, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3912,7 +3912,7 @@ MonoBehaviour:
   directionalLight: {fileID: 705507993}
   lightPivot: {fileID: 1367867448}
   victoryCanvas: {fileID: 1960755444}
-  daysToGraduation: 12
+  daysToGraduation: 35
 --- !u!4 &1546202273
 Transform:
   m_ObjectHideFlags: 0
