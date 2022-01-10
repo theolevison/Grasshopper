@@ -114,6 +114,34 @@ Harper: This is THE BEST flat party EVER!
 <<stop>>
 ===
 
+title: GainBobbyProper
+---
+Bobby: Hi, we should be friends
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: LoseBobbyProper
+---
+Bobby: We aren't friends anymore
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: GainHarperHedonist
+---
+Bobby: Hi, we should be friends
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: LoseHarperHedonist
+---
+Bobby: We aren't friends anymore
+<<unpauseDice Controller>>
+<<stop>>
+===
+
 title: Chancellor
 ---
 Narrator: Congratulations, {$name}! You have exceeded all expectations

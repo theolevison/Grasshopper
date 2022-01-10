@@ -33,7 +33,8 @@ public class Controller : MonoBehaviour
     private List<GameObject> tasksWithNoStartTime = new List<GameObject>();
     private Dictionary<GameObject, JSONReader.Task> activeTasks = new Dictionary<GameObject, JSONReader.Task>();
     private List<GameObject> queuedTasks = new List<GameObject>();
-    private Dictionary<string, int> stats = new Dictionary<string, int>(){
+    private List<GameObject> characters = new List<GameObject>();
+    public Dictionary<string, int> stats = new Dictionary<string, int>(){
         {"hygiene", 10},
         {"academic", 10},
         {"parties", 10},
@@ -98,12 +99,13 @@ public class Controller : MonoBehaviour
         }
 
         //load characters and bonus dice depending on story variables stored in the JSON
-        //don't load any characters at the beginning
-        // foreach (var character in jsonReader.myDiceList.character)
-        // {
-        //     var characterInstance = Instantiate(characterDicePrefab, characterDiceUI);
-        //     characterInstance.GetComponent<CharacterDiceController>().UpdatePrefab(character);
-        // }
+        foreach (var character in jsonReader.myDiceList.character)
+        {
+            var characterInstance = Instantiate(characterDicePrefab, characterDiceUI);
+            characterInstance.GetComponent<CharacterDiceController>().UpdatePrefab(character);
+            characterInstance.SetActive(false);
+            characters.Add(characterInstance);
+        }
 
         foreach (var bonus in jsonReader.myDiceList.bonusDice)
         {
@@ -150,6 +152,7 @@ public class Controller : MonoBehaviour
             oldClockText = clockText.text;
             lightPivot.transform.Rotate(new Vector3(0, 0, -0.5f));
             checkSpecialTasks();
+            updateCharacters();
         }
 
         //update numbers in headers
@@ -346,7 +349,7 @@ public class Controller : MonoBehaviour
     }
 
 
-    private void dialogue(string name){
+    public void dialogue(string name){
         try
         {
             //disable all dice and start dialogue
@@ -422,7 +425,43 @@ public class Controller : MonoBehaviour
         else if (stats["parties"] > 10) loadSpecialTask("FlatParty1");
     }
 
-    private void gainFriend(){
-        
+    private void updateCharacters(){
+        foreach (GameObject characterObject in characters)
+        {
+            JSONReader.Character character = characterObject.GetComponent<CharacterDiceController>().character;
+            foreach (string like in character.likes)
+            {
+                if (like != ""){
+                    if (stats[like] >=10){
+                        //gain friend
+                        if (!characterObject.activeSelf){
+                            characterObject.SetActive(true);
+                            dialogue("Gain"+character.name.Trim());
+                        }
+                    }else if (stats[like] >=5){
+                        //meet friend
+                    } else {
+
+                    }
+                }
+            }
+            foreach (string dislike in character.dislikes)
+            {
+                if (dislike != ""){
+                    if (stats[dislike] <=5){
+                        //lose friend
+                        if (characterObject.activeSelf){
+                            characterObject.SetActive(false);
+                            dialogue("Lose"+character.name.Trim());
+                        }
+                    } else if (stats[dislike] <=10){
+                        //warning
+                    } else {
+
+                    }
+                            
+                }
+            }
+        }
     }
 }

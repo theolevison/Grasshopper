@@ -5,7 +5,9 @@ using TMPro;
 
 public class CharacterDiceController : UIController
 {
+    public JSONReader.Character character;
     public void UpdatePrefab(JSONReader.Character character){
+        this.character = character;
         generic = character;
         TextMeshProUGUI[] texts = transform.GetComponentsInChildren<TextMeshProUGUI>();
         
