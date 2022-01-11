@@ -330,6 +330,11 @@ public class Controller : MonoBehaviour
             //add to special tasks completed list
             completedSpecialTasks.Add(task.name);
 
+            //special tasks that invoke progress
+            if (task.name.Equals("FlatParty3")) socialProgression = 1;
+            if (task.name.Equals("Stags")) socialProgression = 2;
+            if (task.name.Equals("Jesters")) socialProgression = 3;
+
             //effects
             foreach (string effect in task.effects)
             {
@@ -400,6 +405,26 @@ public class Controller : MonoBehaviour
         }
     }
 
+    //have to make a party and work task always availabe so as not to get stuck out of a path forever
+    private void loadPartyOrWork(string name) {
+        if (name.Equals("Party") || name.Equals("Work")) {
+            
+            completedSpecialTasks.Remove(name);
+
+            //DEFINETLY TODO: read all special tasks into a list at the beginning and search that instead of iterating 
+            //everytime for dank readability (cause I am lazy at the moment and I am just gonna do it again I hate myself its 4AM where I live)
+            foreach (var task in jsonReader.myTaskList.specialTask)
+            {
+                if (task.name.Equals(name) && !activeTasks.ContainsValue(task))
+                {
+                    var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
+                    taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+                    activeTasks.Add(taskInstance, task);
+                }
+            }
+        }
+    }
+
     //check if a special task is complete
     private bool checkIfTaskComplete(string name) {
         foreach (string taskName in completedSpecialTasks) {
@@ -414,15 +439,81 @@ public class Controller : MonoBehaviour
     //controls the progression of special tasks
     private void checkSpecialTasks() {
         if (stats["hygiene"] < 0) loadSpecialTask("SeriousShower");
-        if (checkIfTaskComplete("FlatParty1"))
+        
+        if (checkIfTaskComplete("ECSJumpstart")) 
         {
-            if (checkIfTaskComplete("FlatParty2"))
-            {
-                if (stats["parties"] > 20) loadSpecialTask("FlatParty3");
-            } 
-            else if (stats["parties"] > 15) loadSpecialTask("FlatParty2");
+            loadSpecialTask("Work");
+            loadSpecialTask("Party");
         }
-        else if (stats["parties"] > 10) loadSpecialTask("FlatParty1");
+
+        if (socialProgression == 0)
+        {
+            if (checkIfTaskComplete("FlatParty1"))
+            {
+                if (checkIfTaskComplete("FlatParty2"))
+                {
+                    if (stats["parties"] > 20) loadSpecialTask("FlatParty3");
+                    else loadPartyOrWork("Party");
+                }
+                else if (stats["parties"] > 15) loadSpecialTask("FlatParty2");
+                else loadPartyOrWork("Party");
+            }
+            else if (stats["parties"] > 10) loadSpecialTask("FlatParty1");
+            //check if the first party is complete to not load it before the Jumpstart event
+            else if (completedSpecialTasks.Contains("Party")) loadPartyOrWork("Party");
+        }
+
+        if (socialProgression == 1)
+        {
+            if (checkIfTaskComplete("Shots!"))
+            {
+                if (checkIfTaskComplete("Pret")) 
+                {
+                    if (checkIfTaskComplete("Costa"))
+                    {
+                        if(stats["parties"] > 55) loadSpecialTask("Stags");
+                        else loadPartyOrWork("Party");
+                    }
+                    else if (stats["parties"] > 50) loadSpecialTask("Costa");
+                    else loadPartyOrWork("Party");
+                }
+                else if (stats["parties"] > 40) loadSpecialTask("Pret");
+                else loadPartyOrWork("Party");
+            }
+            else if (stats["parties"] > 30) loadSpecialTask("Shots!");
+            else loadPartyOrWork("Party");
+        }
+
+        if (socialProgression == 2) 
+        {
+            if (checkIfTaskComplete("DanceCompetition"))
+            {
+                if (checkIfTaskComplete("Switch"))
+                {
+                    //sorry, had to do it...
+                    if (checkIfTaskComplete("BalkanParty"))
+                    {
+                        if (stats["parties"] > 100) loadSpecialTask("Jesters");
+                        else loadPartyOrWork("Party");
+                    }
+                    else if (stats["parties"] > 90) loadSpecialTask("BalkanParty");
+                    else loadPartyOrWork("Party");
+                }
+                else if (stats["parties"] > 80) loadSpecialTask("Switch");
+                else loadPartyOrWork("Party");
+            }
+            else if (stats["parties"] > 60) loadSpecialTask("DanceCompetition");
+            else loadPartyOrWork("Party");
+        }
+
+        if(socialProgression == 3)
+        {
+            if (checkIfTaskComplete("Mascot")) {
+                loadPartyOrWork("Party");
+            }
+            else if (stats["parties"] > 150) loadSpecialTask("Mascot");
+            else loadPartyOrWork("Party");
+        }
     }
 
     private void updateCharacters(){

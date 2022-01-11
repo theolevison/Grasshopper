@@ -85,6 +85,78 @@
             "taskLength": "10000",
             "effects": ["parties +20", "sleep -2", "hygiene -10"]
         },
+	{
+            "name": "Shots!",
+            "description": "10 Jägerbombs in a row!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "5",
+            "taskLength": "10000",
+            "effects": ["parties +10", "sleep +1", "hygiene -5"]
+        },
+	{
+            "name": "Pret",
+            "description": "Social people have coffee!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "10",
+            "taskLength": "10000",
+            "effects": ["parties +5", "sleep +5"]
+        },
+	{
+            "name": "Costa",
+            "description": "Social people have expensive coffee!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "10",
+            "taskLength": "10000",
+            "effects": ["parties +10", "sleep +5"]
+        },
+	{
+            "name": "Stags",
+            "description": "Have a beer at Stags (and play some pool)",
+            "diceSlots": "2",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "effects": ["parties +10", "sleep -2"]
+        },
+	{
+            "name": "DanceCompetition",
+            "description": "The worst dance wins!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "effects": ["parties +15"]
+        },
+	{
+            "name": "Switch",
+            "description": "Go to a party at Switch",
+            "diceSlots": "3",
+            "diceScoreRequirement": "12",
+            "taskLength": "10000",
+            "effects": ["parties +15", "sleep -3", "hygiene -10"]
+        },
+	{
+            "name": "BalkanParty",
+            "description": "Your cool Balkan friends invited you!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "effects": ["parties +20", "sleep -4", "hygiene -5"]
+        },
+	{
+            "name": "Jesters",
+            "description": "You know you have to do it...",
+            "diceSlots": "3",
+            "diceScoreRequirement": "17",
+            "taskLength": "10000",
+            "effects": ["parties +20", "sleep -4", "hygiene -15"]
+        },
+	{
+            "name": "Mascot",
+            "description": "Become the official Smirnoff mascot of Soton!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "25",
+            "taskLength": "10000",
+            "effects": ["parties +100"]
+        },
         {
                 
             "name": "SeriousShower",

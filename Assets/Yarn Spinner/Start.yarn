@@ -6,6 +6,14 @@
 Narrator: Hey you
 Narrator: Finally awake
 Narrator: You were trying to cross the bord... Oh wait, wrong game sorry
+Narrator: You are the hero of this story and your name is...
+    -> Donald J. Trump and you are FAKE NEWS!
+        <<set $name to "Trump">>
+    -> I am JSON nice to meet you!
+        <<set $name to "Jason">>
+    -> I am... inevitable!
+        <<set $name to "Thanos">>
+Narrator: Ummm, good to know, {$name}, have fun with that...
 Narrator: Drag a die into the slot and let's get started
 <<unpauseDice Controller>>
 <<stop>>
@@ -28,16 +36,8 @@ Lecturer: Get a goodnights sleep, it's all downhill from here!
 title: Wakeup
 ---
 <<if $first_awake>>
-    Narrator: Well done, the first of many mornings to come
+    Narrator: Well done, the first of many mornings to come!
     <<set $first_awake to false>>
-    Narrator: You are the hero of this story and your name is...
-    -> Donald J. Trump and you are FAKE NEWS!
-        <<set $name to "Trump">>
-    -> I am JSON nice to meet you!
-        <<set $name to "Jason">>
-    -> I am... inevitable!
-        <<set $name to "Thanos">>
-    Narrator: Ummm, good to know, {$name}, have fun with that...
     <<unpauseDice Controller>>
     <<stop>>
 <<else>>
@@ -88,7 +88,8 @@ title: Party
 
 title: SeriousShower
 ---
-Narrator: Maybe try to do this at least weekly next time? Not that I mind, narrators do not have a sense of smell!
+Narrator: Maybe try to do this at least weekly next time? 
+Narrator: Not that I mind, narrators do not have a sense of smell!
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -113,6 +114,73 @@ Harper: This is THE BEST flat party EVER!
 <<unpauseDice Controller>>
 <<stop>>
 ===
+
+title: Shots!
+---
+Everyone: CHUG! CHUG! CHUG!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Pret
+---
+Pret Manager: Stay in the line please!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Costa
+---
+Costa Employee: That will be £20, please!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Stags
+---
+Spectator: Just hit the green into the red into the orange, {$name}!
+Spectator: ...or give them a foul, that works too.
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: DanceCompetition
+---
+Harper: I knew you could dance, {$name}!
+Harper: I just didn't know you could be so bad at it!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Switch
+---
+Harper: This place has the worst bathrooms...
+Harper: and I love it!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: BalkanParty
+---
+Romanian Friend: Frate, aceasta este cea mai bună petrecere vreodată!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Jesters
+---
+Narrator: Why did you come here? Do you like it?
+Narrator: Thought so!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Mascot
+---
+Smirnoff Official: Yes, you have to wear the suit.
+Harper: You are the most famous friend I have ever had!
+Narrator: {$name} the mascot of Smirnoff...
+Narrator: I have to say it suits you!
 
 title: GainBobbyProper
 ---
