@@ -16,6 +16,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
         dip = GetComponent<DieIconProperties>();
+        originalParent = rectTransform.parent;
     }
     //called every frame during drag
     public void OnDrag(PointerEventData eventData){
@@ -47,5 +48,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnPointerDown(PointerEventData eventData){
         
+    }
+
+    public void reset(){
+        rectTransform.SetParent(originalParent);
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1f;
     }
 }

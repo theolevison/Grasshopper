@@ -387,6 +387,7 @@ public class Controller : MonoBehaviour
             //disable all dice and start dialogue
             foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
             {
+                dieObject.GetComponent<DragDrop>().reset();
                 dieObject.GetComponent<DieIconProperties>().dialoguePause = true;
             }
 
@@ -425,7 +426,7 @@ public class Controller : MonoBehaviour
             task.SetActive(true);
             activeTasks.Add(task);
         } else {
-            Debug.Log("couldn't run task");
+            Debug.Log("couldn't run task"); //TODO: either get rid of old completed tasks, or check if they can be run, or allow repeated normi tasks if there's no other options
         }
     }
 
@@ -497,7 +498,7 @@ public class Controller : MonoBehaviour
         list.ForEach(k => Debug.Log(k));
         runSpecialTask(list[UnityEngine.Random.Range(0, list.Count)].Item2);
 
-        Debug.Log(string.Join(Environment.NewLine ,stats.Select(kvp => kvp.Key + ": " + kvp.Value.ToString())));
+        Debug.Log(string.Join(Environment.NewLine ,stats.Select(kvp => $"{kvp.Key} : {kvp.Value}")));
     }
 
     private void updateCharacters(){
