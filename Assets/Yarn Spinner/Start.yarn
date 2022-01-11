@@ -94,7 +94,7 @@ Narrator: Not that I mind, narrators do not have a sense of smell!
 <<stop>>
 ===
 
-title: FlatParty1
+title: FirstFlatParty
 ---
 Harper: Partying at someone else's home is always the best!
 <<unpauseDice Controller>>
@@ -181,6 +181,9 @@ Smirnoff Official: Yes, you have to wear the suit.
 Harper: You are the most famous friend I have ever had!
 Narrator: {$name} the mascot of Smirnoff...
 Narrator: I have to say it suits you!
+<<unpauseDice Controller>>
+<<stop>>
+===
 
 title: GainBobbyProper
 ---

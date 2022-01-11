@@ -5,8 +5,9 @@ using TMPro;
 
 public class SpecialTaskController : UIController
 {
-
+    public JSONReader.SpecialTask task;
     public void UpdatePrefab(JSONReader.SpecialTask task){
+        this.task = task;
         generic = task;
         TextMeshProUGUI[] texts = transform.GetComponentsInChildren<TextMeshProUGUI>();
         

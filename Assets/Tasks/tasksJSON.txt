@@ -42,6 +42,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
+            "requirements": ["academic 0"],
+            "priority": "0",
             "effects": ["academic +5"]
         },
         {
@@ -50,6 +52,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
+            "requirements": ["parties 0"],
+            "priority": "0",
             "effects": ["parties +5", "sleep -2", "hygiene -2"]
         },
         {
@@ -61,11 +65,13 @@
             "effects": []
         },
         {
-            "name": "FlatParty1",
+            "name": "FirstFlatParty",
             "description": "Have a party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
+            "requirements": ["parties 10"],
+            "priority": "0",
             "effects": ["parties +5", "sleep -2", "hygiene -4"]
         },
         {
@@ -75,6 +81,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
+            "requirements": ["parties 15"],
+            "priority": "0",
             "effects": ["parties +10", "sleep -2", "hygiene -8"]
         },
         {
@@ -83,6 +91,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
+            "requirements": ["parties 20"],
+            "priority": "0",
             "effects": ["parties +20", "sleep -2", "hygiene -10"]
         },
 	{
@@ -91,6 +101,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "5",
             "taskLength": "10000",
+            "requirements": ["parties 30", "socialProgression 1"],
+            "priority": "1",
             "effects": ["parties +10", "sleep +1", "hygiene -5"]
         },
 	{
@@ -99,6 +111,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
+            "requirements": ["parties 40", "socialProgression 1"],
+            "priority": "1",
             "effects": ["parties +5", "sleep +5"]
         },
 	{
@@ -107,6 +121,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
+            "requirements": ["parties 50", "socialProgression 1"],
+            "priority": "1",
             "effects": ["parties +10", "sleep +5"]
         },
 	{
@@ -115,6 +131,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
+            "requirements": ["parties 55", "socialProgression 1"],
+            "priority": "1",
             "effects": ["parties +10", "sleep -2"]
         },
 	{
@@ -123,6 +141,8 @@
             "diceSlots": "3",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
+            "requirements": ["parties 60", "socialProgression 2"],
+            "priority": "2",
             "effects": ["parties +15"]
         },
 	{
@@ -131,6 +151,8 @@
             "diceSlots": "3",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
+            "requirements": ["parties 80", "socialProgression 2"],
+            "priority": "2",
             "effects": ["parties +15", "sleep -3", "hygiene -10"]
         },
 	{
@@ -139,6 +161,8 @@
             "diceSlots": "3",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
+            "requirements": ["parties 90", "socialProgression 2"],
+            "priority": "2",
             "effects": ["parties +20", "sleep -4", "hygiene -5"]
         },
 	{
@@ -147,6 +171,8 @@
             "diceSlots": "3",
             "diceScoreRequirement": "17",
             "taskLength": "10000",
+            "requirements": ["parties 100", "socialProgression 2"],
+            "priority": "2",
             "effects": ["parties +20", "sleep -4", "hygiene -15"]
         },
 	{
@@ -155,6 +181,8 @@
             "diceSlots": "3",
             "diceScoreRequirement": "25",
             "taskLength": "10000",
+            "requirements": ["parties 150", "socialProgression 3"],
+            "priority": "3",
             "effects": ["parties +100"]
         },
         {
@@ -164,6 +192,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
+            "requirements": ["hygiene 0"],
+            "priority": "3",
             "effects": ["hygiene +10"]
         }
     ]

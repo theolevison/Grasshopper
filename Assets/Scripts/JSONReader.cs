@@ -49,6 +49,7 @@ public class JSONReader : MonoBehaviour
         public int diceScoreRequirement;
         public int taskLength;
         public string[] effects;
+        public string[] requirements;
     }
 
     [System.Serializable]
@@ -56,14 +57,13 @@ public class JSONReader : MonoBehaviour
     {
         public string timeTrigger;
         public int timeLimit;
-        public string[] requirements;
         public GameObject uiElement;
     }
 
     [System.Serializable]
     public class SpecialTask : Task
     {
-
+        public int priority;
     }
 
     [System.Serializable]

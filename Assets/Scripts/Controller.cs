@@ -34,12 +34,16 @@ public class Controller : MonoBehaviour
     private Dictionary<GameObject, JSONReader.Task> activeTasks = new Dictionary<GameObject, JSONReader.Task>();
     private List<GameObject> queuedTasks = new List<GameObject>();
     private List<GameObject> characters = new List<GameObject>();
+    private List<string> activeCharacters = new List<string>();
+    private List<GameObject> specialTasks = new List<GameObject>();
     public Dictionary<string, int> stats = new Dictionary<string, int>(){
         {"hygiene", 10},
         {"academic", 10},
         {"parties", 10},
         {"sport", 10},
-        {"sleep", 10}
+        {"sleep", 10},
+        {"socialProgression", 0},
+        {"academicProgression", 0}
     };
     [SerializeField] public List<GameObject> partyList = new List<GameObject>();
     [SerializeField] private GameObject directionalLight;
@@ -47,8 +51,6 @@ public class Controller : MonoBehaviour
     [SerializeField] private Canvas victoryCanvas;
     [SerializeField] private int daysToGraduation;
     private int daysPassed = 0;
-    private int socialProgression = 0;
-    private int academicProgression = 0;
     private bool tutorialCompleted = false;
     
     // Start is called before the first frame update
@@ -95,6 +97,11 @@ public class Controller : MonoBehaviour
                 var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
                 taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
                 activeTasks.Add(taskInstance, task);
+            } else {
+                var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
+                taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+                taskInstance.SetActive(false);
+                specialTasks.Add(taskInstance);
             }
         }
 
@@ -151,7 +158,7 @@ public class Controller : MonoBehaviour
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
             lightPivot.transform.Rotate(new Vector3(0, 0, -0.5f));
-            checkSpecialTasks();
+            //checkSpecialTasks();
             updateCharacters();
         }
 
@@ -176,16 +183,16 @@ public class Controller : MonoBehaviour
         //make sure the end game dialogue is displayed
         dialogueRunner.Stop();
 
-        if (socialProgression + academicProgression >= 6) {
+        if (stats["academicProgression"] + stats["socialProgression"] >= 6) {
             //become chancellor
             dialogue("Chancellor");
-        }else if (academicProgression + socialProgression <= 2) {
+        }else if (stats["academicProgression"] + stats["socialProgression"] <= 2) {
             //drop out
             dialogue("DropOut");
-        } else if (socialProgression > academicProgression){
+        } else if (stats["academicProgression"] > stats["socialProgression"]){
             //social ending
             dialogue("SocialEnding");
-        } else if (academicProgression > socialProgression){
+        } else if (stats["academicProgression"] > stats["socialProgression"]){
             //academic ending
             dialogue("AcademicEnding");
         } else {
@@ -304,9 +311,18 @@ public class Controller : MonoBehaviour
                 }
                 activeTasks.Clear();
                 if (!tutorialCompleted){
+                    
                     //TODO: add first character
+                    tutorialCompleted = true;
+                }
+            } else if (task.name == "Wakeup"){
+                if (tutorialCompleted){
+                    //only update special tasks once a day
+                    checkSpecialTasks();
                 }
             }
+
+            
             
             //task has been completed
             completedTasks.Add(task.name, taskObject);
@@ -331,9 +347,9 @@ public class Controller : MonoBehaviour
             completedSpecialTasks.Add(task.name);
 
             //special tasks that invoke progress
-            if (task.name.Equals("FlatParty3")) socialProgression = 1;
-            if (task.name.Equals("Stags")) socialProgression = 2;
-            if (task.name.Equals("Jesters")) socialProgression = 3;
+            if (task.name.Equals("FlatParty3")) stats["socialProgression"] = 1;
+            if (task.name.Equals("Stags")) stats["socialProgression"] = 2;
+            if (task.name.Equals("Jesters")) stats["socialProgression"] = 3;
 
             //effects
             foreach (string effect in task.effects)
@@ -424,96 +440,52 @@ public class Controller : MonoBehaviour
             }
         }
     }
-
-    //check if a special task is complete
-    private bool checkIfTaskComplete(string name) {
-        foreach (string taskName in completedSpecialTasks) {
-            if (taskName.Equals(name)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
     
-    //controls the progression of special tasks
-    private void checkSpecialTasks() {
-        if (stats["hygiene"] < 0) loadSpecialTask("SeriousShower");
+    //checks if requirements of special tasks have been met and activates a selection of them
+    private void checkSpecialTasks(){
+        //deactivate all tasks that still exist
+        specialTasks.ForEach(k => k.SetActive(false));
+
+        List<(int, GameObject)> potentialList = new List<(int, GameObject)>();
+        foreach (GameObject taskObject in specialTasks)
+        {
+            JSONReader.SpecialTask task = taskObject.GetComponent<SpecialTaskController>().task;
+            bool check = true;
+            foreach (string requirement in task.requirements)
+            {
+                //check if the requirement is a character or a stat
+                string[] reqs = requirement.Split();
+                if (reqs.Length > 1){
+                    if (stats[requirement.Split()[0]] < int.Parse(requirement.Split()[1])){
+                        //stat requirement not met
+                        check = false;
+                        break;
+                    }
+                } else {
+                    if (!activeCharacters.Contains(reqs[0])){
+                        //character requirement not met
+                        check = false;
+                        break;
+                    }
+                }
+
+                //compare priorities
+                check = true;
+            }
+            if (check){
+                //add task to potential list
+                potentialList.Add((task.priority, taskObject));
+            }
+        }
         
-        if (checkIfTaskComplete("ECSJumpstart")) 
-        {
-            loadSpecialTask("Work");
-            loadSpecialTask("Party");
-        }
+        //select top two
+        var list = potentialList.GroupBy(k => k.Item1).First().ToList();
+        list[0].Item2.SetActive(true);
+        list[1].Item2.SetActive(true);
 
-        if (socialProgression == 0)
-        {
-            if (checkIfTaskComplete("FlatParty1"))
-            {
-                if (checkIfTaskComplete("FlatParty2"))
-                {
-                    if (stats["parties"] > 20) loadSpecialTask("FlatParty3");
-                    else loadPartyOrWork("Party");
-                }
-                else if (stats["parties"] > 15) loadSpecialTask("FlatParty2");
-                else loadPartyOrWork("Party");
-            }
-            else if (stats["parties"] > 10) loadSpecialTask("FlatParty1");
-            //check if the first party is complete to not load it before the Jumpstart event
-            else if (completedSpecialTasks.Contains("Party")) loadPartyOrWork("Party");
-        }
-
-        if (socialProgression == 1)
-        {
-            if (checkIfTaskComplete("Shots!"))
-            {
-                if (checkIfTaskComplete("Pret")) 
-                {
-                    if (checkIfTaskComplete("Costa"))
-                    {
-                        if(stats["parties"] > 55) loadSpecialTask("Stags");
-                        else loadPartyOrWork("Party");
-                    }
-                    else if (stats["parties"] > 50) loadSpecialTask("Costa");
-                    else loadPartyOrWork("Party");
-                }
-                else if (stats["parties"] > 40) loadSpecialTask("Pret");
-                else loadPartyOrWork("Party");
-            }
-            else if (stats["parties"] > 30) loadSpecialTask("Shots!");
-            else loadPartyOrWork("Party");
-        }
-
-        if (socialProgression == 2) 
-        {
-            if (checkIfTaskComplete("DanceCompetition"))
-            {
-                if (checkIfTaskComplete("Switch"))
-                {
-                    //sorry, had to do it...
-                    if (checkIfTaskComplete("BalkanParty"))
-                    {
-                        if (stats["parties"] > 100) loadSpecialTask("Jesters");
-                        else loadPartyOrWork("Party");
-                    }
-                    else if (stats["parties"] > 90) loadSpecialTask("BalkanParty");
-                    else loadPartyOrWork("Party");
-                }
-                else if (stats["parties"] > 80) loadSpecialTask("Switch");
-                else loadPartyOrWork("Party");
-            }
-            else if (stats["parties"] > 60) loadSpecialTask("DanceCompetition");
-            else loadPartyOrWork("Party");
-        }
-
-        if(socialProgression == 3)
-        {
-            if (checkIfTaskComplete("Mascot")) {
-                loadPartyOrWork("Party");
-            }
-            else if (stats["parties"] > 150) loadSpecialTask("Mascot");
-            else loadPartyOrWork("Party");
-        }
+        //then select a random bottom tier
+        list = potentialList.GroupBy(k => k.Item1).Last().ToList();
+        list[Random.Range(0, list.Count)].Item2.SetActive(true);
     }
 
     private void updateCharacters(){
@@ -527,6 +499,7 @@ public class Controller : MonoBehaviour
                         //gain friend
                         if (!characterObject.activeSelf){
                             characterObject.SetActive(true);
+                            activeCharacters.Add(character.name);
                             dialogue("Gain"+character.name.Trim());
                         }
                     }else if (stats[like] >=5){
@@ -543,6 +516,7 @@ public class Controller : MonoBehaviour
                         //lose friend
                         if (characterObject.activeSelf){
                             characterObject.SetActive(false);
+                            activeCharacters.Remove(character.name);
                             dialogue("Lose"+character.name.Trim());
                         }
                     } else if (stats[dislike] <=10){
