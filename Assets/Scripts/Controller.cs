@@ -346,6 +346,9 @@ public class Controller : MonoBehaviour
             //add to special tasks completed list
             completedSpecialTasks.Add(task.name);
 
+            //remove task from active tasks
+            activeTasks.Remove(taskObject);
+
             //special tasks that invoke progress
             if (task.name.Equals("FlatParty3")) stats["socialProgression"] = 1;
             if (task.name.Equals("Stags")) stats["socialProgression"] = 2;
@@ -412,7 +415,7 @@ public class Controller : MonoBehaviour
         //TODO: read all special tasks into a list at the beginning and search that instead of iterating everytime for dank readability
         foreach (var task in jsonReader.myTaskList.specialTask)
         {
-            if (task.name.Equals(name) && !activeTasks.ContainsValue(task))
+            if (task.name.Equals(name) && !activeTasks.ContainsValue(task) && !completedSpecialTasks.Contains(task.name))
             {
                 var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
                 taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
@@ -423,7 +426,7 @@ public class Controller : MonoBehaviour
 
     //have to make a party and work task always availabe so as not to get stuck out of a path forever
     private void loadPartyOrWork(string name) {
-        if (name.Equals("Party") || name.Equals("Work")) {
+        if (name.Equals("Party") || name.Equals("Work") || name.Equals("SeriousShower")) {
             
             completedSpecialTasks.Remove(name);
 
@@ -441,10 +444,26 @@ public class Controller : MonoBehaviour
         }
     }
     
+<<<<<<< HEAD
     //checks if requirements of special tasks have been met and activates a selection of them
     private void checkSpecialTasks(){
         //deactivate all tasks that still exist
         specialTasks.ForEach(k => k.SetActive(false));
+=======
+    //controls the progression of special tasks
+    private void checkSpecialTasks() {
+
+        if (stats["hygiene"] < 0)
+        {
+            loadPartyOrWork("SeriousShower");
+        }
+        
+        if (checkIfTaskComplete("ECSJumpstart")) 
+        {
+            loadSpecialTask("Work");
+            loadSpecialTask("Party");
+        }
+>>>>>>> 582e893b430a4e5d930d9a3a6c501c73700cc818
 
         List<(int, GameObject)> potentialList = new List<(int, GameObject)>();
         foreach (GameObject taskObject in specialTasks)
