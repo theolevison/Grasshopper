@@ -444,26 +444,10 @@ public class Controller : MonoBehaviour
         }
     }
     
-<<<<<<< HEAD
     //checks if requirements of special tasks have been met and activates a selection of them
     private void checkSpecialTasks(){
         //deactivate all tasks that still exist
         specialTasks.ForEach(k => k.SetActive(false));
-=======
-    //controls the progression of special tasks
-    private void checkSpecialTasks() {
-
-        if (stats["hygiene"] < 0)
-        {
-            loadPartyOrWork("SeriousShower");
-        }
-        
-        if (checkIfTaskComplete("ECSJumpstart")) 
-        {
-            loadSpecialTask("Work");
-            loadSpecialTask("Party");
-        }
->>>>>>> 582e893b430a4e5d930d9a3a6c501c73700cc818
 
         List<(int, GameObject)> potentialList = new List<(int, GameObject)>();
         foreach (GameObject taskObject in specialTasks)
