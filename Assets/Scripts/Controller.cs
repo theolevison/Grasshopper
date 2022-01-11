@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using Yarn.Unity;
+using System;
 
 public class Controller : MonoBehaviour
 {
@@ -28,16 +29,16 @@ public class Controller : MonoBehaviour
     private string oldClockText;
     [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
     private Dictionary<string, GameObject> completedTasks = new Dictionary<string, GameObject>();
-    private List<string> completedSpecialTasks = new List<string>();
+    private List<GameObject> completedSpecialTasks = new List<GameObject>();
     private Dictionary<string, GameObject> taskDictionary = new Dictionary<string, GameObject>();
     private List<GameObject> tasksWithNoStartTime = new List<GameObject>();
-    private Dictionary<GameObject, JSONReader.Task> activeTasks = new Dictionary<GameObject, JSONReader.Task>();
+    private List<GameObject> activeTasks = new List<GameObject>();
     private List<GameObject> queuedTasks = new List<GameObject>();
     private List<GameObject> characters = new List<GameObject>();
     private List<string> activeCharacters = new List<string>();
     private List<GameObject> specialTasks = new List<GameObject>();
     public Dictionary<string, int> stats = new Dictionary<string, int>(){
-        {"hygiene", 10},
+        {"badHygiene", 0},
         {"academic", 10},
         {"parties", 10},
         {"sport", 10},
@@ -94,14 +95,14 @@ public class Controller : MonoBehaviour
         {
             if (task.name.Equals("ECSJumpstart"))
             {
-                var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
-                taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
-                activeTasks.Add(taskInstance, task);
+                var taskObject = Instantiate(specialTaskPrefab, specialTasksUI);
+                taskObject.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+                activeTasks.Add(taskObject);
             } else {
-                var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
-                taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
-                taskInstance.SetActive(false);
-                specialTasks.Add(taskInstance);
+                var taskObject = Instantiate(specialTaskPrefab, specialTasksUI);
+                taskObject.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+                taskObject.SetActive(false);
+                specialTasks.Add(taskObject);
             }
         }
 
@@ -215,11 +216,11 @@ public class Controller : MonoBehaviour
 
             //taskDictionary.Where(p => p.Key == "00:00 AM").ToDictionary(p => p.Key, p => p.Value)
             //if tasks without a set time have met requirements activate them too
-            foreach (GameObject item in tasksWithNoStartTime)
+            foreach (GameObject taskObject in tasksWithNoStartTime)
             {
                 //check it's not already active or completed
-                if (!activeTasks.ContainsKey(item) && !completedTasks.ContainsValue(item)){
-                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
+                if (!activeTasks.Contains(taskObject) && !completedTasks.ContainsValue(taskObject)){
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskObject.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
                     {
@@ -230,8 +231,8 @@ public class Controller : MonoBehaviour
                         }
                     }
                     if (activate){
-                        item.SetActive(true);
-                        activeTasks.Add(item, task);
+                        taskObject.SetActive(true);
+                        activeTasks.Add(taskObject);
                     }
                 }
             }
@@ -239,11 +240,11 @@ public class Controller : MonoBehaviour
             List<GameObject> tasksToRemove = new List<GameObject>();
 
             //check requirements for tasks with start times that weren't able to start
-            foreach (GameObject item in queuedTasks)
+            foreach (GameObject taskObject in queuedTasks)
             {
                 //check it's not already active or completed
-                if (!activeTasks.ContainsKey(item) && !completedTasks.ContainsValue(item)){
-                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)item.GetComponent<RepeatedTaskController>().generic);
+                if (!activeTasks.Contains(taskObject) && !completedTasks.ContainsValue(taskObject)){
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskObject.GetComponent<RepeatedTaskController>().generic);
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
                     {
@@ -254,9 +255,9 @@ public class Controller : MonoBehaviour
                         }
                     }
                     if (activate){
-                        item.SetActive(true);
-                        activeTasks.Add(item, task);
-                        tasksToRemove.Add(item);
+                        taskObject.SetActive(true);
+                        activeTasks.Add(taskObject);
+                        tasksToRemove.Add(taskObject);
                     }
                 }
             }
@@ -270,21 +271,22 @@ public class Controller : MonoBehaviour
 
             //if current time matches required time instantiate the task
             if (taskDictionary.ContainsKey(text)){
-                GameObject taskInstance = taskDictionary[text];
+                GameObject taskObject = taskDictionary[text];
                 //check it's not already active or completed
-                if (!activeTasks.ContainsKey(taskInstance) && !completedTasks.ContainsValue(taskInstance)){
-                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskInstance.GetComponent<RepeatedTaskController>().generic);
+                if (!activeTasks.Contains(taskObject) && !completedTasks.ContainsValue(taskObject)){
+                    JSONReader.RepeatedTask task = ((JSONReader.RepeatedTask)taskObject.GetComponent<RepeatedTaskController>().generic);
+
                     //check all requirements have been fulfilled
                     foreach (string requirement in task.requirements)
                     {
                         //if not exit the function
                         if (!completedTasks.ContainsKey(requirement)){
-                            queuedTasks.Add(taskInstance);
+                            queuedTasks.Add(taskObject);
                             return;
                         }
                     }
-                    taskInstance.SetActive(true);
-                    activeTasks.Add(taskInstance, task);
+                    taskObject.SetActive(true);
+                    activeTasks.Add(taskObject);
                 }
             }
         }
@@ -307,7 +309,7 @@ public class Controller : MonoBehaviour
 
                 foreach (var item in activeTasks)
                 {
-                    item.Key.SetActive(false);
+                    item.SetActive(false);
                 }
                 activeTasks.Clear();
                 if (!tutorialCompleted){
@@ -315,14 +317,18 @@ public class Controller : MonoBehaviour
                     //TODO: add first character
                     tutorialCompleted = true;
                 }
+
+                completedTasks.Remove("Sleep");
             } else if (task.name == "Wakeup"){
                 if (tutorialCompleted){
+                    
                     //only update special tasks once a day
                     checkSpecialTasks();
                 }
-            }
 
-            
+                //so we can sleep again
+                completedTasks.Remove("Sleep");
+            }
             
             //task has been completed
             completedTasks.Add(task.name, taskObject);
@@ -344,7 +350,7 @@ public class Controller : MonoBehaviour
             JSONReader.SpecialTask task = (JSONReader.SpecialTask)controller2.generic;
 
             //add to special tasks completed list
-            completedSpecialTasks.Add(task.name);
+            completedSpecialTasks.Add(taskObject);
 
             //remove task from active tasks
             activeTasks.Remove(taskObject);
@@ -364,12 +370,14 @@ public class Controller : MonoBehaviour
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
-        foreach (var stat in stats)
-        {
-            Debug.Log(stat.Key + " " + stat.Value);
-        }
+        // foreach (var stat in stats)
+        // {
+        //     Debug.Log(stat.Key + " " + stat.Value);
+        // }
         //TODO: change stats behind the scene depending on the task
-        
+        // foreach (var value in completedTasks){
+        //     Debug.Log(value.Key);
+        // }
     }
 
 
@@ -410,39 +418,36 @@ public class Controller : MonoBehaviour
     }
 
     //loads a special task by name
-    private void loadSpecialTask(string name)
+    private void runSpecialTask(GameObject task)
     {
-        //TODO: read all special tasks into a list at the beginning and search that instead of iterating everytime for dank readability
-        foreach (var task in jsonReader.myTaskList.specialTask)
+        if (specialTasks.Contains(task) && !activeTasks.Contains(task) && !completedSpecialTasks.Contains(task))
         {
-            if (task.name.Equals(name) && !activeTasks.ContainsValue(task) && !completedSpecialTasks.Contains(task.name))
-            {
-                var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
-                taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
-                activeTasks.Add(taskInstance, task);
-            }
+            task.SetActive(true);
+            activeTasks.Add(task);
+        } else {
+            Debug.Log("couldn't run task");
         }
     }
 
     //have to make a party and work task always availabe so as not to get stuck out of a path forever
-    private void loadPartyOrWork(string name) {
-        if (name.Equals("Party") || name.Equals("Work") || name.Equals("SeriousShower")) {
+    // private void loadPartyOrWork(string name) {
+    //     if (name.Equals("Party") || name.Equals("Work") || name.Equals("SeriousShower")) {
             
-            completedSpecialTasks.Remove(name);
+    //         //completedSpecialTasks.Remove(name);
 
-            //DEFINETLY TODO: read all special tasks into a list at the beginning and search that instead of iterating 
-            //everytime for dank readability (cause I am lazy at the moment and I am just gonna do it again I hate myself its 4AM where I live)
-            foreach (var task in jsonReader.myTaskList.specialTask)
-            {
-                if (task.name.Equals(name) && !activeTasks.ContainsValue(task))
-                {
-                    var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
-                    taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
-                    activeTasks.Add(taskInstance, task);
-                }
-            }
-        }
-    }
+    //         //DEFINETLY TODO: read all special tasks into a list at the beginning and search that instead of iterating 
+    //         //everytime for dank readability (cause I am lazy at the moment and I am just gonna do it again I hate myself its 4AM where I live)
+    //         foreach (var task in jsonReader.myTaskList.specialTask)
+    //         {
+    //             if (task.name.Equals(name) && !activeTasks.Contains(task))
+    //             {
+    //                 var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
+    //                 taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
+    //                 activeTasks.Add(taskInstance, task);
+    //             }
+    //         }
+    //     }
+    // }
     
     //checks if requirements of special tasks have been met and activates a selection of them
     private void checkSpecialTasks(){
@@ -458,22 +463,22 @@ public class Controller : MonoBehaviour
             {
                 //check if the requirement is a character or a stat
                 string[] reqs = requirement.Split();
-                if (reqs.Length > 1){
-                    if (stats[requirement.Split()[0]] < int.Parse(requirement.Split()[1])){
-                        //stat requirement not met
-                        check = false;
-                        break;
-                    }
-                } else {
-                    if (!activeCharacters.Contains(reqs[0])){
+                if (int.TryParse(reqs[1], out _)){
+                    if (int.Parse(requirement.Split()[1]) < stats[requirement.Split()[0]]){
+                        //stat requirement met, do nothing
+                    } else {
                         //character requirement not met
                         check = false;
                         break;
                     }
-                }
-
-                //compare priorities
-                check = true;
+                    
+                } else if (activeCharacters.Contains(requirement)){
+                    //character requirement met, do nothing
+                } else {
+                    //character requirement not met
+                    check = false;
+                    break;
+                }                
             }
             if (check){
                 //add task to potential list
@@ -482,13 +487,17 @@ public class Controller : MonoBehaviour
         }
         
         //select top two
-        var list = potentialList.GroupBy(k => k.Item1).First().ToList();
-        list[0].Item2.SetActive(true);
-        list[1].Item2.SetActive(true);
+        var list = potentialList.OrderBy(k => k.Item1).GroupBy(k => k.Item1).First().ToList();
+        list.ForEach(k => Debug.Log(k));
+        runSpecialTask(list[0].Item2);
+        runSpecialTask(list[1].Item2);
 
         //then select a random bottom tier
-        list = potentialList.GroupBy(k => k.Item1).Last().ToList();
-        list[Random.Range(0, list.Count)].Item2.SetActive(true);
+        list = potentialList.OrderBy(k => k.Item1).GroupBy(k => k.Item1).Last().ToList();
+        list.ForEach(k => Debug.Log(k));
+        runSpecialTask(list[UnityEngine.Random.Range(0, list.Count)].Item2);
+
+        Debug.Log(string.Join(Environment.NewLine ,stats.Select(kvp => kvp.Key + ": " + kvp.Value.ToString())));
     }
 
     private void updateCharacters(){

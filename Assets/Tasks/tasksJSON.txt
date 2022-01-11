@@ -31,7 +31,7 @@
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
             "taskLength": "10000",
-            "effects": ["hygiene +2"]
+            "effects": ["badHygiene -5"]
         }
     ],
 
@@ -54,7 +54,7 @@
             "taskLength": "10000",
             "requirements": ["parties 0"],
             "priority": "0",
-            "effects": ["parties +5", "sleep -2", "hygiene -2"]
+            "effects": ["parties +5", "sleep -2", "badHygiene +2"]
         },
         {
             "name": "ECSJumpstart",
@@ -70,9 +70,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "requirements": ["parties 10"],
+            "requirements": ["parties 10", "Harper Hedonist"],
             "priority": "0",
-            "effects": ["parties +5", "sleep -2", "hygiene -4"]
+            "effects": ["parties +5", "sleep -2", "badHygiene +4"]
         },
         {
                 
@@ -83,7 +83,7 @@
             "taskLength": "10000",
             "requirements": ["parties 15"],
             "priority": "0",
-            "effects": ["parties +10", "sleep -2", "hygiene -8"]
+            "effects": ["parties +10", "sleep -2", "badHygiene +8"]
         },
         {
             "name": "FlatParty3",
@@ -93,7 +93,7 @@
             "taskLength": "10000",
             "requirements": ["parties 20"],
             "priority": "0",
-            "effects": ["parties +20", "sleep -2", "hygiene -10"]
+            "effects": ["parties +20", "sleep -2", "badHygiene +10"]
         },
 	{
             "name": "Shots!",
@@ -103,7 +103,7 @@
             "taskLength": "10000",
             "requirements": ["parties 30", "socialProgression 1"],
             "priority": "1",
-            "effects": ["parties +10", "sleep +1", "hygiene -5"]
+            "effects": ["parties +10", "sleep +1", "badHygiene +5"]
         },
 	{
             "name": "Pret",
@@ -153,7 +153,7 @@
             "taskLength": "10000",
             "requirements": ["parties 80", "socialProgression 2"],
             "priority": "2",
-            "effects": ["parties +15", "sleep -3", "hygiene -10"]
+            "effects": ["parties +15", "sleep -3", "badHygiene +10"]
         },
 	{
             "name": "BalkanParty",
@@ -163,7 +163,7 @@
             "taskLength": "10000",
             "requirements": ["parties 90", "socialProgression 2"],
             "priority": "2",
-            "effects": ["parties +20", "sleep -4", "hygiene -5"]
+            "effects": ["parties +20", "sleep -4", "badHygiene +5"]
         },
 	{
             "name": "Jesters",
@@ -173,7 +173,7 @@
             "taskLength": "10000",
             "requirements": ["parties 100", "socialProgression 2"],
             "priority": "2",
-            "effects": ["parties +20", "sleep -4", "hygiene -15"]
+            "effects": ["parties +20", "sleep -4", "badHygiene +15"]
         },
 	{
             "name": "Mascot",
@@ -192,9 +192,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
-            "requirements": ["hygiene 0"],
+            "requirements": ["badHygiene 20"],
             "priority": "3",
-            "effects": ["hygiene +10"]
+            "effects": ["badHygiene +10"]
         }
     ]
 }
