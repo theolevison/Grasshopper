@@ -7,7 +7,7 @@ using Yarn.Unity;
 using System;
 using UnityEditor;
 
-public class Controller : MonoBehaviour
+public class Controller : GenericSingletonClass<Controller>
 {
     [SerializeField] JSONReader jsonReader; 
     [SerializeField] GameObject repeatedTaskPrefab;
@@ -652,14 +652,30 @@ public class Controller : MonoBehaviour
         }
     }
 
-    [MenuItem("My Game/Cheats/Unlock All Levels 2")]
-    public static void UnlockAllLevels2()
-    {
-        if (Application.isPlaying)
+    //debug method
+    public void ReloadTasks(){
+        Debug.Log("reloading tasks");
+        tutorialCompleted = true;
+
+        completedTasks.Clear();
+
+        foreach (var item in activeTasks)
         {
-            //TODO: unlock code here...
-        } else {
-            Debug.LogError("Not in play mode.");
+            item.SetActive(false);
         }
-    }
+
+        foreach (GameObject item in partyList)
+        {
+            item.SetActive(false);
+        }
+        sounds.ForEach(k => k.SetActive(false));
+        directionalLight.SetActive(true);
+
+        activeTasks.Clear();
+
+        completedTasks.Remove("Sleep");
+
+        updateCharacters();
+        checkSpecialTasks();
+    } 
 }
