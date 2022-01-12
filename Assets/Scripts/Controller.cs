@@ -470,10 +470,6 @@ public class Controller : MonoBehaviour
     [YarnCommand("sickAndy")]
     public void sickAndy()
     {
-        foreach (GameObject item in partyList)
-        {
-            item.SetActive(false);
-        }
         sounds.ForEach(k => k.SetActive(false));
         sounds.First(k => k.name == "SickAndy").SetActive(true);
         directionalLight.SetActive(true);
