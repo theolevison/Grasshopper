@@ -6,6 +6,8 @@ using System.Linq;
 using Yarn.Unity;
 using System;
 using UnityEditor;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Controller : GenericSingletonClass<Controller>
 {
@@ -22,6 +24,7 @@ public class Controller : GenericSingletonClass<Controller>
     [SerializeField] TextMeshProUGUI clockText;
     [SerializeField] TextMeshProUGUI characterHeader;
     [SerializeField] TextMeshProUGUI taskHeader;
+    [SerializeField] Image tiredImage;
     private float rawTime = 720f;
     private float clockHR = 0.0f;
     private float clockMN = 0.0f;
@@ -61,6 +64,10 @@ public class Controller : GenericSingletonClass<Controller>
     [SerializeField] private TextMeshProUGUI daysToGraduationText;
     private int daysPassed = 0;
     private bool tutorialCompleted = false;
+    [SerializeField] private float smoothSpeed;
+    [SerializeField] private float maxSpeed;
+    private Vector3 speed = Vector2.zero;
+    private float slope = 0.75f;//(5 - 20) / (-20);
     
     // Start is called before the first frame update
     void Start()
@@ -137,6 +144,17 @@ public class Controller : GenericSingletonClass<Controller>
     // Update is called once per frame
     void Update()
     {
+        float output = 20 + (slope * stats["sleep"]);
+        
+        tiredImage.transform.localScale = new Vector3(output, output, 1);
+        //tired effect
+
+        Vector2 desiredPosition = Mouse.current.position.ReadValue();
+        Vector2 smoothedPosition = Vector3.SmoothDamp(tiredImage.transform.position, desiredPosition, ref speed, smoothSpeed * Time.deltaTime, maxSpeed);
+        if (tutorialCompleted){
+            tiredImage.transform.position = smoothedPosition;
+        }
+
         rawTime += Time.deltaTime * ClockSpeedMultiplier;
         clockHR = (int)rawTime / 60;
         clockMN = (int)rawTime - (int)clockHR * 60;
@@ -144,10 +162,18 @@ public class Controller : GenericSingletonClass<Controller>
         if (rawTime >= 1440)
         {
             rawTime = 0;
-            daysPassed += 1;
-            stats["sleep"] -= 5;
-            daysToGraduationText.text =  "DAYS TO GRADUATION      " + (daysToGraduation - daysPassed).ToString();
-            Debug.Log("Days passed: " + daysPassed);
+            if (tutorialCompleted){
+                daysPassed += 1;
+                //don't get tired below this
+                if (stats["sleep"] > -20){
+                    stats["sleep"] -= 5;
+                }
+                if (stats["badHygiene"] < 30){
+                    stats["badHygiene"] += 5;
+                }
+                
+                daysToGraduationText.text =  "DAYS TO GRADUATION      " + (daysToGraduation - daysPassed).ToString();
+            }
         }
 
         if (rawTime >= 720)
@@ -212,7 +238,7 @@ public class Controller : GenericSingletonClass<Controller>
         }else if (stats["academicProgression"] + stats["socialProgression"] <= 2) {
             //drop out
             dialogue("DropOut", true);
-        } else if (stats["academicProgression"] > stats["socialProgression"]){
+        } else if (stats["socialProgression"] > stats["academicProgression"]){
             //social ending
             dialogue("SocialEnding", true);
         } else if (stats["academicProgression"] > stats["socialProgression"]){
