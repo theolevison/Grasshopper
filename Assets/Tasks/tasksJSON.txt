@@ -90,7 +90,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
-            "requirements": ["academic 25"],
+            "requirements": ["academic 20"],
             "priority": "0",
             "effects": ["academic +10"]
         },
@@ -100,17 +100,67 @@
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
-            "requirements": ["academic 25"],
+            "requirements": ["academic 30"],
             "priority": "0",
             "effects": ["academic +10"]
         },
+	{
+	    "name": "Obsess",
+            "description": "Maybe you could've done more work on the coursework?",
+            "diceSlots": "2",
+            "diceScoreRequirement": "0",
+            "taskLength": "10000",
+            "requirements": ["academic 35"],
+            "priority": "0",
+            "effects": ["academic +10", "sleep -5", "academicProgression +1"]
+	},
+	{
+	    "name": "Coursework4",
+            "description": "Just some finishing details...",
+            "diceSlots": "2",
+            "diceScoreRequirement": "13",
+            "taskLength": "10000",
+            "requirements": ["academic 40", "academicProgression 1"],
+            "priority": "1",
+            "effects": ["academic +10", "sleep -5"]
+	},
+	{
+	    "name": "Coursework5",
+            "description": "YOU NEED MORE OF IT",
+            "diceSlots": "2",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["academic 45", "academicProgression 1"],
+            "priority": "1",
+            "effects": ["academic +10", "sleep -5"]
+	},
+	{
+	    "name": "Handin2",
+            "description": "Maybe it is good enough now",
+            "diceSlots": "2",
+            "diceScoreRequirement": "12",
+            "taskLength": "10000",
+            "requirements": ["academic 45", "academicProgression 1"],
+            "priority": "0",
+            "effects": ["academic +10", "sleep -5"]
+	},
+	{
+	    "name": "Coursework6",
+            "description": "There is nothing else, only the coursework",
+            "diceSlots": "2",
+            "diceScoreRequirement": "16",
+            "taskLength": "10000",
+            "requirements": ["academic 50", "academicProgression 1"],
+            "priority": "1",
+            "effects": ["academic +10", "sleep -5", "academicProgression +1"]
+	},
 	{
 	    "name": "StudyFun",
             "description": "Learn some stuff about beavers and WWII",
             "diceSlots": "2",
             "diceScoreRequirement": "5",
             "taskLength": "10000",
-            "requirements": ["academic 25", "academicProgression 1"],
+            "requirements": ["academic 40"],
             "priority": "0",
             "effects": ["academic +10", "sleep +5"]
 	},
@@ -120,9 +170,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "0",
             "taskLength": "10000",
-            "requirements": ["academic 35", "academicProgression 1"],
+            "requirements": ["academic 40"],
             "priority": "0",
-            "effects": ["academic -5"]
+            "effects": ["academic -5", "academicProgression +3"]
 	},
 	{
 	    "name": "ExamStudy1",
@@ -130,7 +180,7 @@
             "diceSlots": "3",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
-            "requirements": ["academic 30", "academicProgression 2"],
+            "requirements": ["academic 35", "academicProgression 3"],
             "priority": "0",
             "effects": ["academic +10", "sleep -5"]
 	},
@@ -140,7 +190,7 @@
             "diceSlots": "3",
             "diceScoreRequirement": "18",
             "taskLength": "10000",
-            "requirements": ["academic 40", "academicProgression 2"],
+            "requirements": ["academic 45", "academicProgression 3"],
             "priority": "0",
             "effects": ["academic +10", "sleep -10"]
 	},
@@ -150,7 +200,7 @@
             "diceSlots": "4",
             "diceScoreRequirement": "35",
             "taskLength": "10000",
-            "requirements": ["academic 50", "academicProgression 2"],
+            "requirements": ["academic 50", "academicProgression 3"],
             "priority": "0",
             "effects": ["academic +100"]
 	},
