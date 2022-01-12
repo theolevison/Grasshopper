@@ -5,7 +5,8 @@
             "description": "Bob is like Hermione Granger with a fedora",
             "likes": ["badHygiene","academic"],
             "dislikes": ["parties",""],
-            "friendThresholds": [50,40,30],
+            "gainFriendThresholds": [50,40],
+            "loseFriendThresholds": [50,30],
             "dice": ["10die"]
         },
         {
@@ -13,7 +14,8 @@
             "description": "You can't spell Jesters without Harper (apparently)",
             "likes": ["parties",""],
             "dislikes": ["academic","badHygiene"],
-            "friendThresholds": [50,40,30],
+            "gainFriendThresholds": [50,40],
+            "loseFriendThresholds": [50,30],
             "dice": ["10die"]
         },
         {
@@ -21,7 +23,8 @@
             "description": "The friendliest person at uni",
             "likes": ["parties","academic"],
             "dislikes": ["",""],
-            "friendThresholds": [15,5,0],
+            "gainFriendThresholds": [15,5],
+            "loseFriendThresholds": [0,0],
             "dice": ["10die"]
         }
     ],

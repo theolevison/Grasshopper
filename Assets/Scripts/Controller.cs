@@ -598,7 +598,7 @@ public class Controller : GenericSingletonClass<Controller>
             foreach (string like in character.likes)
             {
                 if (like != ""){
-                    if (stats[like] >= character.friendThresholds[0]){
+                    if (stats[like] >= character.gainFriendThresholds[0]){
                         //gain friend
                         if (!characterObject.activeSelf){
                             Debug.Log(character.name + " is " + characterObject.activeSelf + " " + characterObject.activeInHierarchy);
@@ -606,7 +606,7 @@ public class Controller : GenericSingletonClass<Controller>
                             activeCharacters.Add(character.name);
                             dialogue("Gain"+character.name.Replace(" ", ""), false);
                         }
-                    }else if (stats[like] >= character.friendThresholds[1]){
+                    }else if (stats[like] >= character.gainFriendThresholds[1]){
                         //meet friend
                         dialogue("Meet"+character.name.Replace(" ", ""), false);
                     } else {
@@ -617,7 +617,7 @@ public class Controller : GenericSingletonClass<Controller>
             foreach (string dislike in character.dislikes)
             {
                 if (dislike != ""){
-                    if (stats[dislike] >= character.friendThresholds[2]){//TODO: add separate dislike thresholds for characters
+                    if (stats[dislike] >= character.loseFriendThresholds[0]){
                         //lose friend
                         if (characterObject.activeSelf){
                             characterObject.SetActive(false);
@@ -626,7 +626,7 @@ public class Controller : GenericSingletonClass<Controller>
                             //reset dialogue so you can be friends again
                             usedDialogue.Except(new[]{"Warning"+character.name.Replace(" ", ""), "Gain"+character.name.Replace(" ", "")});
                         }
-                    } else if (stats[dislike] >= character.friendThresholds[1]){
+                    } else if (stats[dislike] >= character.loseFriendThresholds[1]){
                         //warning
                         if (characterObject.activeSelf){
                             dialogue("Warning"+character.name.Replace(" ", ""), false);
