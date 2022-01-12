@@ -44,7 +44,7 @@
             "taskLength": "10000",
             "requirements": ["academic 0"],
             "priority": "0",
-            "effects": ["academic +5"]
+            "effects": ["academic +5", "sleep -2"]
         },
         {
             "name": "Party",
@@ -58,7 +58,7 @@
         },
         {
             "name": "ECSJumpstart",
-            "description": "Go find out what's going on :)",
+            "description": "Go find out what's going on",
             "diceSlots": "1",
             "diceScoreRequirement": "0",
             "taskLength": "10000",
@@ -155,7 +155,7 @@
             "effects": ["academic +100"]
 	},
         {
-            "name": "FlatParty1",
+            "name": "First Flat Party",
             "description": "Have a party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
@@ -166,7 +166,7 @@
         },
         {
                 
-            "name": "FlatParty2",
+            "name": "Another Flat Party",
             "description": "Have a party at your flat once again!",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
@@ -176,7 +176,7 @@
             "effects": ["parties +10", "sleep -2", "badHygiene +8"]
         },
         {
-            "name": "FlatParty3",
+            "name": "The Ultimate Flat Party",
             "description": "Have THE BEST party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "15",

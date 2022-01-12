@@ -21,7 +21,7 @@
             "description": "The friendliest person at uni",
             "likes": ["parties","academic"],
             "dislikes": ["",""],
-            "friendThresholds": [20,15,5],
+            "friendThresholds": [15,5,0],
             "dice": ["10die"]
         }
     ],
