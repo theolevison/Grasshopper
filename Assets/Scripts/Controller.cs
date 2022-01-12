@@ -317,7 +317,14 @@ public class Controller : MonoBehaviour
                 {
                     item.SetActive(false);
                 }
-                
+
+                foreach (GameObject item in partyList)
+                {
+                    item.SetActive(false);
+                }
+                sounds.ForEach(k => k.SetActive(false));
+                directionalLight.SetActive(true);
+
                 activeTasks.Clear();
 
                 completedTasks.Remove("Sleep");
