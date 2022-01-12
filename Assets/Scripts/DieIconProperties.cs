@@ -27,7 +27,6 @@ public class DieIconProperties : MonoBehaviour
         //start cooldown
         if (cooldownImage.fillAmount > 0){
             cooldownImage.fillAmount -= 1 / (diceRespawnMultiplier * taskLength * Time.deltaTime);
-            //TODO: make this less stupid but I'm tired and idk how
             if ((cooldownImage.fillAmount -= 1 / (diceRespawnMultiplier * taskLength * Time.deltaTime)) <= 0){
                 canDrag = true;
                 cooldownImage.fillAmount = 0;

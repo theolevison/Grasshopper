@@ -16,6 +16,5 @@ public class RepeatedTaskController : UIController
 
         AddDiceSlots();
         repeatedTask = true;
-        //TODO: start task expiry timer
     }
 }

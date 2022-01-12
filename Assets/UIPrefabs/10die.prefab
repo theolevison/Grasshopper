@@ -90,6 +90,7 @@ MonoBehaviour:
   dieModel: {fileID: 915041788830193215, guid: 309be0da64f353843a567a556e099eac, type: 3}
   originalParent: {fileID: 0}
   canDrag: 1
+  dialoguePause: 0
 --- !u!114 &7831203633444143372
 MonoBehaviour:
   m_ObjectHideFlags: 0

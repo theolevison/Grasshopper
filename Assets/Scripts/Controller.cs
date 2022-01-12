@@ -58,18 +58,21 @@ public class Controller : GenericSingletonClass<Controller>
     [SerializeField] private GameObject lightPivot;
     [SerializeField] private Canvas victoryCanvas;
     [SerializeField] private int daysToGraduation;
+    [SerializeField] private TextMeshProUGUI daysToGraduationText;
     private int daysPassed = 0;
     private bool tutorialCompleted = false;
     
     // Start is called before the first frame update
     void Start()
     {
+        daysToGraduationText.text = "DAYS TO GRADUATION      " + daysToGraduation.ToString();
+
         dialogueRunner.onNodeComplete.AddListener(runQueuedDialogue);
 
-        foreach (GameObject item in partyList)
-        {
-            item.SetActive(false);
-        }
+        resetBedroom();
+        sounds.First(k => k.name == "RelaxingAndy").SetActive(true);
+        directionalLight.SetActive(true);
+
         completedTasks.Add("Wakeup", null);
 
         victoryCanvas.gameObject.SetActive(false);
@@ -142,6 +145,8 @@ public class Controller : GenericSingletonClass<Controller>
         {
             rawTime = 0;
             daysPassed += 1;
+            stats["sleep"] -= 5;
+            daysToGraduationText.text =  "DAYS TO GRADUATION      " + (daysToGraduation - daysPassed).ToString();
             Debug.Log("Days passed: " + daysPassed);
         }
 
@@ -227,7 +232,6 @@ public class Controller : GenericSingletonClass<Controller>
         texts[3].text = stats.Keys.ToList()[2] + ": " + stats.Values.ToList()[2];
         texts[4].text = stats.Keys.ToList()[3] + ": " + stats.Values.ToList()[3];
         texts[5].text = stats.Keys.ToList()[4] + ": " + stats.Values.ToList()[4];
-        //TODO: add the rest of the overall stats
     }
 
     private void checkRepeatedTasks(string text){
@@ -400,14 +404,6 @@ public class Controller : GenericSingletonClass<Controller>
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
-        // foreach (var stat in stats)
-        // {
-        //     Debug.Log(stat.Key + " " + stat.Value);
-        // }
-        //TODO: change stats behind the scene depending on the task
-        // foreach (var value in completedTasks){
-        //     Debug.Log(value.Key);
-        // }
 
         if (tutorialCompleted){
             updateCharacters();
@@ -474,7 +470,7 @@ public class Controller : GenericSingletonClass<Controller>
     public void party()
     {
         resetBedroom();
-        partyList.ForEach(k => k.SetActive(false));
+        partyList.ForEach(k => k.SetActive(true));
         sounds.First(k => k.name == "PartySpeaker").SetActive(true);
         directionalLight.SetActive(false);
     }
@@ -601,7 +597,7 @@ public class Controller : GenericSingletonClass<Controller>
             foreach (string dislike in character.dislikes)
             {
                 if (dislike != ""){
-                    if (stats[dislike] >= character.friendThresholds[2]){
+                    if (stats[dislike] >= character.friendThresholds[2]){//TODO: add separate dislike thresholds for characters
                         //lose friend
                         if (characterObject.activeSelf){
                             characterObject.SetActive(false);
