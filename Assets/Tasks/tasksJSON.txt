@@ -105,6 +105,16 @@
             "effects": ["academic +10"]
         },
 	{
+	    "name": "StudyFun",
+            "description": "Learn some stuff about beavers and WWII",
+            "diceSlots": "2",
+            "diceScoreRequirement": "5",
+            "taskLength": "10000",
+            "requirements": ["academic 40"],
+            "priority": "0",
+            "effects": ["academic +10", "sleep +5"]
+	},
+	{
 	    "name": "Obsess",
             "description": "Maybe you could've done more work on the coursework?",
             "diceSlots": "2",
@@ -132,7 +142,7 @@
             "taskLength": "10000",
             "requirements": ["academic 45", "academicProgression 1"],
             "priority": "1",
-            "effects": ["academic +10", "sleep -5"]
+            "effects": ["academic +10", "sleep -5", "academicProgression +1"]
 	},
 	{
 	    "name": "Handin2",
@@ -150,25 +160,85 @@
             "diceSlots": "2",
             "diceScoreRequirement": "16",
             "taskLength": "10000",
-            "requirements": ["academic 50", "academicProgression 1"],
+            "requirements": ["academic 50", "academicProgression 2"],
             "priority": "1",
-            "effects": ["academic +10", "sleep -5", "academicProgression +1"]
+            "effects": ["academic +10", "sleep -5"]
 	},
 	{
-	    "name": "StudyFun",
-            "description": "Learn some stuff about beavers and WWII",
+	    "name": "Lecture1",
+            "description": "Go to a COMP3222 lecture",
             "diceSlots": "2",
-            "diceScoreRequirement": "5",
+            "diceScoreRequirement": "8",
             "taskLength": "10000",
-            "requirements": ["academic 40"],
-            "priority": "0",
-            "effects": ["academic +10", "sleep +5"]
+            "requirements": ["academic 50", "academicProgression 1"],
+            "priority": "1",
+            "effects": ["academic +10", "academicProgression +2"]
+	},
+	{
+	    "name": "Lecture2",
+            "description": "Go to a 2 hour COMP3222 lecture",
+            "diceSlots": "2",
+            "diceScoreRequirement": "10",
+            "taskLength": "10000",
+            "requirements": ["academic 55", "academicProgression 3"],
+            "priority": "1",
+            "effects": ["academic +10"]
+	},
+	{
+	    "name": "EarlyQuiz",
+            "description": "Take the quiz early!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["academic 60", "academicProgression 3"],
+            "priority": "1",
+            "effects": ["academic +10", "academicProgression +1"]
+	},
+	{
+            "name": "Project1",
+            "description": "Do your own project to show everyone how good you are!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "20",
+            "taskLength": "10000",
+            "requirements": ["academic 55", "academicProgression 4"],
+            "priority": "2",
+            "effects": ["academic +20"]
+	},
+	{
+            "name": "Project2",
+            "description": "Wrap up your amazing project!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "24",
+            "taskLength": "10000",
+            "requirements": ["academic 70", "academicProgression 4"],
+            "priority": "2",
+            "effects": ["academic +20"]
+	},
+	{
+            "name": "GraduateEarly",
+            "description": "How is this even possible?",
+            "diceSlots": "3",
+            "diceScoreRequirement": "26",
+            "taskLength": "10000",
+            "requirements": ["academic 80", "academicProgression 4"],
+            "priority": "2",
+            "effects": ["academic +100"]
 	},
 	{
 	    "name": "WaitQuiz",
             "description": "Wait until you feel sure about doing the COMP3219 quiz",
             "diceSlots": "2",
             "diceScoreRequirement": "0",
+            "taskLength": "10000",
+            "requirements": ["academic 60", "academicProgression 3"],
+            "priority": "0",
+            "effects": ["academic -5"]
+	},
+	{
+	    "name": "Quiz",
+            "description": "Do the COMP3219 quiz",
+            "diceSlots": "2",
+            "diceScoreRequirement": "10",
             "taskLength": "10000",
             "requirements": ["academic 40"],
             "priority": "0",

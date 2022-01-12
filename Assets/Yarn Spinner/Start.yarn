@@ -121,11 +121,118 @@ Narrator: I feel a little jealous...
 <<stop>>
 ===
 
+title: Obsess
+---
+Your brain: IS IT GOOD ENOUGH?
+Your brain: CAN'T LEAVE IT UNFINISHED!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Coursework4
+---
+Narrator: I am starting to like this game!
+Narrator: But maybe you should take a rest...?
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+
+title: Coursework5
+---
+Narrator: Okay, this is getting absurd.
+Narrator: You are drawing the plan of your game on your wall...
+Narrator: ...please tell me this is ketchup.
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Handin2
+---
+ECS Portal: CLICK!
+ECS Portal: ON!
+ECS Portal: THE CHECKBOX!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Coursework6
+---
+The Coursework: WORK! WORK MORE!
+The Coursework: I NEED TO BE PERFECT!
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Lecture1
+---
+Lecturer: Everybody knows learning involves reading.
+Lecturer: So to let you machines learn...
+Lecturer: Leave you phone in front of a book and wait!
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Lecture2
+---
+Lecturer: Recent developments in symbolic model theory have 
+Lecturer: raised the question of whether x2 > x1 * y
+Lecturer: if x2 = y * z and z = ;][$01xp
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: EarlyQuiz
+---
+Narrator: You are quite the brave one, {$name}!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Project1
+---
+Silence: ...
+Silence: *just how you like to work.""
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Project2
+---
+MIT Team: I have never seen anything like this before!
+MIT Team: {$name}, this could change the world!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: GraduateEarly
+---
+President: I am glad to announce that one of our best students,
+President: {$name}, is going to be graduating before all of you,
+President: and will be getting the first ever first plus degree!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
 title: WaitQuiz
 ---
 Mom: Why did you call?
 Mom: Did you do your quiz?
 Mom: Go do it then! *hangs up*
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Quiz
+---
+Question 1: Choose 10 out of 20 possible answers.
+Question 1: If you choose only 5 and they are all correct you get 5 points.
+Question 1: If you choose 1 wrong and 9 correct ones, you get 0 points!
 <<unpauseDice Controller>>
 <<stop>>
 ===
