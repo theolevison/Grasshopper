@@ -523,15 +523,35 @@ public class Controller : GenericSingletonClass<Controller>
             {
                 //check if the requirement is a character or a stat
                 string[] reqs = requirement.Split();
-                if (int.TryParse(reqs[1], out _)){
-                    if (int.Parse(requirement.Split()[1]) <= stats[requirement.Split()[0]]){
-                        //stat requirement met, do nothing
-                    } else {
-                        //character requirement not met
-                        check = false;
-                        break;
+                if (int.TryParse(reqs[1], out _))
+                {
+                    if (requirement.Split()[0].Equals("academicProgression") || requirement.Split()[0].Equals("socialProgression"))
+                    {
+                        if (int.Parse(requirement.Split()[1]) == stats[requirement.Split()[0]])
+                        {
+                            //stat requirement met, do nothing
+                        }
+                        else
+                        {
+                            //character requirement not met
+                            check = false;
+                            break;
+                        }
                     }
-                    
+                    else
+                    {
+                        if (int.Parse(requirement.Split()[1]) <= stats[requirement.Split()[0]])
+                        {
+                            //stat requirement met, do nothing
+                        }
+                        else
+                        {
+                            //character requirement not met
+                            check = false;
+                            break;
+                        }
+                    }
+
                 } else if (activeCharacters.Contains(requirement)){
                     //character requirement met, do nothing
                 } else {
