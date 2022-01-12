@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     [SerializeReference] protected RectTransform diceSlot;
+    private AudioSource audioSource;
     protected const int DICEROLLSPEED = 2000;
     protected List<RectTransform> slots = new List<RectTransform>();
     protected List<Transform> diceIcons = new List<Transform>();
@@ -15,6 +16,10 @@ public class UIController : MonoBehaviour
     protected Controller controller;
     private int cumalativeDiceScore = 0;
     private const float DICEROLLLENGTH = 5f;
+
+    private void Awake() { 
+        audioSource = GameObject.Find("UICanvas").GetComponent<AudioSource>();
+    }
     protected void Update() {
         //check if dice slots have been filled, if so roll the dice and report task result to controller
         if (slots.Count > 0){
@@ -33,6 +38,17 @@ public class UIController : MonoBehaviour
                 {
                     slot.GetComponent<ItemSlot>().enableSlot = false;
                 }
+
+                string toBePlayed;
+
+                switch (slots.Count)
+                {
+                    case 1: toBePlayed = "ONEDICE"; break;
+                    case 2: toBePlayed = "MOREDICE"; break;
+                    default: toBePlayed = "MANYDICE"; break;
+                }
+                audioSource.clip = (AudioClip) Resources.Load(toBePlayed);
+                audioSource.PlayDelayed((float) 0.2);
 
                 //roll dice
                 foreach (var dieIcon in diceIcons)

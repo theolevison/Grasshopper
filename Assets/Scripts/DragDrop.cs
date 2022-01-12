@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
+    private AudioSource audioSource;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Transform originalParent;
@@ -15,6 +16,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
+        audioSource = GameObject.Find("UICanvas").GetComponent<AudioSource>();
         dip = GetComponent<DieIconProperties>();
         originalParent = rectTransform.parent;
     }
@@ -28,6 +30,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData){
         if (dip.canDrag && !dip.dialoguePause) {
+            audioSource.clip = (AudioClip) Resources.Load("takeDice");
+            audioSource.Play();
             originalParent = rectTransform.parent;
             rectTransform.SetParent(canvas.transform);
             canvasGroup.blocksRaycasts = false;
@@ -37,6 +41,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData){
         if (dip.canDrag && !dip.dialoguePause) {
+            audioSource.clip = (AudioClip) Resources.Load("dropDice");
+            audioSource.Play();
             canvasGroup.blocksRaycasts = true;
             canvasGroup.alpha = 1f;
             if (!slotChange){

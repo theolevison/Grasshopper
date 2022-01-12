@@ -3,7 +3,9 @@ guid: 2055f895539201b4995315d55c4dabba
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - takeDice: {fileID: 8300000, guid: 99348d26b121bdf40bca2ff30b000207, type: 3}
+  - dropDice: {fileID: 8300000, guid: 19ee23220d478354ca29f732069ff0d0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
