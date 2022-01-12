@@ -1,8 +1,9 @@
 ﻿title: Start
 ---
 <<set $first_awake to true>>
-<<set $bobby_likes_you to false>>
-<<set $harper_likes_you to false>>
+<<set $bobby_friend to false>>
+<<set $harper_friend to false>>
+<<set $bri_friend to false>>
 Narrator: Hey you
 Narrator: Finally awake
 Narrator: You were trying to cross the bord... Oh wait, wrong game sorry
@@ -65,7 +66,7 @@ Narrator: Goodnight, {$name}!
 
 title: Work
 ---
-<<if $bobby_likes_you>>
+<<if $bobby_friend>>
     Bobby: Happy to see you here again!
 <<else>>
     Bobby: I hope you washed your hands before touching that book...
@@ -75,13 +76,91 @@ title: Work
 <<stop>>
 ===
 
+title: Coursework1
+---
+Narrator: Are you sure you want to make a game about dice?
+Narrator: Seems kinda... boring?
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Coursework2
+---
+Narrator: Well, what will happen if you choose to do too many work tasks?
+Narrator: I see, that makes sense! 
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Coursework3
+---
+Narrator: ...you are creating me... this feel wrong!
+Narrator: I love you, {$name}.
+Narrator: Stop making me say stuff!
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Handin1
+---
+ECS Portal: You did not click on the checkbox...
+ECS Portal: CHEAETER!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: StudyFun
+---
+National Geograpic Narrator: ...and this is why ants are the best animal out there!
+Narrator: I feel a little jealous...
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: WaitQuiz
+---
+Mom: Why did you call?
+Mom: Did you do your quiz?
+Mom: Go do it then! *hangs up*
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: ExamStudy1
+---
+Spotify: *plays studying music*
+Narrator: How does this help you learn exactly?
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: ExamStudy2
+---
+Spotify: *STUDYING MUSIC INTESIFIES*
+Narrator: *bobs imaginary head to the beat*
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: Exam
+---
+Invigilator: Please do not look at other people's computers...
+Invigilator: What? No, its fine to look at the BACK of the computer.
+Invigilator: Yes, you can look at the computer in front of you. 
+Invigilator: I know you have not bought it...
+<<library Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
 title: Party
 ---
-<<if $harper_likes_you>>
-    Harper: Next drink is on me, {$name}!
-<<else>>
-    Harper: Do I know you? Why are you talking to me?
-<<endif>>
+Harper: Do I know you? Why are you talking to me?
 <<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
@@ -95,23 +174,39 @@ Narrator: Not that I mind, narrators do not have a sense of smell!
 <<stop>>
 ===
 
-title: FirstFlatParty
+title: FlatParty1
 ---
-Harper: Partying at someone else's home is always the best!
+<<if $harper_friend>>
+    Harper: Partying at someone else's home is always the best!
+<<else>>
+    Roommate: Could you tone this down, please?
+<<endif>>
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: FlatParty2
 ---
-Harper: This party is amazing, {$name}!
+<<if $harper_friend>>
+    Harper: This party is amazing, {$name}!
+<<else>>
+    Roommate: Not again, {$name}...
+<<endif>>
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: FlatParty3
 ---
-Harper: This is THE BEST flat party EVER!
+<<if $harper_friend>>
+    Harper: This is THE BEST flat party EVER!
+<<else>>
+    Roommate: Oh god...
+    Roommate: Just give me a drink...
+<<endif>>
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -120,6 +215,7 @@ title: Shots!
 ---
 Everyone: CHUG! CHUG! CHUG!
 <<unpauseDice Controller>>
+<<party Controller>>
 <<stop>>
 ===
 
@@ -141,22 +237,33 @@ title: Stags
 ---
 Spectator: Just hit the green into the red into the orange, {$name}!
 Spectator: ...or give them a foul, that works too.
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: DanceCompetition
 ---
-Harper: I knew you could dance, {$name}!
-Harper: I just didn't know you could be so bad at it!
+<<if $harper_friend>>
+    Harper: I knew you could dance, {$name}!
+    Harper: I just didn't know you could be so bad at it!
+<<else>>
+    Crowd: BOOOOOO! 
+<<endif>>
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: Switch
 ---
-Harper: This place has the worst bathrooms...
-Harper: and I love it!
+<<if $harper_friend>>
+    Harper: This place has the worst bathrooms...
+    Harper: and I love it!
+<<else>>
+    Someone: Something (you can't hear over the excruciating bass)
+<<endif>>
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -164,6 +271,7 @@ Harper: and I love it!
 title: BalkanParty
 ---
 Romanian Friend: Frate, aceasta este cea mai bună petrecere vreodată!
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -172,6 +280,7 @@ title: Jesters
 ---
 Narrator: Why did you come here? Do you like it?
 Narrator: Thought so!
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -179,9 +288,12 @@ Narrator: Thought so!
 title: Mascot
 ---
 Smirnoff Official: Yes, you have to wear the suit.
-Harper: You are the most famous friend I have ever had!
+<<if $harper_friend>>
+    Harper: You are the most famous friend I have ever had!
+<<endif>>
 Narrator: {$name} the mascot of Smirnoff...
 Narrator: I have to say it suits you!
+<<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -189,6 +301,7 @@ Narrator: I have to say it suits you!
 title: GainBriahnaBasic
 ---
 Briahna: Hey bestie
+<<set $bri_friend to true>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -217,6 +330,7 @@ Briahna: Somehow you have offended me, not really sure how as I don't dislike an
 title: LoseBriahnaBasic
 ---
 Briahna: We aren't friends anymore, Honestly idk what you've done
+<<set $bri_friend to false>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -225,6 +339,7 @@ Briahna: We aren't friends anymore, Honestly idk what you've done
 title: GainBobbyProper
 ---
 Bobby: Hi, we should be friends
+<<set $bobby_friend to true>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -257,6 +372,7 @@ Bobby: Have you tried working more often
 title: LoseBobbyProper
 ---
 Bobby: We aren't friends anymore
+<<set $bobby_friend to false>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -264,6 +380,7 @@ Bobby: We aren't friends anymore
 title: GainHarperHedonist
 ---
 Harper: Hi, we should be friends
+<<set $harper_friend to true>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -296,6 +413,7 @@ Harper: Hope you turn it around
 title: LoseHarperHedonist
 ---
 Harper: We aren't friends anymore
+<<set $harper_friend to true>>
 <<unpauseDice Controller>>
 <<stop>>
 ===

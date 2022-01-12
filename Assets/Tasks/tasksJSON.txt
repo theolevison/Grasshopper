@@ -64,15 +64,105 @@
             "taskLength": "10000",
             "effects": []
         },
+	{
+            "name": "Coursework1",
+            "description": "Start working on your COMP3218 coursework",
+            "diceSlots": "2",
+            "diceScoreRequirement": "10",
+            "taskLength": "10000",
+            "requirements": ["academic 5"],
+            "priority": "0",
+            "effects": ["academic +10"]
+        },
+	{
+            "name": "Coursework2",
+            "description": "Continue working on your COMP3218 coursework",
+            "diceSlots": "2",
+            "diceScoreRequirement": "12",
+            "taskLength": "10000",
+            "requirements": ["academic 15"],
+            "priority": "0",
+            "effects": ["academic +10"]
+        },
+	{
+            "name": "Coursework3",
+            "description": "Finish working on your COMP3218 coursework",
+            "diceSlots": "2",
+            "diceScoreRequirement": "12",
+            "taskLength": "10000",
+            "requirements": ["academic 25"],
+            "priority": "0",
+            "effects": ["academic +10"]
+        },
+	{
+            "name": "Handin1",
+            "description": "Hand in your epic COMP3218 coursework!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["academic 25"],
+            "priority": "0",
+            "effects": ["academic +10"]
+        },
+	{
+	    "name": "StudyFun",
+            "description": "Learn some stuff about beavers and WWII",
+            "diceSlots": "2",
+            "diceScoreRequirement": "5",
+            "taskLength": "10000",
+            "requirements": ["academic 25", "academicProgression 1"],
+            "priority": "0",
+            "effects": ["academic +10", "sleep +5"]
+	},
+	{
+	    "name": "WaitQuiz",
+            "description": "Wait until you feel sure about doing the COMP3219 quiz",
+            "diceSlots": "2",
+            "diceScoreRequirement": "0",
+            "taskLength": "10000",
+            "requirements": ["academic 35", "academicProgression 1"],
+            "priority": "0",
+            "effects": ["academic -5"]
+	},
+	{
+	    "name": "ExamStudy1",
+            "description": "Start studying for your exam session!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["academic 30", "academicProgression 2"],
+            "priority": "0",
+            "effects": ["academic +10", "sleep -5"]
+	},
+	{
+	    "name": "ExamStudy2",
+            "description": "Continue studying for the session :(",
+            "diceSlots": "3",
+            "diceScoreRequirement": "18",
+            "taskLength": "10000",
+            "requirements": ["academic 40", "academicProgression 2"],
+            "priority": "0",
+            "effects": ["academic +10", "sleep -10"]
+	},
+	{
+	    "name": "Exam",
+            "description": "Anxiety is kicking in...",
+            "diceSlots": "4",
+            "diceScoreRequirement": "35",
+            "taskLength": "10000",
+            "requirements": ["academic 50", "academicProgression 2"],
+            "priority": "0",
+            "effects": ["academic +100"]
+	},
         {
-            "name": "FirstFlatParty",
+            "name": "FlatParty1",
             "description": "Have a party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "requirements": ["parties 10", "Harper Hedonist"],
+            "requirements": ["parties 5"],
             "priority": "0",
-            "effects": ["parties +5", "sleep -2", "badHygiene +4"]
+            "effects": ["parties +10", "sleep -2", "badHygiene +4"]
         },
         {
                 
@@ -101,9 +191,19 @@
             "diceSlots": "2",
             "diceScoreRequirement": "5",
             "taskLength": "10000",
-            "requirements": ["parties 30", "socialProgression 1"],
+            "requirements": ["parties 40"],
             "priority": "1",
-            "effects": ["parties +10", "sleep +1", "badHygiene +5"]
+            "effects": ["parties +20", "sleep +1", "badHygiene +5"]
+        },
+	{
+            "name": "ThatsEnough",
+            "description": "Time to stop drinking!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "5",
+            "taskLength": "10000",
+            "requirements": ["parties 60", "socialProgression 1"],
+            "priority": "1",
+            "effects": ["parties -10"]
         },
 	{
             "name": "Pret",
@@ -111,7 +211,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "requirements": ["parties 40", "socialProgression 1"],
+            "requirements": ["parties 50", "socialProgression 1"],
             "priority": "1",
             "effects": ["parties +5", "sleep +5"]
         },
@@ -121,9 +221,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "requirements": ["parties 50", "socialProgression 1"],
+            "requirements": ["parties 55", "socialProgression 1"],
             "priority": "1",
-            "effects": ["parties +10", "sleep +5"]
+            "effects": ["parties +5", "sleep +5"]
         },
 	{
             "name": "Stags",
@@ -131,7 +231,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
-            "requirements": ["parties 55", "socialProgression 1"],
+            "requirements": ["parties 60", "socialProgression 1"],
             "priority": "1",
             "effects": ["parties +10", "sleep -2"]
         },
