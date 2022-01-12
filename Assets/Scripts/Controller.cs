@@ -222,7 +222,11 @@ public class Controller : GenericSingletonClass<Controller>
         TextMeshProUGUI[] texts = victoryCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
         //ignore texts[0]
-        texts[1].text = "average sleep: ";
+        texts[1].text = stats.Keys.ToList()[0] + ": " + stats.Values.ToList()[0];
+        texts[2].text = stats.Keys.ToList()[1] + ": " + stats.Values.ToList()[1];
+        texts[3].text = stats.Keys.ToList()[2] + ": " + stats.Values.ToList()[2];
+        texts[4].text = stats.Keys.ToList()[3] + ": " + stats.Values.ToList()[3];
+        texts[5].text = stats.Keys.ToList()[4] + ": " + stats.Values.ToList()[4];
         //TODO: add the rest of the overall stats
     }
 
