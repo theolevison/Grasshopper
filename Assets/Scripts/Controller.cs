@@ -5,6 +5,7 @@ using TMPro;
 using System.Linq;
 using Yarn.Unity;
 using System;
+using UnityEditor;
 
 public class Controller : MonoBehaviour
 {
@@ -42,10 +43,10 @@ public class Controller : MonoBehaviour
     [SerializeField] List<GameObject> sounds = new List<GameObject>();
     public Dictionary<string, int> stats = new Dictionary<string, int>(){
         {"badHygiene", 0},
-        {"academic", 10},
-        {"parties", 10},
-        {"sport", 10},
-        {"sleep", 10},
+        {"academic", 0},
+        {"parties", 0},
+        {"sport", 0},
+        {"sleep", 0},
         {"socialProgression", 0},
         {"academicProgression", 0}
     };
@@ -164,9 +165,6 @@ public class Controller : MonoBehaviour
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
             lightPivot.transform.Rotate(new Vector3(0, 0, -0.5f));
-            if (tutorialCompleted){
-                updateCharacters();
-            }
         }
 
         //update numbers in headers
@@ -178,6 +176,16 @@ public class Controller : MonoBehaviour
             }
         }
         taskHeader.text = "OPPORTUNITIES " + count + "/3";
+
+        //update character numbers in headers
+        count = 0;
+        foreach (Transform child in GameObject.Find("Characters Dice Frame").transform)
+        {
+            if (child.gameObject.activeSelf){
+                count++;
+            }
+        }
+        characterHeader.text = "CHARACTERS " + count + "/3";
 
         if (daysPassed >= daysToGraduation)
         {
@@ -352,7 +360,7 @@ public class Controller : MonoBehaviour
                 stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
 
-            dialogue(task.name, true);            
+            dialogue(task.name.Replace(" ", ""), true);            
 
             // if we want to switch projects
             // dialogueRunner.SetProject(projects.Find(k => k.name == task.name));
@@ -379,7 +387,7 @@ public class Controller : MonoBehaviour
                 stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
 
-            dialogue(task.name, true);
+            dialogue(task.name.Replace(" ", ""), true);
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
@@ -391,6 +399,10 @@ public class Controller : MonoBehaviour
         // foreach (var value in completedTasks){
         //     Debug.Log(value.Key);
         // }
+
+        if (tutorialCompleted){
+            updateCharacters();
+        }
     }
 
     public void dialogue(string name, bool allowReuse){
@@ -427,9 +439,15 @@ public class Controller : MonoBehaviour
     }
 
     private void runQueuedDialogue(string nodeName){
-        Debug.Log("node complete callback handle was listened to after completing "+ nodeName);
+        StartCoroutine(rqd(nodeName));
+    }
+
+    IEnumerator rqd(string nodeName){
+        yield return new WaitForSeconds(1f);
+        
         if (queuedDialogue.Count > 0){
             var item = queuedDialogue.Dequeue();
+            Debug.Log(item.Item1 + " was dequeued after " + nodeName);
             dialogue(item.Item1, item.Item2);
         }
     }
@@ -519,7 +537,7 @@ public class Controller : MonoBehaviour
         specialTasks.ForEach(k => k.SetActive(false));
 
         List<(int, GameObject)> potentialList = new List<(int, GameObject)>();
-        foreach (GameObject taskObject in specialTasks)
+        foreach (GameObject taskObject in specialTasks.Except(completedSpecialTasks))
         {
             JSONReader.SpecialTask task = taskObject.GetComponent<SpecialTaskController>().task;
             bool check = true;
@@ -528,7 +546,7 @@ public class Controller : MonoBehaviour
                 //check if the requirement is a character or a stat
                 string[] reqs = requirement.Split();
                 if (int.TryParse(reqs[1], out _)){
-                    if (int.Parse(requirement.Split()[1]) < stats[requirement.Split()[0]]){
+                    if (int.Parse(requirement.Split()[1]) <= stats[requirement.Split()[0]]){
                         //stat requirement met, do nothing
                     } else {
                         //character requirement not met
@@ -550,30 +568,42 @@ public class Controller : MonoBehaviour
             }
         }
         
+        Debug.Log(string.Join(Environment.NewLine ,potentialList.OrderBy(k => k.Item1).Select(kvp => $"{kvp.Item1} : {kvp.Item2.GetComponent<SpecialTaskController>().generic.name}")));
+
         //select top two
         var list = potentialList.OrderBy(k => k.Item1).GroupBy(k => k.Item1).First().ToList();
-        list.ForEach(k => Debug.Log(k));
-        runSpecialTask(list[0].Item2);
-        runSpecialTask(list[1].Item2);
-
+        if (list.Count > 0){
+            runSpecialTask(list[0].Item2);
+            list.Remove(list[0]);
+            if (list.Count > 0){
+                runSpecialTask(list[0].Item2);
+                list.Remove(list[0]);
+            }
+        }
+        
         //then select a random bottom tier
         list = potentialList.OrderBy(k => k.Item1).GroupBy(k => k.Item1).Last().ToList();
-        list.ForEach(k => Debug.Log(k));
-        runSpecialTask(list[UnityEngine.Random.Range(0, list.Count)].Item2);
-
+        if (list.Count > 0){
+            runSpecialTask(list[UnityEngine.Random.Range(0, list.Count)].Item2);
+        }
+        
         Debug.Log(string.Join(Environment.NewLine ,stats.Select(kvp => $"{kvp.Key} : {kvp.Value}")));
     }
 
     private void updateCharacters(){
         foreach (GameObject characterObject in characters)
         {
+            
             JSONReader.Character character = characterObject.GetComponent<CharacterDiceController>().character;
+            //Debug.Log(character.name + ": " + characterObject.activeInHierarchy);
+            
             foreach (string like in character.likes)
             {
                 if (like != ""){
                     if (stats[like] >= character.friendThresholds[0]){
                         //gain friend
                         if (!characterObject.activeSelf){
+                            Debug.Log(character.name + " is " + characterObject.activeSelf + " " + characterObject.activeInHierarchy);
                             characterObject.SetActive(true);
                             activeCharacters.Add(character.name);
                             dialogue("Gain"+character.name.Replace(" ", ""), false);
@@ -589,7 +619,7 @@ public class Controller : MonoBehaviour
             foreach (string dislike in character.dislikes)
             {
                 if (dislike != ""){
-                    if (stats[dislike] <= character.friendThresholds[2]){
+                    if (stats[dislike] >= character.friendThresholds[2]){
                         //lose friend
                         if (characterObject.activeSelf){
                             characterObject.SetActive(false);
@@ -598,14 +628,38 @@ public class Controller : MonoBehaviour
                             //reset dialogue so you can be friends again
                             usedDialogue.Except(new[]{"Warning"+character.name.Replace(" ", ""), "Gain"+character.name.Replace(" ", "")});
                         }
-                    } else if (stats[dislike] <= character.friendThresholds[1]){
+                    } else if (stats[dislike] >= character.friendThresholds[1]){
                         //warning
-                        dialogue("Warning"+character.name.Replace(" ", ""), false);
+                        if (characterObject.activeSelf){
+                            dialogue("Warning"+character.name.Replace(" ", ""), false);
+                        }
                     } else {
 
                     }
                 }
             }
+        }
+    }
+
+    [MenuItem("My Game/Cheats/Change Stat")]
+    public static void ChangeStats()
+    {
+        if (Application.isPlaying)
+        {
+            //TODO: unlock code here...
+        } else {
+            Debug.LogError("Not in play mode.");
+        }
+    }
+
+    [MenuItem("My Game/Cheats/Unlock All Levels 2")]
+    public static void UnlockAllLevels2()
+    {
+        if (Application.isPlaying)
+        {
+            //TODO: unlock code here...
+        } else {
+            Debug.LogError("Not in play mode.");
         }
     }
 }

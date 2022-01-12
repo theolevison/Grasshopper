@@ -29,6 +29,7 @@ Lecturer: Working hard will take you far in life
 Lecturer: However, some say it's not what you know, but who you know
 Lecturer: Gaining friends will help you, but remember you can't please everyone
 Lecturer: Ignoring basic tasks is convenient, but neglect will eventually take it's toll
+Lecturer: Some tasks have multiple dice slots, and some need a specific score to complete
 Lecturer: Get a goodnights sleep, it's all downhill from here!
 <<unpauseDice Controller>>
 <<stop>>
@@ -114,7 +115,7 @@ ECS Portal: CHEAETER!
 
 title: StudyFun
 ---
-National Geograpic Narrator: ...and this is why ants are the best animal out there!
+National Geographic Narrator: ...and this is why ants are the best animal out there!
 Narrator: I feel a little jealous...
 <<unpauseDice Controller>>
 <<stop>>
@@ -174,7 +175,7 @@ Narrator: Not that I mind, narrators do not have a sense of smell!
 <<stop>>
 ===
 
-title: FlatParty1
+title: FirstFlatParty
 ---
 <<if $harper_friend>>
     Harper: Partying at someone else's home is always the best!
@@ -186,7 +187,7 @@ title: FlatParty1
 <<stop>>
 ===
 
-title: FlatParty2
+title: AnotherFlatParty
 ---
 <<if $harper_friend>>
     Harper: This party is amazing, {$name}!
@@ -198,7 +199,7 @@ title: FlatParty2
 <<stop>>
 ===
 
-title: FlatParty3
+title: TheUltimateFlatParty
 ---
 <<if $harper_friend>>
     Harper: This is THE BEST flat party EVER!
@@ -279,6 +280,15 @@ Romanian Friend: Frate, aceasta este cea mai bună petrecere vreodată!
 title: Jesters
 ---
 Narrator: Why did you come here? Do you like it?
+    -> *Groan*
+        Narrator: Just don't go in the corners
+        <<changeStat Controller "sleep +5">>
+    -> *Remove shirt due to baywatch*
+        Narrator: Oh boy here we go again
+        <<changeStat Controller "sleep -5">>
+        <<changeStat Controller "parties +5">>
+    -> *Quietly drink your jesticle*
+        Narrator: Can't go wrong with a cheap drink
 Narrator: Thought so!
 <<party Controller>>
 <<unpauseDice Controller>>
@@ -356,7 +366,7 @@ Bobby: Hi, I'm Bobby Proper, what are you reading?
     -> Charlies booze's sale leaflet
         Bobby: Oh, uhhhh, okay
         <<changeStat Controller "academic -5">>
-        <<changeStat Controller "party +5">>
+        <<changeStat Controller "parties +5">>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -390,13 +400,13 @@ title: MeetHarperHedonist
 Harper: Hi, I'm Harper Hedonist, what are you drinking?
     -> Water
         Harper: Hmmm nice for some I suppose
-        <<changeStat Controller "party -5">>
+        <<changeStat Controller "parties -5">>
         <<changeStat Controller "sleep +5">>
     -> Coors light
         Harper: Honestly I've had worse, nice to meet you
     -> Straight Vodka
         Harper: My kind of person!
-        <<changeStat Controller "party +5">>
+        <<changeStat Controller "parties +5">>
         <<changeStat Controller "sleep -5">>
 <<unpauseDice Controller>>
 <<stop>>
