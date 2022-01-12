@@ -36,7 +36,10 @@ public class Controller : MonoBehaviour
     private List<GameObject> queuedTasks = new List<GameObject>();
     private List<GameObject> characters = new List<GameObject>();
     private List<string> activeCharacters = new List<string>();
+    private List<string> usedDialogue = new List<string>();
     private List<GameObject> specialTasks = new List<GameObject>();
+    private Queue<(string, bool)> queuedDialogue = new Queue<(string, bool)>();
+    [SerializeField] List<GameObject> sounds = new List<GameObject>();
     public Dictionary<string, int> stats = new Dictionary<string, int>(){
         {"badHygiene", 0},
         {"academic", 10},
@@ -57,6 +60,8 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        dialogueRunner.onNodeComplete.AddListener(runQueuedDialogue);
+
         foreach (GameObject item in partyList)
         {
             item.SetActive(false);
@@ -159,8 +164,9 @@ public class Controller : MonoBehaviour
             checkRepeatedTasks(clockText.text);
             oldClockText = clockText.text;
             lightPivot.transform.Rotate(new Vector3(0, 0, -0.5f));
-            //checkSpecialTasks();
-            updateCharacters();
+            if (tutorialCompleted){
+                updateCharacters();
+            }
         }
 
         //update numbers in headers
@@ -186,19 +192,19 @@ public class Controller : MonoBehaviour
 
         if (stats["academicProgression"] + stats["socialProgression"] >= 6) {
             //become chancellor
-            dialogue("Chancellor");
+            dialogue("Chancellor", true);
         }else if (stats["academicProgression"] + stats["socialProgression"] <= 2) {
             //drop out
-            dialogue("DropOut");
+            dialogue("DropOut", true);
         } else if (stats["academicProgression"] > stats["socialProgression"]){
             //social ending
-            dialogue("SocialEnding");
+            dialogue("SocialEnding", true);
         } else if (stats["academicProgression"] > stats["socialProgression"]){
             //academic ending
-            dialogue("AcademicEnding");
+            dialogue("AcademicEnding", true);
         } else {
             //has broken game, get's recruited by GCHQ
-            dialogue("GCHQ");
+            dialogue("GCHQ", true);
         }
 
         victoryCanvas.gameObject.SetActive(true);
@@ -311,15 +317,14 @@ public class Controller : MonoBehaviour
                 {
                     item.SetActive(false);
                 }
+                
                 activeTasks.Clear();
-                if (!tutorialCompleted){
-                    
-                    //TODO: add first character
-                    tutorialCompleted = true;
-                }
 
                 completedTasks.Remove("Sleep");
             } else if (task.name == "Wakeup"){
+                if (!tutorialCompleted){
+                    tutorialCompleted = true;
+                }
                 if (tutorialCompleted){
                     
                     //only update special tasks once a day
@@ -340,7 +345,7 @@ public class Controller : MonoBehaviour
                 stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
 
-            dialogue(task.name);            
+            dialogue(task.name, true);            
 
             // if we want to switch projects
             // dialogueRunner.SetProject(projects.Find(k => k.name == task.name));
@@ -356,9 +361,10 @@ public class Controller : MonoBehaviour
             activeTasks.Remove(taskObject);
 
             //special tasks that invoke progress
-            if (task.name.Equals("FlatParty3")) stats["socialProgression"] = 1;
-            if (task.name.Equals("Stags")) stats["socialProgression"] = 2;
-            if (task.name.Equals("Jesters")) stats["socialProgression"] = 3;
+            //TODO: update social progression with methods from yarn
+            // if (task.name.Equals("FlatParty3")) stats["socialProgression"] = 1;
+            // if (task.name.Equals("Stags")) stats["socialProgression"] = 2;
+            // if (task.name.Equals("Jesters")) stats["socialProgression"] = 3;
 
             //effects
             foreach (string effect in task.effects)
@@ -366,7 +372,7 @@ public class Controller : MonoBehaviour
                 stats[effect.Split()[0]] += int.Parse(effect.Split()[1]);
             }
 
-            dialogue(task.name);
+            dialogue(task.name, true);
         } else {
             throw new System.Exception("taskobject doesn't have any UI controller " + taskObject);
         }
@@ -380,22 +386,44 @@ public class Controller : MonoBehaviour
         // }
     }
 
-
-    public void dialogue(string name){
+    public void dialogue(string name, bool allowReuse){
         try
         {
-            //disable all dice and start dialogue
-            foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
-            {
-                dieObject.GetComponent<DragDrop>().reset();
-                dieObject.GetComponent<DieIconProperties>().dialoguePause = true;
-            }
+            //check dialogue has not played before
+            if (!usedDialogue.Contains(name)) {
+                if (!dialogueRunner.IsDialogueRunning){
+                    //disable all dice and start dialogue
+                    foreach (GameObject dieObject in GameObject.FindGameObjectsWithTag("Dice"))
+                    {
+                        dieObject.GetComponent<DragDrop>().reset();
+                        dieObject.GetComponent<DieIconProperties>().dialoguePause = true;
+                    }
 
-            dialogueRunner.StartDialogue(name);
+                    dialogueRunner.StartDialogue(name);
+
+                    if (!allowReuse){
+                        usedDialogue.Add(name);
+                    }
+                } else {
+                    //queue dialogue, don't allow repeat queueing
+                    if (!queuedDialogue.Contains((name, allowReuse))) {
+                        Debug.Log("Queued dialogue: " + name);
+                        queuedDialogue.Enqueue((name, allowReuse));
+                    }
+                }
+            }
         }
         catch (Yarn.DialogueException e)
         {
             Debug.Log("No node matches task name, this could be intentional or not \n" + e);
+        }
+    }
+
+    private void runQueuedDialogue(string nodeName){
+        Debug.Log("node complete callback handle was listened to after completing "+ nodeName);
+        if (queuedDialogue.Count > 0){
+            var item = queuedDialogue.Dequeue();
+            dialogue(item.Item1, item.Item2);
         }
     }
 
@@ -415,7 +443,39 @@ public class Controller : MonoBehaviour
         {
             item.SetActive(true);
         }
+        sounds.ForEach(k => k.SetActive(false));
+        sounds.First(k => k.name == "PartySpeaker").SetActive(true);
         directionalLight.SetActive(false);
+    }
+
+    [YarnCommand("library")]
+    public void library()
+    {
+        foreach (GameObject item in partyList)
+        {
+            item.SetActive(false);
+        }
+        sounds.ForEach(k => k.SetActive(false));
+        sounds.First(k => k.name == "LibrarySpeaker").SetActive(true);
+        directionalLight.SetActive(true);
+    }
+
+    [YarnCommand("sickAndy")]
+    public void sickAndy()
+    {
+        foreach (GameObject item in partyList)
+        {
+            item.SetActive(false);
+        }
+        sounds.ForEach(k => k.SetActive(false));
+        sounds.First(k => k.name == "SickAndy").SetActive(true);
+        directionalLight.SetActive(true);
+    }
+
+    [YarnCommand("changeStat")]
+    public void changeStat(string statChange)
+    {
+        stats[statChange.Split()[0]] += int.Parse(statChange.Split()[1]);
     }
 
     //loads a special task by name
@@ -508,15 +568,16 @@ public class Controller : MonoBehaviour
             foreach (string like in character.likes)
             {
                 if (like != ""){
-                    if (stats[like] >=10){
+                    if (stats[like] >= character.friendThresholds[0]){
                         //gain friend
                         if (!characterObject.activeSelf){
                             characterObject.SetActive(true);
                             activeCharacters.Add(character.name);
-                            dialogue("Gain"+character.name.Trim());
+                            dialogue("Gain"+character.name.Replace(" ", ""), false);
                         }
-                    }else if (stats[like] >=5){
+                    }else if (stats[like] >= character.friendThresholds[1]){
                         //meet friend
+                        dialogue("Meet"+character.name.Replace(" ", ""), false);
                     } else {
 
                     }
@@ -525,19 +586,21 @@ public class Controller : MonoBehaviour
             foreach (string dislike in character.dislikes)
             {
                 if (dislike != ""){
-                    if (stats[dislike] <=5){
+                    if (stats[dislike] <= character.friendThresholds[2]){
                         //lose friend
                         if (characterObject.activeSelf){
                             characterObject.SetActive(false);
                             activeCharacters.Remove(character.name);
-                            dialogue("Lose"+character.name.Trim());
+                            dialogue("Lose"+character.name.Replace(" ", ""), true);
+                            //reset dialogue so you can be friends again
+                            usedDialogue.Except(new[]{"Warning"+character.name.Replace(" ", ""), "Gain"+character.name.Replace(" ", "")});
                         }
-                    } else if (stats[dislike] <=10){
+                    } else if (stats[dislike] <= character.friendThresholds[1]){
                         //warning
+                        dialogue("Warning"+character.name.Replace(" ", ""), false);
                     } else {
 
                     }
-                            
                 }
             }
         }

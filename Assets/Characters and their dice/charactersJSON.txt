@@ -5,13 +5,23 @@
             "description": "Bob is like Hermione Granger with a fedora",
             "likes": ["badHygiene","academic"],
             "dislikes": ["parties",""],
+            "friendThresholds": [50,40,30],
             "dice": ["10die"]
         },
         {
             "name": "Harper Hedonist",
             "description": "You can't spell Jesters without Harper (apparently)",
             "likes": ["parties",""],
-            "dislikes": ["academic","sport"],
+            "dislikes": ["academic","badHygiene"],
+            "friendThresholds": [50,40,30],
+            "dice": ["10die"]
+        },
+        {
+            "name": "Briahna Basic",
+            "description": "The friendliest person at uni",
+            "likes": ["parties","academic"],
+            "dislikes": ["",""],
+            "friendThresholds": [20,15,5],
             "dice": ["10die"]
         }
     ],

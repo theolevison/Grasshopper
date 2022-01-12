@@ -20,6 +20,7 @@ public class JSONReader : MonoBehaviour
         public string[] dice;
         public string[] likes;
         public string[] dislikes;
+        public int[] friendThresholds;
     }
 
     [System.Serializable]

@@ -58,7 +58,7 @@
         },
         {
             "name": "ECSJumpstart",
-            "description": "Go make some friends :)",
+            "description": "Go find out what's going on :)",
             "diceSlots": "1",
             "diceScoreRequirement": "0",
             "taskLength": "10000",

@@ -70,6 +70,7 @@ title: Work
 <<else>>
     Bobby: I hope you washed your hands before touching that book...
 <<endif>>
+<<library Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -185,9 +186,70 @@ Narrator: I have to say it suits you!
 <<stop>>
 ===
 
+title: GainBriahnaBasic
+---
+Briahna: Hey bestie
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: MeetBriahnaBasic
+---
+Briahna: Hi, I'm Briahna Basic, what module are you studying?
+    -> Games design
+        Briahna: Yay me too! Isn't it great!
+    -> Law and management
+        Briahna: Cool, have you heard Andy's sick new beat?
+        <<sickAndy Controller>>
+    -> Foundations of ML
+        Briahna: Well, at least we're in this together
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: WarningBriahnaBasic
+---
+Briahna: Somehow you have offended me, not really sure how as I don't dislike anything
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: LoseBriahnaBasic
+---
+Briahna: We aren't friends anymore, Honestly idk what you've done
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+
 title: GainBobbyProper
 ---
 Bobby: Hi, we should be friends
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: MeetBobbyProper
+---
+Bobby: Hi, I'm Bobby Proper, what are you reading?
+    -> Propositional Logic 2: ECS boogaloo
+        Bobby: OMG! My favourite series. You should read Syntax Wars: The Enumerator strikes back
+        <<changeStat Controller "academic +5">>
+        <<changeStat Controller "sleep -5">>
+    -> Harry Potter
+        Bobby: Aww I like that book, not very academic though
+    -> Charlies booze's sale leaflet
+        Bobby: Oh, uhhhh, okay
+        <<changeStat Controller "academic -5">>
+        <<changeStat Controller "party +5">>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: WarningBobbyProper
+---
+Bobby: I'm not sure our study routines are well matched
+Bobby: Have you tried working more often
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -201,14 +263,39 @@ Bobby: We aren't friends anymore
 
 title: GainHarperHedonist
 ---
-Bobby: Hi, we should be friends
+Harper: Hi, we should be friends
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: MeetHarperHedonist
+---
+Harper: Hi, I'm Harper Hedonist, what are you drinking?
+    -> Water
+        Harper: Hmmm nice for some I suppose
+        <<changeStat Controller "party -5">>
+        <<changeStat Controller "sleep +5">>
+    -> Coors light
+        Harper: Honestly I've had worse, nice to meet you
+    -> Straight Vodka
+        Harper: My kind of person!
+        <<changeStat Controller "party +5">>
+        <<changeStat Controller "sleep -5">>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: WarningHarperHedonist
+---
+Harper: Dude, I'm beginning to think you aren't as cool as I thought
+Harper: Hope you turn it around
 <<unpauseDice Controller>>
 <<stop>>
 ===
 
 title: LoseHarperHedonist
 ---
-Bobby: We aren't friends anymore
+Harper: We aren't friends anymore
 <<unpauseDice Controller>>
 <<stop>>
 ===
