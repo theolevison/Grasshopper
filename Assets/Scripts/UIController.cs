@@ -32,7 +32,9 @@ public class UIController : MonoBehaviour
             }
 
             //if there are dice in every slot roll them
-            if (diceIcons.Count == slots.Count && (repeatedTask || specialTask)){
+            if (diceIcons.Count == slots.Count && (repeatedTask || specialTask) && !controller.sleeping){
+                if(generic.name.Equals("Sleep")) controller.sleeping = true;
+
                 //don't let slots be used while dice are being rolled
                 foreach (var slot in slots)
                 {
@@ -40,7 +42,6 @@ public class UIController : MonoBehaviour
                 }
 
                 string toBePlayed;
-
                 switch (slots.Count)
                 {
                     case 1: toBePlayed = "ONEDICE"; break;
@@ -66,7 +67,7 @@ public class UIController : MonoBehaviour
                 Image image = GetComponent<Image>();
                 image.color = Color.blue;
                 //wait for dice to be rolled
-                StartCoroutine(ProcessResults(image));                
+                StartCoroutine(ProcessResults(image));
             }
             //reset dice count until next update
             diceIcons.Clear();
@@ -129,6 +130,7 @@ public class UIController : MonoBehaviour
             image.color = Color.red;
             StartCoroutine(ResetUI(true, 1f, image));
         }
+        controller.sleeping = false;
         cumalativeDiceScore = 0;
     }
 

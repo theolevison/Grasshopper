@@ -12,7 +12,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private Canvas canvas;
     public bool slotChange = false;
     private DieIconProperties dip;
+    private Controller controller;
     private void Awake() {
+        controller = GameObject.Find("Controller").GetComponent<Controller>();
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
@@ -22,14 +24,14 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
     //called every frame during drag
     public void OnDrag(PointerEventData eventData){
-        if (dip.canDrag && !dip.dialoguePause) {
+        if (dip.canDrag && !dip.dialoguePause && !controller.sleeping) {
             //make object follow cursor
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData){
-        if (dip.canDrag && !dip.dialoguePause) {
+        if (dip.canDrag && !dip.dialoguePause && !controller.sleeping) {
             audioSource.clip = (AudioClip) Resources.Load("takeDice");
             audioSource.Play();
             originalParent = rectTransform.parent;
@@ -40,7 +42,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
 
     public void OnEndDrag(PointerEventData eventData){
-        if (dip.canDrag && !dip.dialoguePause) {
+        if (dip.canDrag && !dip.dialoguePause && !controller.sleeping) {
             audioSource.clip = (AudioClip) Resources.Load("dropDice");
             audioSource.Play();
             canvasGroup.blocksRaycasts = true;
