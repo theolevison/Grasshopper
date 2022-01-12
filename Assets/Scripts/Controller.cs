@@ -52,6 +52,8 @@ public class Controller : GenericSingletonClass<Controller>
         {"academicProgression", 0}
     };
     [SerializeField] public List<GameObject> partyList = new List<GameObject>();
+    [SerializeField] public List<GameObject> sleepList = new List<GameObject>();
+    [SerializeField] public List<GameObject> workList = new List<GameObject>();
     [SerializeField] private GameObject directionalLight;
     [SerializeField] private GameObject lightPivot;
     [SerializeField] private Canvas victoryCanvas;
@@ -327,11 +329,9 @@ public class Controller : GenericSingletonClass<Controller>
                     item.SetActive(false);
                 }
 
-                foreach (GameObject item in partyList)
-                {
-                    item.SetActive(false);
-                }
-                sounds.ForEach(k => k.SetActive(false));
+                resetBedroom();
+                sleepList.ForEach(k => k.SetActive(true));
+                sounds.First(k => k.name == "RelaxingAndy").SetActive(true);
                 directionalLight.SetActive(true);
 
                 activeTasks.Clear();
@@ -346,6 +346,10 @@ public class Controller : GenericSingletonClass<Controller>
                     //only update special tasks once a day
                     checkSpecialTasks();
                 }
+
+                resetBedroom();
+                sounds.First(k => k.name == "RelaxingAndy").SetActive(true);
+                directionalLight.SetActive(true);
 
                 //so we can sleep again
                 completedTasks.Remove("Sleep");
@@ -465,11 +469,8 @@ public class Controller : GenericSingletonClass<Controller>
     [YarnCommand("party")]
     public void party()
     {
-        foreach (GameObject item in partyList)
-        {
-            item.SetActive(true);
-        }
-        sounds.ForEach(k => k.SetActive(false));
+        resetBedroom();
+        partyList.ForEach(k => k.SetActive(false));
         sounds.First(k => k.name == "PartySpeaker").SetActive(true);
         directionalLight.SetActive(false);
     }
@@ -477,11 +478,8 @@ public class Controller : GenericSingletonClass<Controller>
     [YarnCommand("library")]
     public void library()
     {
-        foreach (GameObject item in partyList)
-        {
-            item.SetActive(false);
-        }
-        sounds.ForEach(k => k.SetActive(false));
+        resetBedroom();
+        workList.ForEach(k => k.SetActive(true));
         sounds.First(k => k.name == "LibrarySpeaker").SetActive(true);
         directionalLight.SetActive(true);
     }
@@ -491,7 +489,6 @@ public class Controller : GenericSingletonClass<Controller>
     {
         sounds.ForEach(k => k.SetActive(false));
         sounds.First(k => k.name == "SickAndy").SetActive(true);
-        directionalLight.SetActive(true);
     }
 
     [YarnCommand("changeStat")]
@@ -511,26 +508,6 @@ public class Controller : GenericSingletonClass<Controller>
             Debug.Log("couldn't run task"); //TODO: either get rid of old completed tasks, or check if they can be run, or allow repeated normi tasks if there's no other options
         }
     }
-
-    //have to make a party and work task always availabe so as not to get stuck out of a path forever
-    // private void loadPartyOrWork(string name) {
-    //     if (name.Equals("Party") || name.Equals("Work") || name.Equals("SeriousShower")) {
-            
-    //         //completedSpecialTasks.Remove(name);
-
-    //         //DEFINETLY TODO: read all special tasks into a list at the beginning and search that instead of iterating 
-    //         //everytime for dank readability (cause I am lazy at the moment and I am just gonna do it again I hate myself its 4AM where I live)
-    //         foreach (var task in jsonReader.myTaskList.specialTask)
-    //         {
-    //             if (task.name.Equals(name) && !activeTasks.Contains(task))
-    //             {
-    //                 var taskInstance = Instantiate(specialTaskPrefab, specialTasksUI);
-    //                 taskInstance.GetComponent<SpecialTaskController>().UpdatePrefab(task);
-    //                 activeTasks.Add(taskInstance, task);
-    //             }
-    //         }
-    //     }
-    // }
     
     //checks if requirements of special tasks have been met and activates a selection of them
     private void checkSpecialTasks(){
@@ -642,6 +619,13 @@ public class Controller : GenericSingletonClass<Controller>
         }
     }
 
+    private void resetBedroom(){
+        workList.ForEach(k => k.SetActive(false));
+        sleepList.ForEach(k => k.SetActive(false));
+        partyList.ForEach(k => k.SetActive(false));
+        sounds.ForEach(k => k.SetActive(false));
+    }
+
     [MenuItem("My Game/Cheats/Change Stat")]
     public static void ChangeStats()
     {
@@ -670,6 +654,7 @@ public class Controller : GenericSingletonClass<Controller>
             item.SetActive(false);
         }
         sounds.ForEach(k => k.SetActive(false));
+        sounds.First(k => k.name == "RelaxingAndy").SetActive(true);
         directionalLight.SetActive(true);
 
         activeTasks.Clear();
