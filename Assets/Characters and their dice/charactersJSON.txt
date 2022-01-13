@@ -3,8 +3,8 @@
         {
             "name": "Bobby Proper",
             "description": "Bob is like Hermione Granger with a fedora",
-            "likes": ["badHygiene","academic"],
-            "dislikes": ["parties",""],
+            "likes": ["academic",""],
+            "dislikes": ["parties","badHygiene"],
             "gainFriendThresholds": [20,10],
             "loseFriendThresholds": [-10,0],
             "dice": ["10die"]

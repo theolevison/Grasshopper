@@ -291,7 +291,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "40000",
-            "requirements": ["parties 10"],
+            "requirements": ["parties 15"],
             "priority": "0",
             "effects": ["parties +10", "sleep -2", "badHygiene +8"]
         },
