@@ -7,7 +7,7 @@ public class DieIconProperties : MonoBehaviour
 {
     public GameObject dieModel;
     private float diceRespawnMultiplier = 1;
-    public RectTransform originalParent;
+    public RectTransform originalParent; //should not change
     private Image cooldownImage;
     private int taskLength;
     public bool canDrag = true;

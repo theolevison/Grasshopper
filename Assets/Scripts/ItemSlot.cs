@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IDropHandler
 {
-    public bool enableSlot = true;
+    private bool enableSlot = true;
+    public bool taskSlot = true; //if slot should actually accept dice, only tasks should
     public void OnDrop(PointerEventData eventData){
         //make dropped item snap into position
         if (eventData.pointerDrag != null && enableSlot && !eventData.pointerDrag.GetComponent<DieIconProperties>().dialoguePause && eventData.pointerDrag.GetComponent<DieIconProperties>().canDrag){
@@ -17,5 +18,13 @@ public class ItemSlot : MonoBehaviour, IDropHandler
                 eventData.pointerDrag.GetComponent<DragDrop>().slotChange = true;
             }
         }
+    }
+
+    public void resetSlot(){
+        enableSlot = taskSlot;
+    }
+
+    public void disableSlot(){
+        enableSlot = false;
     }
 }

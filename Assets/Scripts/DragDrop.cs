@@ -8,7 +8,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private AudioSource audioSource;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private Transform originalParent;
+    private Transform tempParent;
     private Canvas canvas;
     public bool slotChange = false;
     private DieIconProperties dip;
@@ -20,7 +20,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         canvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
         audioSource = GameObject.Find("UICanvas").GetComponent<AudioSource>();
         dip = GetComponent<DieIconProperties>();
-        originalParent = rectTransform.parent;
+        tempParent = rectTransform.parent;
     }
     //called every frame during drag
     public void OnDrag(PointerEventData eventData){
@@ -34,7 +34,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         if (dip.canDrag && !dip.dialoguePause && !controller.sleeping) {
             audioSource.clip = (AudioClip) Resources.Load("takeDice");
             audioSource.Play();
-            originalParent = rectTransform.parent;
+            tempParent = rectTransform.parent;
             rectTransform.SetParent(canvas.transform);
             canvasGroup.blocksRaycasts = false;
             canvasGroup.alpha = 0.6f;
@@ -48,7 +48,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
             canvasGroup.blocksRaycasts = true;
             canvasGroup.alpha = 1f;
             if (!slotChange){
-                rectTransform.SetParent(originalParent);
+                rectTransform.SetParent(tempParent);
             }
             slotChange = false;
         }
@@ -59,7 +59,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
 
     public void reset(){
-        rectTransform.SetParent(originalParent);
+        rectTransform.SetParent(dip.originalParent);
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
     }

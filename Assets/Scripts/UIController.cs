@@ -38,7 +38,7 @@ public class UIController : MonoBehaviour
                 //don't let slots be used while dice are being rolled
                 foreach (var slot in slots)
                 {
-                    slot.GetComponent<ItemSlot>().enableSlot = false;
+                    slot.GetComponent<ItemSlot>().disableSlot();
                 }
 
                 string toBePlayed;
@@ -91,6 +91,9 @@ public class UIController : MonoBehaviour
         {
             RectTransform slot = Instantiate(diceSlot, transform.Find("DiceSlots"));
             slots.Add(slot);
+            //disable slots
+            slot.GetComponent<ItemSlot>().taskSlot = false;
+            slot.GetComponent<ItemSlot>().resetSlot();
             //put dice into slots
             try
             {
@@ -140,7 +143,7 @@ public class UIController : MonoBehaviour
         uiImage.color = Color.white;
         //renable slots
         foreach (var slot in slots){
-            slot.GetComponent<ItemSlot>().enableSlot = true;
+            slot.GetComponent<ItemSlot>().resetSlot();
         }
         gameObject.SetActive(bol);
     }

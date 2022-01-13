@@ -31,7 +31,7 @@ public class Controller : GenericSingletonClass<Controller>
     private string clockAMPM = "AM";
     private int ClockSpeedMultiplier = 50;
     private string oldClockText;
-    public bool sleeping;
+    public bool sleeping = false;
     [SerializeField] public List<GameObject> dicePrefabLibrary = new List<GameObject>();
     private Dictionary<string, GameObject> completedTasks = new Dictionary<string, GameObject>();
     private List<GameObject> completedSpecialTasks = new List<GameObject>();
