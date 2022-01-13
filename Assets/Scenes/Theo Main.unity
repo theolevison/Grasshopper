@@ -4446,6 +4446,7 @@ MonoBehaviour:
   sleeping: 0
   dicePrefabLibrary:
   - {fileID: 4137488690388748387, guid: 89b17854a061b3d4fbd6a95edcec9dc0, type: 3}
+  - {fileID: 3063261340880187755, guid: f0dfd604399936d438d4be3b1ba72b15, type: 3}
   sounds:
   - {fileID: 123775047}
   - {fileID: 1994497629}

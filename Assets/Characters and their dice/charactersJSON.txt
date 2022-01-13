@@ -7,7 +7,7 @@
             "dislikes": ["parties","badHygiene"],
             "gainFriendThresholds": [20,10],
             "loseFriendThresholds": [-10,0],
-            "dice": ["10die"]
+            "dice": ["20die"]
         },
         {
             "name": "Harper Hedonist",
