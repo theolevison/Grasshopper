@@ -25,6 +25,7 @@ public class Controller : GenericSingletonClass<Controller>
     [SerializeField] TextMeshProUGUI characterHeader;
     [SerializeField] TextMeshProUGUI taskHeader;
     [SerializeField] Image tiredImage;
+    [SerializeField] GameObject normalRoom;
     private float rawTime = 720f;
     private float clockHR = 0.0f;
     private float clockMN = 0.0f;
@@ -374,6 +375,7 @@ public class Controller : GenericSingletonClass<Controller>
                 }
 
                 resetBedroom();
+                normalRoom.SetActive(true);
                 sleepList.ForEach(k => k.SetActive(true));
                 sounds.First(k => k.name == "RelaxingAndy").SetActive(true);
                 directionalLight.SetActive(true);
@@ -392,6 +394,7 @@ public class Controller : GenericSingletonClass<Controller>
                 }
 
                 resetBedroom();
+                normalRoom.SetActive(true);
                 sounds.First(k => k.name == "RelaxingAndy").SetActive(true);
                 directionalLight.SetActive(true);
 
@@ -506,6 +509,7 @@ public class Controller : GenericSingletonClass<Controller>
     public void party()
     {
         resetBedroom();
+        normalRoom.SetActive(true);
         partyList.ForEach(k => k.SetActive(true));
         sounds.First(k => k.name == "PartySpeaker").SetActive(true);
         directionalLight.SetActive(false);
@@ -515,6 +519,7 @@ public class Controller : GenericSingletonClass<Controller>
     public void library()
     {
         resetBedroom();
+        normalRoom.SetActive(false);
         workList.ForEach(k => k.SetActive(true));
         sounds.First(k => k.name == "LibrarySpeaker").SetActive(true);
         directionalLight.SetActive(true);
