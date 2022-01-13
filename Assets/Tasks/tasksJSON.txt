@@ -303,7 +303,7 @@
             "taskLength": "10000",
             "requirements": ["parties 20"],
             "priority": "0",
-            "effects": ["parties +20", "sleep -2", "badHygiene +10"]
+            "effects": ["parties +10", "sleep -2", "badHygiene +10"]
         },
 	{
             "name": "Shots!",
@@ -312,7 +312,7 @@
             "diceScoreRequirement": "5",
             "taskLength": "10000",
             "requirements": ["parties 30"],
-            "priority": "1",
+            "priority": "0",
             "effects": ["parties +20", "sleep +1", "badHygiene +5"]
         },
 	{
@@ -321,8 +321,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "5",
             "taskLength": "10000",
-            "requirements": ["parties 40"],
-            "priority": "1",
+            "requirements": ["parties 45"],
+            "priority": "0",
             "effects": ["parties -10", "socialProgression +3"]
         },
 	{
@@ -361,8 +361,8 @@
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
-            "requirements": ["parties 40"],
-            "priority": "1",
+            "requirements": ["parties 45"],
+            "priority": "0",
             "effects": ["parties +10", "socialProgression +1"]
         },
 	{

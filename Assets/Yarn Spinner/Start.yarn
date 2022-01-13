@@ -342,6 +342,17 @@ Everyone: CHUG! CHUG! CHUG!
 <<stop>>
 ===
 
+title: ThatsEnough
+---
+Narrator: Good life choices...
+Narrator: Certanly not your strong suite.
+Narrator: Never too late to turn it around though!
+<<unpauseDice Controller>>
+<<party Controller>>
+<<stop>>
+===
+
+
 title: Pret
 ---
 Pret Manager: Stay in the line please!
