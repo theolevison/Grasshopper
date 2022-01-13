@@ -233,6 +233,10 @@ title: Quiz
 Question 1: Choose 10 out of 20 possible answers.
 Question 1: If you choose only 5 and they are all correct you get 5 points.
 Question 1: If you choose 1 wrong and 9 correct ones, you get 0 points!
+    -> Play it safe.
+        <<changeStat Controller "academic -5">>
+    -> Choose all 10 answers.
+        <<changeStat Controller "academic +5">>
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -258,9 +262,11 @@ Narrator: *bobs imaginary head to the beat*
 title: Exam
 ---
 Invigilator: Please do not look at other people's computers...
-Invigilator: What? No, its fine to look at the BACK of the computer.
-Invigilator: Yes, you can look at the computer in front of you. 
-Invigilator: I know you have not bought it...
+    -> Can I look at the back of other computers?
+        Invigilator: What? No, its fine to look at the BACK of the computer.
+    -> None of the computers here are mine!
+        Invigilator: Yes, you can look at the computer in front of you. 
+        Invigilator: I know you have not bought it...
 <<library Controller>>
 <<unpauseDice Controller>>
 <<stop>>
@@ -314,6 +320,10 @@ title: TheUltimateFlatParty
     Roommate: Oh god...
     Roommate: Just give me a drink...
 <<endif>>
+    -> Clean after yourself.
+        <<changeStat Controller "badHygiene -5">>
+    -> Leave stuff as it is.
+        <<changeStat Controller "badHygiene +5">>
 <<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
@@ -322,6 +332,11 @@ title: TheUltimateFlatParty
 title: Shots!
 ---
 Everyone: CHUG! CHUG! CHUG!
+    -> Spill a couple of the shots on purpose.
+        <<changeStat Controller "parties -5">>
+    -> DO IT!
+        <<changeStat Controller "parties +5">>
+    -> Split the shots with someone.
 <<unpauseDice Controller>>
 <<party Controller>>
 <<stop>>
@@ -344,20 +359,30 @@ Costa Employee: That will be £20, please!
 title: Stags
 ---
 Spectator: Just hit the green into the red into the orange, {$name}!
-Spectator: ...or give them a foul, that works too.
+    -> Try to do it.
+        Spectator: ...or give them a foul, that works too.
+    -> Go with your instinct!
+        Spectator: That was a better idea!
+        <<changeStat Controller "parties +5">>
 <<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
 ===
 
-title: DanceCompetition
+title: SomeMore
 ---
-<<if $harper_friend>>
-    Harper: I knew you could dance, {$name}!
-    Harper: I just didn't know you could be so bad at it!
-<<else>>
-    Crowd: BOOOOOO! 
-<<endif>>
+Random Person: Do you need me to hold you hair?
+    -> Nah, I am fine!
+        Random Person: If you are sure... 
+        <<changeStat Controller "badHygiene +5">>
+    -> Please help me Random Person!
+        Random Person: Sure thing, buddy, come here.
+        <<changeStat Controller "badHygiene -5">>
+    -> Hanky, I LOVE YOU!
+        Random Person: *sigh*. I love you too. 
+        <<changeStat Controller "badHygiene +10">>
+Your memory: You will remember nothing from tonight.
+Your memory: Trust me it is for the better.
 <<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>
@@ -376,14 +401,6 @@ title: Switch
 <<stop>>
 ===
 
-title: BalkanParty
----
-Romanian Friend: Frate, aceasta este cea mai bună petrecere vreodată!
-<<party Controller>>
-<<unpauseDice Controller>>
-<<stop>>
-===
-
 title: Jesters
 ---
 Narrator: Why did you come here? Do you like it?
@@ -396,7 +413,58 @@ Narrator: Why did you come here? Do you like it?
         <<changeStat Controller "parties +5">>
     -> *Quietly drink your jesticle*
         Narrator: Can't go wrong with a cheap drink
-Narrator: Thought so!
+<<party Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: BalkanParty
+---
+Romanian Friend: Frate, aceasta este cea mai bună petrecere vreodată!
+    -> What?
+        <<changeStat Controller "parties -5">>
+    -> Frate, it is the best party indeed!
+        <<changeStat Controller "parties +5">>
+<<party Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: NightOff
+---
+Narrator: Finally, this was getting kind of repetative!
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: DanceCompetition
+---
+<<if $harper_friend>>
+    Harper: I knew you could dance, {$name}!
+    Harper: I just didn't know you could be so bad at it!
+<<else>>
+    Crowd: BOOOOOO! 
+<<endif>>
+<<party Controller>>
+<<unpauseDice Controller>>
+<<stop>>
+===
+
+title: MoreParties
+---
+<<if $harper_friend>>
+    Harper: Where do you want us to go next?
+<<else>>
+    Narrator: What party do you want to go to?
+<<endif>>
+    -> Balkan Party
+        Romanian Friend: Good to see you again, frate!
+    -> House Party
+        Everyone: *bobbing their heads intensly*
+    -> Rap Party
+        Eminem: asfbaslbfaskhf askf aslnapfasbf sdadskldskal
+        Eminem: RAP GOD RAP GOD
+        Eminem: djasufbiapnd idasn djs disnadpa pdsandps
 <<party Controller>>
 <<unpauseDice Controller>>
 <<stop>>

@@ -221,7 +221,7 @@
             "diceScoreRequirement": "26",
             "taskLength": "10000",
             "requirements": ["academic 80", "academicProgression 4"],
-            "priority": "2",
+            "priority": "4",
             "effects": ["academic +100"]
 	},
 	{
@@ -231,7 +231,7 @@
             "diceScoreRequirement": "0",
             "taskLength": "10000",
             "requirements": ["academic 60", "academicProgression 3"],
-            "priority": "0",
+            "priority": "1",
             "effects": ["academic -5"]
 	},
 	{
@@ -241,7 +241,7 @@
             "diceScoreRequirement": "10",
             "taskLength": "10000",
             "requirements": ["academic 40"],
-            "priority": "0",
+            "priority": "1",
             "effects": ["academic -5", "academicProgression +3"]
 	},
 	{
@@ -251,7 +251,7 @@
             "diceScoreRequirement": "15",
             "taskLength": "10000",
             "requirements": ["academic 35", "academicProgression 3"],
-            "priority": "0",
+            "priority": "2",
             "effects": ["academic +10", "sleep -5"]
 	},
 	{
@@ -261,7 +261,7 @@
             "diceScoreRequirement": "18",
             "taskLength": "10000",
             "requirements": ["academic 45", "academicProgression 3"],
-            "priority": "0",
+            "priority": "2",
             "effects": ["academic +10", "sleep -10"]
 	},
 	{
@@ -271,7 +271,7 @@
             "diceScoreRequirement": "35",
             "taskLength": "10000",
             "requirements": ["academic 50", "academicProgression 3"],
-            "priority": "0",
+            "priority": "3",
             "effects": ["academic +100"]
 	},
         {
@@ -291,7 +291,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "12",
             "taskLength": "10000",
-            "requirements": ["parties 15"],
+            "requirements": ["parties 10"],
             "priority": "0",
             "effects": ["parties +10", "sleep -2", "badHygiene +8"]
         },
@@ -311,7 +311,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "5",
             "taskLength": "10000",
-            "requirements": ["parties 40"],
+            "requirements": ["parties 30"],
             "priority": "1",
             "effects": ["parties +20", "sleep +1", "badHygiene +5"]
         },
@@ -321,9 +321,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "5",
             "taskLength": "10000",
-            "requirements": ["parties 60", "socialProgression 1"],
+            "requirements": ["parties 40"],
             "priority": "1",
-            "effects": ["parties -10"]
+            "effects": ["parties -10", "socialProgression +3"]
         },
 	{
             "name": "Pret",
@@ -331,7 +331,7 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "requirements": ["parties 50", "socialProgression 1"],
+            "requirements": ["parties 30", "socialProgression 3"],
             "priority": "1",
             "effects": ["parties +5", "sleep +5"]
         },
@@ -341,9 +341,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "10000",
-            "requirements": ["parties 55", "socialProgression 1"],
+            "requirements": ["parties 35", "socialProgression 3"],
             "priority": "1",
-            "effects": ["parties +5", "sleep +5"]
+            "effects": ["parties +10", "sleep +5"]
         },
 	{
             "name": "Stags",
@@ -351,9 +351,59 @@
             "diceSlots": "2",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
-            "requirements": ["parties 60", "socialProgression 1"],
+            "requirements": ["parties 40", "socialProgression 3"],
             "priority": "1",
-            "effects": ["parties +10", "sleep -2"]
+            "effects": ["parties +10", "sleep -5"]
+        },
+	{
+            "name": "SomeMore",
+            "description": "5 more shots for you!",
+            "diceSlots": "2",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["parties 40"],
+            "priority": "1",
+            "effects": ["parties +10", "socialProgression +1"]
+        },
+	{
+            "name": "Switch",
+            "description": "Go to a party at Switch",
+            "diceSlots": "3",
+            "diceScoreRequirement": "12",
+            "taskLength": "10000",
+            "requirements": ["parties 50", "socialProgression 1"],
+            "priority": "2",
+            "effects": ["parties +10", "sleep -3", "badHygiene +10"]
+        },
+	{
+            "name": "Jesters",
+            "description": "You know you have to do it...",
+            "diceSlots": "3",
+            "diceScoreRequirement": "17",
+            "taskLength": "10000",
+            "requirements": ["parties 50", "socialProgression 1"],
+            "priority": "2",
+            "effects": ["parties +10", "sleep -4", "badHygiene +15"]
+        },
+	{
+            "name": "BalkanParty",
+            "description": "Your cool Balkan friends invited you!",
+            "diceSlots": "3",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["parties 60", "socialProgression 1"],
+            "priority": "3",
+            "effects": ["parties +10", "sleep -4", "badHygiene +5", "socialProgression +1"]
+        },
+	{
+            "name": "NightOff",
+            "description": "Skip the party tonight",
+            "diceSlots": "3",
+            "diceScoreRequirement": "15",
+            "taskLength": "10000",
+            "requirements": ["parties 60", "socialProgression 1"],
+            "priority": "3",
+            "effects": ["parties -10", "sleep -4", "badHygiene +5", "socialProgression +2"]
         },
 	{
             "name": "DanceCompetition",
@@ -366,34 +416,14 @@
             "effects": ["parties +15"]
         },
 	{
-            "name": "Switch",
-            "description": "Go to a party at Switch",
-            "diceSlots": "3",
-            "diceScoreRequirement": "12",
-            "taskLength": "10000",
-            "requirements": ["parties 80", "socialProgression 2"],
-            "priority": "2",
-            "effects": ["parties +15", "sleep -3", "badHygiene +10"]
-        },
-	{
-            "name": "BalkanParty",
-            "description": "Your cool Balkan friends invited you!",
+            "name": "MoreParties",
+            "description": "Time for another partyyyy!",
             "diceSlots": "3",
             "diceScoreRequirement": "15",
             "taskLength": "10000",
-            "requirements": ["parties 90", "socialProgression 2"],
+            "requirements": ["parties 70", "socialProgression 2"],
             "priority": "2",
-            "effects": ["parties +20", "sleep -4", "badHygiene +5"]
-        },
-	{
-            "name": "Jesters",
-            "description": "You know you have to do it...",
-            "diceSlots": "3",
-            "diceScoreRequirement": "17",
-            "taskLength": "10000",
-            "requirements": ["parties 100", "socialProgression 2"],
-            "priority": "2",
-            "effects": ["parties +20", "sleep -4", "badHygiene +15"]
+            "effects": ["parties +15", "socialProgression +2"]
         },
 	{
             "name": "Mascot",
@@ -401,7 +431,7 @@
             "diceSlots": "3",
             "diceScoreRequirement": "25",
             "taskLength": "10000",
-            "requirements": ["parties 150", "socialProgression 3"],
+            "requirements": ["parties 80", "socialProgression 4"],
             "priority": "3",
             "effects": ["parties +100"]
         },
