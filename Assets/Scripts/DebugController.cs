@@ -31,6 +31,10 @@ public class DebugController : MonoBehaviour
         SET_STAT = new DebugCommand<string>("set_stat", "sets a stat to the provided value, stat=value", "set_stat", (x) => {
             string stat = x.Split('=')[0];
             int value = int.Parse(x.Split('=')[1]);
+            if (stat == "days"){
+                Controller.Instance.daysPassed = value;
+            }
+            
             Controller.Instance.stats[stat] = value;
             Debug.Log("changed " + stat + " to " + value);
         });

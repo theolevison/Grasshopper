@@ -62,7 +62,7 @@ public class Controller : GenericSingletonClass<Controller>
     [SerializeField] private Canvas victoryCanvas;
     [SerializeField] private int daysToGraduation;
     [SerializeField] private TextMeshProUGUI daysToGraduationText;
-    private int daysPassed = 0;
+    public int daysPassed = 0;
     private bool tutorialCompleted = false;
     [SerializeField] private float smoothSpeed;
     [SerializeField] private float maxSpeed;
@@ -164,12 +164,16 @@ public class Controller : GenericSingletonClass<Controller>
             rawTime = 0;
             if (tutorialCompleted){
                 daysPassed += 1;
-                //don't get tired below this
-                if (stats["sleep"] > -20){
-                    stats["sleep"] -= 5;
-                }
-                if (stats["badHygiene"] < 30){
-                    stats["badHygiene"] += 5;
+
+                //should not lose sleep or hygiene whilst sleeping
+                if (!completedTasks.Keys.Contains("Sleep")){
+                    //don't get tired below this
+                    if (stats["sleep"] > -20){
+                        stats["sleep"] -= 5;
+                    }
+                    if (stats["badHygiene"] < 30){
+                        stats["badHygiene"] += 5;
+                    }
                 }
                 
                 daysToGraduationText.text =  "DAYS TO GRADUATION      " + (daysToGraduation - daysPassed).ToString();
@@ -705,7 +709,7 @@ public class Controller : GenericSingletonClass<Controller>
 
         activeTasks.Clear();
 
-        completedTasks.Remove("Sleep");
+        completedTasks.Add("Wakeup", null);
 
         updateCharacters();
         checkSpecialTasks();
