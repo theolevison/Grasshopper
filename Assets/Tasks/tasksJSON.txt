@@ -240,9 +240,9 @@
             "diceSlots": "2",
             "diceScoreRequirement": "10",
             "taskLength": "40000",
-            "requirements": ["academic 40","academicProgression 2"],
+            "requirements": ["academic 40","academicProgression 3"],
             "priority": "1",
-            "effects": ["academic -5", "academicProgression +3"]
+            "effects": ["academic +5"]
 	},
 	{
 	    "name": "ExamStudy1",
@@ -250,7 +250,7 @@
             "diceSlots": "3",
             "diceScoreRequirement": "15",
             "taskLength": "100000",
-            "requirements": ["academic 35", "academicProgression 3"],
+            "requirements": ["academic 50", "academicProgression 3"],
             "priority": "2",
             "effects": ["academic +10", "sleep -5"]
 	},
@@ -260,7 +260,7 @@
             "diceSlots": "4",
             "diceScoreRequirement": "18",
             "taskLength": "200000",
-            "requirements": ["academic 45", "academicProgression 3"],
+            "requirements": ["academic 55", "academicProgression 3"],
             "priority": "2",
             "effects": ["academic +10", "sleep -10"]
 	},
@@ -270,7 +270,7 @@
             "diceSlots": "4",
             "diceScoreRequirement": "32",
             "taskLength": "40000",
-            "requirements": ["academic 50", "academicProgression 3"],
+            "requirements": ["academic 60", "academicProgression 3"],
             "priority": "3",
             "effects": ["academic +100"]
 	},
