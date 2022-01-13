@@ -9,7 +9,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     public bool taskSlot = true; //if slot should actually accept dice, only tasks should
     public void OnDrop(PointerEventData eventData){
         //make dropped item snap into position
-        if (eventData.pointerDrag != null && enableSlot && !eventData.pointerDrag.GetComponent<DieIconProperties>().dialoguePause && eventData.pointerDrag.GetComponent<DieIconProperties>().canDrag){
+        if (eventData.pointerDrag != null && enableSlot && !eventData.pointerDrag.GetComponent<DieIconProperties>().dialoguePause && eventData.pointerDrag.GetComponent<DieIconProperties>().canDrag && !Controller.Instance.sleeping){
             //check to make sure only one dice can be put in each slot
             if (this.transform.childCount == 0)
             {

@@ -49,7 +49,6 @@ public class Controller : GenericSingletonClass<Controller>
         {"badHygiene", 0},
         {"academic", 0},
         {"parties", 0},
-        {"sport", 0},
         {"sleep", 0},
         {"socialProgression", 0},
         {"academicProgression", 0}
@@ -171,10 +170,16 @@ public class Controller : GenericSingletonClass<Controller>
                     if (stats["sleep"] > -20){
                         stats["sleep"] -= 5;
                     }
+                    if (stats["sleep"] <= -15){
+                        dialogue("Tired", true);
+                    }
                     if (stats["badHygiene"] < 30){
                         stats["badHygiene"] += 5;
                     }
                 }
+                if (stats["sleep"] > 20){
+                        stats["sleep"] = 20;
+                    }
                 
                 daysToGraduationText.text =  "DAYS TO GRADUATION      " + (daysToGraduation - daysPassed).ToString();
             }
@@ -232,6 +237,7 @@ public class Controller : GenericSingletonClass<Controller>
         }
     }
 
+    [YarnCommand("endGame")]
     private void endGame(){
         //make sure the end game dialogue is displayed
         dialogueRunner.Stop();
@@ -676,16 +682,16 @@ public class Controller : GenericSingletonClass<Controller>
         sounds.ForEach(k => k.SetActive(false));
     }
 
-    [MenuItem("My Game/Cheats/Change Stat")]
-    public static void ChangeStats()
-    {
-        if (Application.isPlaying)
-        {
-            //TODO: unlock code here...
-        } else {
-            Debug.LogError("Not in play mode.");
-        }
-    }
+    // [MenuItem("My Game/Cheats/Change Stat")]
+    // public static void ChangeStats()
+    // {
+    //     if (Application.isPlaying)
+    //     {
+    //         //TODO: unlock code here...
+    //     } else {
+    //         Debug.LogError("Not in play mode.");
+    //     }
+    // }
 
     //debug method
     public void ReloadTasks(){

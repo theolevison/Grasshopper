@@ -51,6 +51,14 @@ title: Wakeup
 <<stop>>
 ===
 
+title: Tired
+---
+Narrator: Wow you must be really tired
+Narrator: Have you tried going to sleep?
+<<unpauseDice Controller>>
+<<stop>>
+===
+
 title: Shower
 ---
 Narrator: Nothing better than a hot shower in the morning!
@@ -108,7 +116,7 @@ Narrator: Stop making me say stuff!
 title: Handin1
 ---
 ECS Portal: You did not click on the checkbox...
-ECS Portal: CHEAETER!
+ECS Portal: CHEATER!
 <<unpauseDice Controller>>
 <<stop>>
 ===
@@ -181,7 +189,7 @@ title: Lecture2
 ---
 Lecturer: Recent developments in symbolic model theory have 
 Lecturer: raised the question of whether x2 > x1 * y
-Lecturer: if x2 = y * z and z = ;][$01xp
+Lecturer: if x2 = y * z and z = ;
 <<library Controller>>
 <<unpauseDice Controller>>
 <<stop>>
@@ -216,6 +224,7 @@ President: I am glad to announce that one of our best students,
 President: {$name}, is going to be graduating before all of you,
 President: and will be getting the first ever first plus degree!
 <<unpauseDice Controller>>
+<<endGame Controller>>
 <<stop>>
 ===
 
@@ -543,12 +552,14 @@ Bobby: Hi, we should be friends
 title: MeetBobbyProper
 ---
 Bobby: Hi, I'm Bobby Proper, what are you reading?
-    -> Propositional Logic 2: ECS boogaloo
+    -> Propositional Logic 2 - ECS boogaloo
         Bobby: OMG! My favourite series. You should read Syntax Wars: The Enumerator strikes back
         <<changeStat Controller "academic +5">>
         <<changeStat Controller "sleep -5">>
     -> Harry Potter
         Bobby: Aww I like that book, not very academic though
+    -> My Hero Academic Integrity
+        Bobby: UwU *rawr*
     -> Charlies booze's sale leaflet
         Bobby: Oh, uhhhh, okay
         <<changeStat Controller "academic -5">>

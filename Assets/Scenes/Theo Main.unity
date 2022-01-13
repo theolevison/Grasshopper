@@ -4464,8 +4464,9 @@ MonoBehaviour:
   victoryCanvas: {fileID: 1960755444}
   daysToGraduation: 35
   daysToGraduationText: {fileID: 995894410}
+  daysPassed: 0
   smoothSpeed: 1000
-  maxSpeed: 100
+  maxSpeed: 300
 --- !u!4 &1546202273
 Transform:
   m_ObjectHideFlags: 0

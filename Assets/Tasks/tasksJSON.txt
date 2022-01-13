@@ -9,7 +9,7 @@
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
             "taskLength": "60000",
-            "effects": ["sleep +5"]
+            "effects": ["sleep +10"]
         },
         {
             "name": "Wakeup",
@@ -19,7 +19,7 @@
             "timeLimit": "00",
             "requirements": ["Sleep"],
             "diceScoreRequirement": "3",
-            "taskLength": "10000",
+            "taskLength": "60000",
             "effects": []
         },
         {
@@ -30,8 +30,8 @@
             "timeLimit": "60",
             "requirements": ["Wakeup"],
             "diceScoreRequirement": "0",
-            "taskLength": "10000",
-            "effects": ["badHygiene -5"]
+            "taskLength": "30000",
+            "effects": ["badHygiene -15"]
         }
     ],
 
@@ -41,7 +41,7 @@
             "description": "Go to the library and work",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "70000",
             "requirements": ["academic 0"],
             "priority": "0",
             "effects": ["academic +5", "sleep -2"]
@@ -51,7 +51,7 @@
             "description": "Go to a house party",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "70000",
             "requirements": ["parties 0"],
             "priority": "0",
             "effects": ["parties +5", "sleep -2", "badHygiene +2"]
@@ -61,7 +61,7 @@
             "description": "Go find out what's going on",
             "diceSlots": "1",
             "diceScoreRequirement": "0",
-            "taskLength": "10000",
+            "taskLength": "40000",
             "effects": []
         },
 	{
@@ -69,7 +69,7 @@
             "description": "Start working on your COMP3218 coursework",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "50000",
             "requirements": ["academic 5"],
             "priority": "0",
             "effects": ["academic +10"]
@@ -79,7 +79,7 @@
             "description": "Continue working on your COMP3218 coursework",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
-            "taskLength": "10000",
+            "taskLength": "30000",
             "requirements": ["academic 15"],
             "priority": "0",
             "effects": ["academic +10"]
@@ -89,7 +89,7 @@
             "description": "Finish working on your COMP3218 coursework",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
-            "taskLength": "10000",
+            "taskLength": "60000",
             "requirements": ["academic 20"],
             "priority": "0",
             "effects": ["academic +10"]
@@ -97,9 +97,9 @@
 	{
             "name": "Handin1",
             "description": "Hand in your epic COMP3218 coursework!",
-            "diceSlots": "2",
-            "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "diceSlots": "3",
+            "diceScoreRequirement": "18",
+            "taskLength": "40000",
             "requirements": ["academic 30"],
             "priority": "0",
             "effects": ["academic +10"]
@@ -109,7 +109,7 @@
             "description": "Learn some stuff about beavers and WWII",
             "diceSlots": "2",
             "diceScoreRequirement": "5",
-            "taskLength": "10000",
+            "taskLength": "30000",
             "requirements": ["academic 40"],
             "priority": "0",
             "effects": ["academic +10", "sleep +5"]
@@ -119,7 +119,7 @@
             "description": "Maybe you could've done more work on the coursework?",
             "diceSlots": "2",
             "diceScoreRequirement": "0",
-            "taskLength": "10000",
+            "taskLength": "90000",
             "requirements": ["academic 35"],
             "priority": "0",
             "effects": ["academic +10", "sleep -5", "academicProgression +1"]
@@ -129,7 +129,7 @@
             "description": "Just some finishing details...",
             "diceSlots": "2",
             "diceScoreRequirement": "13",
-            "taskLength": "10000",
+            "taskLength": "30000",
             "requirements": ["academic 40", "academicProgression 1"],
             "priority": "1",
             "effects": ["academic +10", "sleep -5"]
@@ -139,7 +139,7 @@
             "description": "YOU NEED MORE OF IT",
             "diceSlots": "2",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "90000",
             "requirements": ["academic 45", "academicProgression 1"],
             "priority": "1",
             "effects": ["academic +10", "sleep -5", "academicProgression +1"]
@@ -149,7 +149,7 @@
             "description": "Maybe it is good enough now",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
-            "taskLength": "10000",
+            "taskLength": "110000",
             "requirements": ["academic 45", "academicProgression 1"],
             "priority": "0",
             "effects": ["academic +10", "sleep -5"]
@@ -159,7 +159,7 @@
             "description": "There is nothing else, only the coursework",
             "diceSlots": "2",
             "diceScoreRequirement": "16",
-            "taskLength": "10000",
+            "taskLength": "100000",
             "requirements": ["academic 50", "academicProgression 2"],
             "priority": "1",
             "effects": ["academic +10", "sleep -5"]
@@ -169,7 +169,7 @@
             "description": "Go to a COMP3222 lecture",
             "diceSlots": "2",
             "diceScoreRequirement": "8",
-            "taskLength": "10000",
+            "taskLength": "60000",
             "requirements": ["academic 50", "academicProgression 1"],
             "priority": "1",
             "effects": ["academic +10", "academicProgression +2"]
@@ -179,7 +179,7 @@
             "description": "Go to a 2 hour COMP3222 lecture",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "60000",
             "requirements": ["academic 55", "academicProgression 3"],
             "priority": "1",
             "effects": ["academic +10"]
@@ -188,8 +188,8 @@
 	    "name": "EarlyQuiz",
             "description": "Take the quiz early!",
             "diceSlots": "2",
-            "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "diceScoreRequirement": "12",
+            "taskLength": "30000",
             "requirements": ["academic 60", "academicProgression 3"],
             "priority": "1",
             "effects": ["academic +10", "academicProgression +1"]
@@ -199,7 +199,7 @@
             "description": "Do your own project to show everyone how good you are!",
             "diceSlots": "3",
             "diceScoreRequirement": "20",
-            "taskLength": "10000",
+            "taskLength": "150000",
             "requirements": ["academic 55", "academicProgression 4"],
             "priority": "2",
             "effects": ["academic +20"]
@@ -209,7 +209,7 @@
             "description": "Wrap up your amazing project!",
             "diceSlots": "3",
             "diceScoreRequirement": "24",
-            "taskLength": "10000",
+            "taskLength": "150000",
             "requirements": ["academic 70", "academicProgression 4"],
             "priority": "2",
             "effects": ["academic +20"]
@@ -219,7 +219,7 @@
             "description": "How is this even possible?",
             "diceSlots": "3",
             "diceScoreRequirement": "26",
-            "taskLength": "10000",
+            "taskLength": "30000",
             "requirements": ["academic 80", "academicProgression 4"],
             "priority": "4",
             "effects": ["academic +100"]
@@ -229,7 +229,7 @@
             "description": "Wait until you feel sure about doing the COMP3219 quiz",
             "diceSlots": "2",
             "diceScoreRequirement": "0",
-            "taskLength": "10000",
+            "taskLength": "40000",
             "requirements": ["academic 60", "academicProgression 3"],
             "priority": "1",
             "effects": ["academic -5"]
@@ -239,8 +239,8 @@
             "description": "Do the COMP3219 quiz",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
-            "requirements": ["academic 40"],
+            "taskLength": "40000",
+            "requirements": ["academic 40","academicProgression 2"],
             "priority": "1",
             "effects": ["academic -5", "academicProgression +3"]
 	},
@@ -249,7 +249,7 @@
             "description": "Start studying for your exam session!",
             "diceSlots": "3",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "100000",
             "requirements": ["academic 35", "academicProgression 3"],
             "priority": "2",
             "effects": ["academic +10", "sleep -5"]
@@ -257,9 +257,9 @@
 	{
 	    "name": "ExamStudy2",
             "description": "Continue studying for the session :(",
-            "diceSlots": "3",
+            "diceSlots": "4",
             "diceScoreRequirement": "18",
-            "taskLength": "10000",
+            "taskLength": "200000",
             "requirements": ["academic 45", "academicProgression 3"],
             "priority": "2",
             "effects": ["academic +10", "sleep -10"]
@@ -268,8 +268,8 @@
 	    "name": "Exam",
             "description": "Anxiety is kicking in...",
             "diceSlots": "4",
-            "diceScoreRequirement": "35",
-            "taskLength": "10000",
+            "diceScoreRequirement": "32",
+            "taskLength": "40000",
             "requirements": ["academic 50", "academicProgression 3"],
             "priority": "3",
             "effects": ["academic +100"]
@@ -279,7 +279,7 @@
             "description": "Have a party at your flat!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "30000",
             "requirements": ["parties 5"],
             "priority": "0",
             "effects": ["parties +10", "sleep -2", "badHygiene +4"]
@@ -290,7 +290,7 @@
             "description": "Have a party at your flat once again!",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
-            "taskLength": "10000",
+            "taskLength": "40000",
             "requirements": ["parties 10"],
             "priority": "0",
             "effects": ["parties +10", "sleep -2", "badHygiene +8"]
@@ -298,9 +298,9 @@
         {
             "name": "The Ultimate Flat Party",
             "description": "Have THE BEST party at your flat!",
-            "diceSlots": "2",
+            "diceSlots": "3",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "50000",
             "requirements": ["parties 20"],
             "priority": "0",
             "effects": ["parties +10", "sleep -2", "badHygiene +10"]
@@ -310,7 +310,7 @@
             "description": "10 Jägerbombs in a row!",
             "diceSlots": "2",
             "diceScoreRequirement": "5",
-            "taskLength": "10000",
+            "taskLength": "20000",
             "requirements": ["parties 30"],
             "priority": "0",
             "effects": ["parties +20", "sleep +1", "badHygiene +5"]
@@ -320,7 +320,7 @@
             "description": "Time to stop drinking!",
             "diceSlots": "2",
             "diceScoreRequirement": "5",
-            "taskLength": "10000",
+            "taskLength": "20000",
             "requirements": ["parties 45"],
             "priority": "0",
             "effects": ["parties -10", "socialProgression +3"]
@@ -330,7 +330,7 @@
             "description": "Social people have coffee!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "50000",
             "requirements": ["parties 30", "socialProgression 3"],
             "priority": "1",
             "effects": ["parties +5", "sleep +5"]
@@ -340,7 +340,7 @@
             "description": "Social people have expensive coffee!",
             "diceSlots": "2",
             "diceScoreRequirement": "10",
-            "taskLength": "10000",
+            "taskLength": "100000",
             "requirements": ["parties 35", "socialProgression 3"],
             "priority": "1",
             "effects": ["parties +10", "sleep +5"]
@@ -350,7 +350,7 @@
             "description": "Have a beer at Stags (and play some pool)",
             "diceSlots": "2",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "120000",
             "requirements": ["parties 40", "socialProgression 3"],
             "priority": "1",
             "effects": ["parties +10", "sleep -5"]
@@ -360,7 +360,7 @@
             "description": "5 more shots for you!",
             "diceSlots": "2",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "50000",
             "requirements": ["parties 45"],
             "priority": "0",
             "effects": ["parties +10", "socialProgression +1"]
@@ -370,7 +370,7 @@
             "description": "Go to a party at Switch",
             "diceSlots": "3",
             "diceScoreRequirement": "12",
-            "taskLength": "10000",
+            "taskLength": "100000",
             "requirements": ["parties 50", "socialProgression 1"],
             "priority": "2",
             "effects": ["parties +10", "sleep -3", "badHygiene +10"]
@@ -380,7 +380,7 @@
             "description": "You know you have to do it...",
             "diceSlots": "3",
             "diceScoreRequirement": "17",
-            "taskLength": "10000",
+            "taskLength": "200000",
             "requirements": ["parties 50", "socialProgression 1"],
             "priority": "2",
             "effects": ["parties +10", "sleep -4", "badHygiene +15"]
@@ -390,7 +390,7 @@
             "description": "Your cool Balkan friends invited you!",
             "diceSlots": "3",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "200000",
             "requirements": ["parties 60", "socialProgression 1"],
             "priority": "3",
             "effects": ["parties +10", "sleep -4", "badHygiene +5", "socialProgression +1"]
@@ -400,7 +400,7 @@
             "description": "Skip the party tonight",
             "diceSlots": "3",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "70000",
             "requirements": ["parties 60", "socialProgression 1"],
             "priority": "3",
             "effects": ["parties -10", "sleep -4", "badHygiene +5", "socialProgression +2"]
@@ -410,7 +410,7 @@
             "description": "The worst dance wins!",
             "diceSlots": "3",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "60000",
             "requirements": ["parties 60", "socialProgression 2"],
             "priority": "2",
             "effects": ["parties +15"]
@@ -420,7 +420,7 @@
             "description": "Time for another partyyyy!",
             "diceSlots": "3",
             "diceScoreRequirement": "15",
-            "taskLength": "10000",
+            "taskLength": "200000",
             "requirements": ["parties 70", "socialProgression 2"],
             "priority": "2",
             "effects": ["parties +15", "socialProgression +2"]
@@ -430,7 +430,7 @@
             "description": "Become the official Smirnoff mascot of Soton!",
             "diceSlots": "3",
             "diceScoreRequirement": "25",
-            "taskLength": "10000",
+            "taskLength": "300000",
             "requirements": ["parties 80", "socialProgression 4"],
             "priority": "3",
             "effects": ["parties +100"]
@@ -441,10 +441,10 @@
             "description": "Scrub like a beast!",
             "diceSlots": "2",
             "diceScoreRequirement": "12",
-            "taskLength": "10000",
+            "taskLength": "40000",
             "requirements": ["badHygiene 20"],
             "priority": "3",
-            "effects": ["badHygiene +10"]
+            "effects": ["badHygiene -30"]
         }
     ]
 }
