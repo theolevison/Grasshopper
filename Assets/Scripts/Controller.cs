@@ -170,7 +170,7 @@ public class Controller : GenericSingletonClass<Controller>
                     if (stats["sleep"] > -20){
                         stats["sleep"] -= 5;
                     }
-                    if (stats["sleep"] <= -15){
+                    if (stats["sleep"] <= -10){
                         dialogue("Tired", true);
                     }
                     if (stats["badHygiene"] < 30){
@@ -606,12 +606,14 @@ public class Controller : GenericSingletonClass<Controller>
 
         //select top two
         var list = potentialList.OrderBy(k => k.Item1).GroupBy(k => k.Item1).First().ToList();
+        int i = UnityEngine.Random.Range(0, list.Count);
         if (list.Count > 0){
-            runSpecialTask(list[0].Item2);
-            list.Remove(list[0]);
+            runSpecialTask(list[i].Item2);
+            list.Remove(list[i]);
             if (list.Count > 0){
-                runSpecialTask(list[0].Item2);
-                list.Remove(list[0]);
+                i = UnityEngine.Random.Range(0, list.Count);
+                runSpecialTask(list[i].Item2);
+                list.Remove(list[i]);
             }
         }
         
@@ -630,47 +632,49 @@ public class Controller : GenericSingletonClass<Controller>
             
             JSONReader.Character character = characterObject.GetComponent<CharacterDiceController>().character;
             //Debug.Log(character.name + ": " + characterObject.activeInHierarchy);
-            
+            int totalLikes = 0;
+            int totalDislikes = 0;
             foreach (string like in character.likes)
             {
                 if (like != ""){
-                    if (stats[like] >= character.gainFriendThresholds[0]){
-                        //gain friend
-                        if (!characterObject.activeSelf){
-                            Debug.Log(character.name + " is " + characterObject.activeSelf + " " + characterObject.activeInHierarchy);
-                            characterObject.SetActive(true);
-                            activeCharacters.Add(character.name);
-                            dialogue("Gain"+character.name.Replace(" ", ""), false);
-                        }
-                    }else if (stats[like] >= character.gainFriendThresholds[1]){
-                        //meet friend
-                        dialogue("Meet"+character.name.Replace(" ", ""), false);
-                    } else {
-
-                    }
+                    totalLikes += stats[like];
                 }
             }
             foreach (string dislike in character.dislikes)
             {
                 if (dislike != ""){
-                    if (stats[dislike] >= character.loseFriendThresholds[0]){
-                        //lose friend
-                        if (characterObject.activeSelf){
-                            characterObject.SetActive(false);
-                            activeCharacters.Remove(character.name);
-                            dialogue("Lose"+character.name.Replace(" ", ""), true);
-                            //reset dialogue so you can be friends again
-                            usedDialogue.Except(new[]{"Warning"+character.name.Replace(" ", ""), "Gain"+character.name.Replace(" ", "")});
-                        }
-                    } else if (stats[dislike] >= character.loseFriendThresholds[1]){
-                        //warning
-                        if (characterObject.activeSelf){
-                            dialogue("Warning"+character.name.Replace(" ", ""), false);
-                        }
-                    } else {
-
-                    }
+                    totalDislikes += stats[dislike];
                 }
+            }
+            int opinion = totalLikes - totalDislikes;
+            
+            if (opinion >= character.gainFriendThresholds[0]){
+                //gain friend
+                if (!characterObject.activeSelf){
+                    Debug.Log(character.name + " is " + characterObject.activeSelf + " " + characterObject.activeInHierarchy);
+                    characterObject.SetActive(true);
+                    activeCharacters.Add(character.name);
+                    dialogue("Gain"+character.name.Replace(" ", ""), false);
+                }
+            }else if (opinion >= character.gainFriendThresholds[1]){
+                //meet friend
+                dialogue("Meet"+character.name.Replace(" ", ""), false);
+            } else if (opinion <= character.loseFriendThresholds[0]){
+                //lose friend
+                if (characterObject.activeSelf){
+                    characterObject.SetActive(false);
+                    activeCharacters.Remove(character.name);
+                    dialogue("Lose"+character.name.Replace(" ", ""), true);
+                    //reset dialogue so you can be friends again
+                    usedDialogue.Except(new[]{"Warning"+character.name.Replace(" ", ""), "Gain"+character.name.Replace(" ", "")});
+                }
+            } else if (opinion <= character.loseFriendThresholds[1]){
+                //warning
+                if (characterObject.activeSelf){
+                    dialogue("Warning"+character.name.Replace(" ", ""), false);
+                }
+            } else {
+                //it's broken oops
             }
         }
     }
